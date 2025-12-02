@@ -14,6 +14,7 @@ app.use(express.json());
 
 // IMPORTANT: Serve static files so endpoint HTML files can be loaded
 app.use('/docs', express.static(path.join(__dirname, "docs")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "src")));
 
 // ============================================
