@@ -15,21 +15,17 @@ args = "NameVerse Server"
 name = "NameVerse Server"
 author = "agent"
 
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd NameMeaningApiDocumentation && npm start"
 waitForPort = 5000
 
-[workflows.workflow.metadata]
-outputType = "webview"
-
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 42925
-externalPort = 3000
 
 [agent]
 expertMode = true
