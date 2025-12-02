@@ -1,0 +1,54 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://namverse-api.vercel.app/api/:path*"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/docs",
+      "destination": "/docs/Docs.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/docs/Blog.html"
+    },
+    {
+      "source": "/getnames",
+      "destination": "/src/getnames.html"
+    },
+    {
+      "source": "/getnamesbysearch",
+      "destination": "/src/getnamesbysearch.html"
+    },
+    {
+      "source": "/getnamesbyletter",
+      "destination": "/src/getnamesbyletter.html"
+    },
+    {
+      "source": "/getnamesbyreligion",
+      "destination": "/src/getnamesbyreligion.html"
+    },
+    {
+      "source": "/getfilteroptions",
+      "destination": "/src/getfilters.html"
+    },
+    {
+      "source": "/names/:religion/:slug",
+      "destination": "/src/getnamesbyslug.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ]
+}
