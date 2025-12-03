@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nameversedocumentations.vercel.app/sitemap.xml
+Sitemap: https://nameversedocumentations.vercel.app/sitemap-api.xml
