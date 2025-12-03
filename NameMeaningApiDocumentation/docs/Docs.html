@@ -147,6 +147,32 @@
         padding-right: 1rem;
       }
     }
+
+    /* Responsive fixes to avoid overflowing components on small screens */
+    img, table, pre, code {
+      max-width: 100%;
+      height: auto;
+      word-break: break-word;
+    }
+
+    .code-block, pre, .endpoint-card, .stat-card {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    @media (max-width: 1024px) {
+      /* Show sidebar as a collapsible drawer earlier */
+      aside#sidebar { display: none; }
+      #mobileSidebar { display: none; }
+    }
   </style>
 </head>
 <body class="bg-gray-50">
