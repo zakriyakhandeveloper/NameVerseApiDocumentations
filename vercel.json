@@ -42,14 +42,6 @@
   ],
   "rewrites": [
     {
-      "source": "/sitemap.xml",
-      "destination": "/sitemap.xml"
-    },
-    {
-      "source": "/robots.txt",
-      "destination": "/robots.txt"
-    },
-    {
       "source": "/docs",
       "destination": "/docs/Docs.html"
     },
