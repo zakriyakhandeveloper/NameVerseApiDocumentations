@@ -148,6 +148,20 @@
       }
     }
 
+    /* Top navbar mobile adjustments */
+    @media (max-width: 640px) {
+      nav .container { padding-left: 0.75rem; padding-right: 0.75rem; }
+      nav .container > div { display:flex; flex-wrap:wrap; align-items:center; gap:0.4rem; }
+      nav .container .flex.items-center.justify-between { align-items:center; }
+      nav .container .flex.items-center.space-x-4 { flex: 1 1 auto; min-width:0; }
+      nav .container .flex.items-center.space-x-4 > div > h1 { font-size:1rem; line-height:1.1; }
+      nav .container .flex.items-center.space-x-4 > div > p { display:none; }
+      nav .container .flex.items-center.space-x-4 i.fas { font-size:16px; }
+      nav .container .flex.items-center.space-x-2 { flex: 0 0 auto; }
+      #tocToggle { margin-right: 0.25rem; }
+      .container .px-4 { padding-left:0.5rem; padding-right:0.5rem; }
+    }
+
     /* Responsive fixes to avoid overflowing components on small screens */
     img, table, pre, code {
       max-width: 100%;
