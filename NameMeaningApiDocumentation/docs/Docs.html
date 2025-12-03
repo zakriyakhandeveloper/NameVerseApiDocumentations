@@ -8,9 +8,23 @@
   <meta name="keywords" content="NameVerse API documentation, names API guide, REST API docs, name search, cultural names database, Islamic names API, Hindu names API">
   <meta name="author" content="NameVerse">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://nameverseapidocumentation.netlify.app/docs">
+  <link rel="canonical" href="https://nameversedocumentations.vercel.app/docs">
   <meta property="og:title" content="NameVerse API Documentation">
-  <meta property="og:description" content="Complete guide to NameVerse API with 70K+ names database"
+  <meta property="og:description" content="Complete guide to NameVerse API with 70K+ names database">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "NameVerse API",
+    "url": "https://nameversedocumentations.vercel.app",
+    "description": "NameVerse API provides access to 70,000+ names across Islamic, Hindu, and Christian traditions.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "NameVerse",
+      "url": "https://nameversedocumentations.vercel.app"
+    }
+  }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -151,6 +165,10 @@
           </div>
         </div>
         <div class="flex items-center space-x-2 md:space-x-3">
+          <!-- Mobile TOC toggle -->
+          <button id="tocToggle" class="md:hidden px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 mr-2" aria-label="Show table of contents">
+            <i class="fas fa-bars text-gray-700"></i>
+          </button>
           <a href="/" title="NameVerse API Home" class="px-3 md:px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-sm font-semibold flex items-center">
             <i class="fas fa-home mr-1"></i><span class="hidden sm:inline">Home</span>
           </a>
@@ -175,9 +193,44 @@
     </div>
   </div>
 
-  <div class="flex flex-col md:flex-row">
-    <!-- Left Sidebar Navigation - Mobile Friendly -->
-    <aside class="w-full md:w-64 bg-white border-r border-gray-200 md:min-h-screen md:sticky md:top-20 self-start overflow-y-auto max-h-screen">
+    <div class="flex flex-col md:flex-row">
+    <!-- Mobile Sidebar Drawer (hidden on desktop) -->
+    <div id="mobileSidebar" class="fixed inset-0 z-50 bg-white p-6 overflow-y-auto hidden md:hidden">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold">Contents</h3>
+        <button id="mobileSidebarClose" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200" aria-label="Close table of contents"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="mb-6">
+        <h3 class="text-xs font-black text-gray-500 uppercase tracking-wider mb-3">Getting Started</h3>
+        <a href="#introduction" class="sidebar-link block px-3 py-3 rounded-lg text-sm font-medium text-gray-700 mb-1">
+          <i class="fas fa-rocket mr-2 text-purple-600"></i>Introduction
+        </a>
+        <a href="#authentication" class="sidebar-link block px-3 py-3 rounded-lg text-sm font-medium text-gray-700 mb-1">
+          <i class="fas fa-key mr-2 text-purple-600"></i>Authentication
+        </a>
+        <a href="#rate-limits" class="sidebar-link block px-3 py-3 rounded-lg text-sm font-medium text-gray-700">
+          <i class="fas fa-tachometer-alt mr-2 text-purple-600"></i>Rate Limits
+        </a>
+      </div>
+      <div class="mb-6">
+        <h3 class="text-xs font-black text-gray-500 uppercase tracking-wider mb-3">Endpoints</h3>
+        <div class="endpoints-nav">
+          <!-- Endpoints will be loaded here dynamically -->
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xs font-black text-gray-500 uppercase tracking-wider mb-3">Resources</h3>
+        <a href="#errors" class="sidebar-link block px-3 py-3 rounded-lg text-sm font-medium text-gray-700 mb-1">
+          <i class="fas fa-exclamation-triangle mr-2 text-purple-600"></i>Error Codes
+        </a>
+        <a href="#examples" class="sidebar-link block px-3 py-3 rounded-lg text-sm font-medium text-gray-700">
+          <i class="fas fa-code mr-2 text-purple-600"></i>Code Examples
+        </a>
+      </div>
+    </div>
+
+    <!-- Left Sidebar Navigation - Desktop (hidden on mobile) -->
+    <aside id="sidebar" class="hidden md:block w-full md:w-64 bg-white border-r border-gray-200 md:min-h-screen md:sticky md:top-20 self-start overflow-y-auto max-h-screen">
       <div class="p-6">
         <div class="mb-8">
           <h3 class="text-xs font-black text-gray-500 uppercase tracking-wider mb-3">Getting Started</h3>
@@ -194,7 +247,7 @@
 
         <div class="mb-8">
           <h3 class="text-xs font-black text-gray-500 uppercase tracking-wider mb-3">Endpoints</h3>
-          <div id="endpoints-nav">
+          <div class="endpoints-nav" id="endpoints-nav">
             <!-- Endpoints will be loaded here dynamically -->
           </div>
         </div>
@@ -478,7 +531,7 @@ curl -X GET "https://namverse-api.vercel.app/api/names?limit=10&alphabet=A" \
             <li><a href="#introduction" class="text-gray-600 hover:text-purple-600 transition-colors">Documentation</a></li>
             <li><a href="#examples" class="text-gray-600 hover:text-purple-600 transition-colors">Code Examples</a></li>
             <li><a href="/health" class="text-gray-600 hover:text-purple-600 transition-colors">Health Status</a></li>
-            <li><a href="https://github.com/manning-spai" class="text-gray-600 hover:text-purple-600 transition-colors">GitHub</a></li>
+            <li><a href="https://github.com/zakriyakhandeveloper/NameVerseApiDocumentations" class="text-gray-600 hover:text-purple-600 transition-colors">GitHub</a></li>
           </ul>
         </div>
         <div>
@@ -528,7 +581,7 @@ curl -X GET "https://namverse-api.vercel.app/api/names?limit=10&alphabet=A" \
       }, 
       {
         id: 'getnamesbyletter',
-        file: '/docs/GetNamesByletter.html',
+        file: '/docs/GetNamesByLetter.html',
         nav: {
           title: 'Names By Letter',
           icon: 'fas fa-font'
@@ -544,7 +597,7 @@ curl -X GET "https://namverse-api.vercel.app/api/names?limit=10&alphabet=A" \
       },
       {
         id: 'getnamesbyreligion',
-        file: '/docs/GetNamesByreligion.html',
+        file: '/docs/GetNamesByReligion.html',
         nav: {
           title: 'Names By Religion',
           icon: 'fas fa-pray'
@@ -552,15 +605,17 @@ curl -X GET "https://namverse-api.vercel.app/api/names?limit=10&alphabet=A" \
       }
     ];
 
-    // Load navigation links
+    // Load navigation links into all navigation containers (desktop + mobile)
     function loadNavigation() {
-      const nav = document.getElementById('endpoints-nav');
-      endpoints.forEach((endpoint, index) => {
-        const link = document.createElement('a');
-        link.href = `#endpoint-${endpoint.id}`;
-        link.className = `sidebar-link block px-3 py-3 rounded-lg text-sm font-medium mb-1 ${index === 0 ? 'active' : 'text-gray-700'}`;
-        link.innerHTML = `<i class="${endpoint.nav.icon} mr-2"></i>${endpoint.nav.title}`;
-        nav.appendChild(link);
+      const navContainers = document.querySelectorAll('.endpoints-nav');
+      navContainers.forEach(nav => {
+        endpoints.forEach((endpoint, index) => {
+          const link = document.createElement('a');
+          link.href = `#endpoint-${endpoint.id}`;
+          link.className = `sidebar-link block px-3 py-3 rounded-lg text-sm font-medium mb-1 ${index === 0 ? 'active' : 'text-gray-700'}`;
+          link.innerHTML = `<i class="${endpoint.nav.icon} mr-2"></i>${endpoint.nav.title}`;
+          nav.appendChild(link);
+        });
       });
     }
 
@@ -610,6 +665,25 @@ curl -X GET "https://namverse-api.vercel.app/api/names?limit=10&alphabet=A" \
 
     // Initialize everything
     window.addEventListener('DOMContentLoaded', async () => {
+      // Mobile TOC toggle handlers
+      const tocToggle = document.getElementById('tocToggle');
+      const mobileSidebar = document.getElementById('mobileSidebar');
+      const mobileSidebarClose = document.getElementById('mobileSidebarClose');
+
+      if (tocToggle && mobileSidebar) {
+        tocToggle.addEventListener('click', () => {
+          mobileSidebar.classList.remove('hidden');
+          document.body.classList.add('overflow-hidden');
+        });
+      }
+
+      if (mobileSidebarClose && mobileSidebar) {
+        mobileSidebarClose.addEventListener('click', () => {
+          mobileSidebar.classList.add('hidden');
+          document.body.classList.remove('overflow-hidden');
+        });
+      }
+
       loadNavigation();
       await loadEndpoints();
       initScrollTracking();

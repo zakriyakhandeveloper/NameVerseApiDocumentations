@@ -395,7 +395,8 @@
     const toggleParameters = document.getElementById('toggleParameters');
     const parametersContent = document.getElementById('parametersContent');
 
-    const BASE_URL = 'https://api.allorigins.win/raw?url=https://namverse-api.vercel.app/api/names';
+    const API_BASE = 'https://namverse-api.vercel.app/api/names';
+    const PROXY = 'https://api.allorigins.win/raw?url=';
 
     // Get religion and slug from current URL path
     function getParamsFromUrl() {
@@ -530,24 +531,20 @@
       const religion = params.religion;
       
       if (slug) {
-        // Use the religion from URL to build the API endpoint
-        const url = BASE_URL + '/' + religion + '/' + slug;
-        
-        // Show loading notification
+        // Build proxied API URL and fetch
+        const target = API_BASE + '/' + religion + '/' + slug;
+        const url = PROXY + encodeURIComponent(target);
+
         showNotification('Fetching name data...', 'success');
-        
+
         fetch(url)
           .then(response => response.json())
           .then(data => {
-            if (data && data.religion) {
-              const fetchedReligion = data.religion.toLowerCase();
-              const testUrl = '/names/' + fetchedReligion + '/' + slug;
-              window.location.href = testUrl;
-            } else {
-              // Fallback to current religion if API doesn't return one
-              const testUrl = '/names/' + religion + '/' + slug;
-              window.location.href = testUrl;
-            }
+            // API returns religion like "Islam" or "Islamic" — normalize to route categories
+            const rawReligion = (data && (data.religion || (data.data && data.data.religion))) || religion;
+            const normalized = normalizeReligion(rawReligion || religion);
+            const testUrl = '/names/' + normalized + '/' + slug;
+            window.location.href = testUrl;
           })
           .catch(err => {
             showNotification('Failed to fetch name data', 'error');
@@ -600,9 +597,10 @@
         const params = getParamsFromUrl();
         const religion = params.religion;
         
-        // Build API URL with religion: /api/names/{religion}/{slug}
-        const url = BASE_URL + '/' + religion + '/' + slug;
-        
+        // Build proxied API URL with religion: /api/names/{religion}/{slug}
+        const target = API_BASE + '/' + religion + '/' + slug;
+        const url = PROXY + encodeURIComponent(target);
+
         const response = await fetch(url);
         const data = await response.json();
         
@@ -629,6 +627,17 @@
       initializeForm();
       loadUrlParameters();
     });
+
+    // Normalize religion labels coming from API to the route categories used by the site
+    function normalizeReligion(raw) {
+      if (!raw) return 'islamic';
+      const r = String(raw).toLowerCase();
+      if (r.includes('islam')) return 'islamic';
+      if (r.includes('christ')) return 'christian';
+      if (r.includes('hindu')) return 'hindu';
+      // fallback: return as-is (already lowercase)
+      return r.replace(/[^a-z0-9\-]/g, '');
+    }
   </script>
   <!-- Navigation Footer -->
   <div class="mt-8 pt-6 border-t border-gray-200 text-center text-sm text-gray-600">
