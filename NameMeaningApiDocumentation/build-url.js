@@ -72,6 +72,29 @@ ${Array.from({ length: totalSitemaps })
   console.log(`📌 Generated sitemap-index.xml referencing ${totalSitemaps} sitemaps.`);
 }
 
+// Fallback: regenerate sitemap-index.xml by scanning actual files in PUBLIC_DIR.
+function regenerateSitemapIndexFromFiles() {
+  const indexFile = path.join(PUBLIC_DIR, "sitemap-index.xml");
+  const files = fs.readdirSync(PUBLIC_DIR).filter((f) => {
+    return /^sitemap-(?:\d+).*\.xml$/.test(f) && f !== 'sitemap-index.xml';
+  });
+
+  // sort numeric part if present
+  files.sort((a, b) => {
+    const na = (a.match(/sitemap-(\d+)/) || [])[1];
+    const nb = (b.match(/sitemap-(\d+)/) || [])[1];
+    if (na && nb) return Number(na) - Number(nb);
+    return a.localeCompare(b);
+  });
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${files
+    .map((f) => `  <sitemap>\n    <loc>${SITE_URL.replace(/\/$/, '')}/${f}</loc>\n  </sitemap>`)
+    .join("\n")}\n</sitemapindex>`;
+
+  atomicWrite(indexFile, xml);
+  console.log(`📌 Re-generated sitemap-index.xml from ${files.length} sitemap files.`);
+}
+
 // ========================
 // MAIN SCRIPT
 // ========================
@@ -162,8 +185,14 @@ async function generate() {
 
   saveProgress(progress);
 
-  // Generate sitemap index
-  writeSitemapIndex(progress.sitemapIndex - 1);
+  // Generate sitemap index (and ensure it's consistent with files)
+  // Try writing index based on progress, then regenerate from files to be safe.
+  try {
+    writeSitemapIndex(progress.sitemapIndex - 1);
+  } catch (e) {
+    console.warn('Could not write sitemap index from progress, regenerating from files.', e?.message || e);
+  }
+  regenerateSitemapIndexFromFiles();
 
   console.log("\n🎉 All sitemaps generated successfully!");
 }
