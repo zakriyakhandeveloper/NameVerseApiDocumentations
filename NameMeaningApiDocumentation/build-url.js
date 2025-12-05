@@ -5,7 +5,11 @@ import { fileURLToPath } from 'url';
 // ========================
 // CONFIG
 // ========================
-const SITE_URL = process.env.SITE_URL || "https://nameverse.vercel.app";
+// Load environment variables
+import dotenv from 'dotenv';
+dotenv.config();
+
+const SITE_URL = process.env.SITE_URL || "https://nameversedocumentations.vercel.app";
 const API_BASE = process.env.API_BASE || "https://namverse-api.vercel.app/api/names";
 
 const RELIGIONS = ["islamic", "hindu", "christian"];

@@ -1,4 +1,22 @@
+# Robots.txt for NameVerse API Documentation
+# https://nameversedocumentations.vercel.app
+
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /health
 
-Sitemap: https://nameversedocumentations.vercel.app/sitemap-docs.xml
+# Sitemaps
+Sitemap: https://nameversedocumentations.vercel.app/sitemap-index.xml
+
+# Crawl-delay (optional, adjust as needed)
+Crawl-delay: 1
+
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+Sitemap: https://nameversedocumentations.vercel.app/sitemap-index.xml
+
+User-agent: Bingbot
+Allow: /
+Sitemap: https://nameversedocumentations.vercel.app/sitemap-index.xml

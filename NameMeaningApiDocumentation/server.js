@@ -1,33 +1,90 @@
+/**
+ * NameVerse API Documentation Server
+ * Express server for serving API documentation and handling API requests
+ * 
+ * @author NameVerse
+ * @version 1.0.0
+ */
+
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
+import compression from "compression";
+import rateLimit from "express-rate-limit";
 import path from "path";
 import { fileURLToPath } from "url";
+import config from "./config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// ============================================
+// SECURITY MIDDLEWARE
+// ============================================
 
-// IMPORTANT: Serve static files so endpoint HTML files can be loaded
-app.use('/docs', express.static(path.join(__dirname, "docs")));
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(__dirname, "src")));
+// Helmet for security headers
+app.use(helmet(config.security.helmet));
+
+// CORS with restricted origins
+app.use(cors(config.cors));
+
+// Compression for better performance
+app.use(compression());
+
+// Rate limiting
+const limiter = rateLimit(config.rateLimit);
+app.use('/api/', limiter);
+
+// Body parsing
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// ============================================
+// STATIC FILES
+// ============================================
+
+// Serve static files with cache headers
+const staticOptions = {
+  maxAge: config.nodeEnv === 'production' ? '1d' : '0',
+  etag: true,
+  lastModified: true
+};
+
+app.use('/docs', express.static(path.join(__dirname, "docs"), staticOptions));
+app.use(express.static(path.join(__dirname, "public"), staticOptions));
+app.use(express.static(path.join(__dirname, "src"), staticOptions));
+
+// ============================================
+// REQUEST LOGGING (Development)
+// ============================================
+
+if (config.nodeEnv === 'development') {
+  app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+    next();
+  });
+}
 
 // ============================================
 // DOCUMENTATION ROUTES
 // ============================================
 
-// Main documentation page (loads all endpoints dynamically)
+/**
+ * Main documentation page
+ */
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
+
+/**
+ * Documentation pages
+ */
 app.get("/docs", (req, res) => {
   res.sendFile(path.join(__dirname, "docs", "Docs.html"));
 });
+
 app.get("/blog", (req, res) => {
   res.sendFile(path.join(__dirname, "docs", "Blog.html"));
 });
@@ -36,82 +93,99 @@ app.get("/getnames", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "getnames.html"));
 });
 
-// Live testing page for Get Names
-
-
-app.get("/names/:religion/:name", (req, res) => {
-  const { religion, name } = req.params;
-
-  // Optionally: validate religion
-  const allowedReligions = ["christian", "islamic", "hindu"];
-  if (!allowedReligions.includes(religion.toLowerCase())) {
-    return res.status(400).send("Invalid religion");
-  }
-
-  // Serve your HTML page
-  res.sendFile(path.join(__dirname, "src", "getnamesbyslug.html"));
-});
-
 app.get("/getnamesbysearch", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "getnamesbysearch.html"));
 });
+
 app.get("/getnamesbyletter", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "getnamesbyletter.html"));
-});
-app.get("/getfilteroptions", (req, res) => {
-  res.sendFile(path.join(__dirname, "src", "getfilters.html"));
 });
 
 app.get("/getnamesbyreligion", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "getnamesbyreligion.html"));
 });
-// Health check
-app.get("/health", (req, res) => {
-  res.json({
-    status: "healthy",
-    service: "NameVerse API",
-    version: "1.0.0",
-    timestamp: new Date().toISOString(),
-    uptime: Math.floor(process.uptime()),
-    endpoints: {
-      documentation: "/",
-      liveTesting: "/names",
-      api: "/api/names"
+
+app.get("/getfilteroptions", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "getfilters.html"));
+});
+
+/**
+ * Dynamic name page route
+ * @param {string} religion - Religion type (christian, islamic, hindu)
+ * @param {string} name - Name slug
+ */
+app.get("/names/:religion/:name", (req, res, next) => {
+  try {
+    const { religion, name } = req.params;
+
+    // Validate religion
+    if (!config.allowedReligions.includes(religion.toLowerCase())) {
+      return res.status(400).json({
+        error: "Invalid religion",
+        message: `Religion must be one of: ${config.allowedReligions.join(', ')}`,
+        received: religion
+      });
     }
-  });
+
+    // Validate name (basic sanitization)
+    if (!name || name.length < 1 || name.length > 100) {
+      return res.status(400).json({
+        error: "Invalid name parameter",
+        message: "Name must be between 1 and 100 characters"
+      });
+    }
+
+    // Serve HTML page
+    res.sendFile(path.join(__dirname, "src", "getnamesbyslug.html"));
+  } catch (error) {
+    next(error);
+  }
 });
 
 // ============================================
 // API ENDPOINTS
 // ============================================
 
-// GET /api/names - Retrieve filtered names
-app.get("/api/names", async (req, res) => {
+/**
+ * GET /api/names - Retrieve filtered names
+ * Query parameters:
+ *   - limit: Number of results (1-500, default: 50)
+ *   - alphabet: Filter by first letter (A-Z)
+ *   - religion: Filter by religion (christian, islamic, hindu)
+ */
+app.get("/api/names", async (req, res, next) => {
   try {
     const { limit = 50, alphabet, religion } = req.query;
     
-    // Validation
-    const limitNum = parseInt(limit);
-    if (isNaN(limitNum) || limitNum < 1 || limitNum > 500) {
+    // Validate limit
+    const limitNum = parseInt(limit, 10);
+    if (isNaN(limitNum) || limitNum < config.limits.minLimit || limitNum > config.limits.maxLimit) {
       return res.status(400).json({
-        error: "Limit must be between 1 and 500"
+        error: "Invalid limit parameter",
+        message: `Limit must be between ${config.limits.minLimit} and ${config.limits.maxLimit}`,
+        received: limit
       });
     }
     
-    if (alphabet && !/^[A-Za-z]$/.test(alphabet)) {
+    // Validate alphabet
+    if (alphabet && (!/^[A-Za-z]$/.test(alphabet) || alphabet.length > config.limits.maxAlphabetLength)) {
       return res.status(400).json({
-        error: "Invalid alphabet parameter. Must be a single letter A-Z"
+        error: "Invalid alphabet parameter",
+        message: "Alphabet must be a single letter A-Z",
+        received: alphabet
       });
     }
     
-    if (religion && !['christian', 'islamic', 'hindu'].includes(religion.toLowerCase())) {
+    // Validate religion
+    if (religion && !config.allowedReligions.includes(religion.toLowerCase())) {
       return res.status(400).json({
-        error: "Religion must be one of: christian, islamic, hindu"
+        error: "Invalid religion parameter",
+        message: `Religion must be one of: ${config.allowedReligions.join(', ')}`,
+        received: religion
       });
     }
     
-    // TODO: Replace with your actual database/data source
-    // This is sample data for demonstration
+    // Sample data (replace with actual database call)
     const sampleNames = {
       christian: [
         'Aaron', 'Abraham', 'Adam', 'Andrew', 'Anna', 'Alice', 'Anthony', 'Abigail',
@@ -157,47 +231,34 @@ app.get("/api/names", async (req, res) => {
     res.json({
       success: true,
       count: names.length,
-      data: names
+      data: names,
+      pagination: {
+        limit: limitNum,
+        total: names.length
+      }
     });
     
   } catch (error) {
-    console.error("Error in /api/names:", error);
-    res.status(500).json({
-      error: "Internal server error",
-      message: error.message
-    });
+    next(error);
   }
 });
 
 // ============================================
-// ADD MORE API ENDPOINTS HERE
+// HEALTH CHECK
 // ============================================
 
-// Example: POST /api/names - Add a new name
-// app.post("/api/names", async (req, res) => {
-//   // Your logic here
-// });
-
-// Example: PUT /api/names/:id - Update a name
-// app.put("/api/names/:id", async (req, res) => {
-//   // Your logic here
-// });
-
-// Example: DELETE /api/names/:id - Delete a name
-// app.delete("/api/names/:id", async (req, res) => {
-//   // Your logic here
-// });
-
-// ============================================
-// ERROR HANDLERS
-// ============================================
-
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({
-    error: "Route not found",
-    message: `Cannot ${req.method} ${req.path}`,
-    availableRoutes: {
+/**
+ * GET /health - Health check endpoint
+ */
+app.get("/health", (req, res) => {
+  res.json({
+    status: "healthy",
+    service: "NameVerse API Documentation",
+    version: "1.0.0",
+    environment: config.nodeEnv,
+    timestamp: new Date().toISOString(),
+    uptime: Math.floor(process.uptime()),
+    endpoints: {
       documentation: "/",
       liveTesting: "/names",
       api: "/api/names",
@@ -206,12 +267,47 @@ app.use((req, res) => {
   });
 });
 
-// Global error handler
+// ============================================
+// ERROR HANDLERS
+// ============================================
+
+/**
+ * 404 Not Found Handler
+ */
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Route not found",
+    message: `Cannot ${req.method} ${req.path}`,
+    availableRoutes: {
+      documentation: "/",
+      docs: "/docs",
+      blog: "/blog",
+      api: "/api/names",
+      health: "/health"
+    }
+  });
+});
+
+/**
+ * Global Error Handler
+ */
 app.use((err, req, res, next) => {
-  console.error("Error:", err.stack);
-  res.status(500).json({
-    error: "Internal server error",
+  // Log error
+  console.error(`[${new Date().toISOString()}] Error:`, {
     message: err.message,
+    stack: config.nodeEnv === 'development' ? err.stack : undefined,
+    path: req.path,
+    method: req.method
+  });
+
+  // Determine status code
+  const statusCode = err.statusCode || err.status || 500;
+
+  // Send error response
+  res.status(statusCode).json({
+    error: err.message || "Internal server error",
+    statusCode,
+    ...(config.nodeEnv === 'development' && { stack: err.stack })
   });
 });
 
@@ -219,14 +315,15 @@ app.use((err, req, res, next) => {
 // START SERVER
 // ============================================
 
-const PORT = process.env.PORT || 5000;
-const HOST = '0.0.0.0';
+const PORT = config.port;
+const HOST = config.host;
 
 app.listen(PORT, HOST, () => {
   console.log(`
 ╔════════════════════════════════════════════════╗
 ║     🚀 NameVerse API Server Running            ║
 ╠════════════════════════════════════════════════╣
+║  Environment:   ${config.nodeEnv.padEnd(30)}║
 ║  📘 Documentation:   http://${HOST}:${PORT}/     ║
 ║  🎨 Live Testing:    http://${HOST}:${PORT}/names║
 ║  🏥 Health Check:    http://${HOST}:${PORT}/health║

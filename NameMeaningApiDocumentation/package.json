@@ -1,12 +1,45 @@
 {
-  "name": "nameverse-static",
+  "name": "nameverse-api-documentation",
   "version": "1.0.0",
+  "description": "NameVerse API Documentation - 70K+ Names Database with Islamic, Hindu, and Christian Names",
   "type": "module",
+  "main": "server.js",
   "scripts": {
-    "start": "cd public && node server.js",
-    "dev": "cd public && node server.js"
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "lint": "eslint .",
+    "build:sitemap": "node build-url.js",
+    "regen:sitemap": "node regen-index.js"
   },
+  "keywords": [
+    "api",
+    "documentation",
+    "names",
+    "islamic-names",
+    "hindu-names",
+    "christian-names",
+    "baby-names"
+  ],
+  "author": "NameVerse",
+  "license": "MIT",
   "engines": {
-    "node": "20"
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1",
+    "express-validator": "^7.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.56.0",
+    "nodemon": "^3.0.2"
   }
 }
