@@ -1,0 +1,234 @@
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+
+  <!-- Endpoint Header -->
+  <div class="bg-gradient-to-r from-yellow-500 to-orange-600 p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg sm:text-2xl font-bold text-white">Articles Search API</h2>
+      <a href="/getarticlessearch" class="bg-white text-yellow-600 px-4 py-2 rounded-lg hover:bg-yellow-50 transition-colors font-semibold text-sm">
+        <i class="fas fa-flask mr-2"></i>Live Testing
+      </a>
+    </div>
+    <div class="flex items-center space-x-3">
+      <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
+      <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/v1/articles/search</code>
+    </div>
+    <p class="word-break break-words text-yellow-100 mt-3">
+      Search articles by query string with full-text search capability across titles, subtitles, excerpts, and content.
+    </p>
+  </div>
+
+  <div class="p-6">
+
+    <!-- Description -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Description</h3>
+      <p class="word-break break-words text-gray-600 leading-relaxed">
+        The Articles Search API provides powerful full-text search functionality across the entire articles database.
+        Search queries are matched against article titles, subtitles, excerpts, and content fields. Results are
+        paginated and sorted by relevance, making it easy to find the most relevant articles for any search term.
+      </p>
+    </div>
+
+    <!-- Query Parameters -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-4">Query Parameters</h3>
+      <div class="space-y-3">
+        <div class="border-l-4 border-red-500 bg-red-50 pl-4 py-2">
+          <div class="flex items-center justify-between mb-1">
+            <code class="font-semibold text-gray-900 text-sm">q</code>
+            <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
+          </div>
+          <p class="text-xs text-gray-600 mb-1">Search query string (required, minimum 2 characters)</p>
+          <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+            <strong>Type:</strong> string | <strong>Min Length:</strong> 2 characters | <strong>Example:</strong> "name", "islamic", "meaning"
+          </div>
+        </div>
+
+        <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
+          <div class="flex items-center justify-between mb-1">
+            <code class="font-semibold text-gray-900 text-sm">page</code>
+            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+          </div>
+          <p class="text-xs text-gray-600 mb-1">Page number for pagination (default: 1)</p>
+          <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+            <strong>Type:</strong> integer | <strong>Default:</strong> 1
+          </div>
+        </div>
+
+        <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
+          <div class="flex items-center justify-between mb-1">
+            <code class="font-semibold text-gray-900 text-sm">limit</code>
+            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+          </div>
+          <p class="text-xs text-gray-600 mb-1">Items per page (default: 10, max: 50)</p>
+          <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+            <strong>Type:</strong> integer | <strong>Default:</strong> 10 | <strong>Max:</strong> 50
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Request Examples -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Request Examples</h3>
+      <div class="space-y-2">
+        <div class="bg-gray-50 rounded-lg p-3 border">
+          <p class="text-xs text-gray-600 mb-1">Search for "name" with limit 5:</p>
+          <code class="block text-xs text-yellow-700 font-mono">GET /api/v1/articles/search?q=name&limit=5</code>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-3 border">
+          <p class="text-xs text-gray-600 mb-1">Search for "islamic" with pagination:</p>
+          <code class="block text-xs text-yellow-700 font-mono">GET /api/v1/articles/search?q=islamic&page=1&limit=10</code>
+        </div>
+        <div class="bg-gray-50 rounded-lg p-3 border">
+          <p class="text-xs text-gray-600 mb-1">Search for "baby naming trends":</p>
+          <code class="block text-xs text-yellow-700 font-mono">GET /api/v1/articles/search?q=baby%20naming%20trends</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- cURL Examples -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">cURL Examples</h3>
+      <div class="space-y-2">
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "https://namverse-api.vercel.app/api/v1/articles/search?q=name&limit=5"</code>
+        </div>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "https://namverse-api.vercel.app/api/v1/articles/search?q=islamic&page=1&limit=10"</code>
+        </div>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "https://namverse-api.vercel.app/api/v1/articles/search?q=meaning"</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Response Structure -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Response Structure (200 OK)</h3>
+      <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+        <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "query": "name",
+  "data": [
+    {
+      "_id": "676f8c2c90e67baf2e5f142d",
+      "slug": "modern-noahkwvrin",
+      "title": "Noah in the 21st Century",
+      "subtitle": "Why Noah remains a top choice",
+      "author": "NameVerse Team",
+      "category": "Baby Naming Trends",
+      "tags": ["Modern Names", "Popular Names"],
+      "excerpt": "An exploration of Noah's enduring popularity...",
+      "cover_image_url": "https://images.unsplash.com/...",
+      "read_time_minutes": 5,
+      "views": 131,
+      "likes": 67,
+      "publishedAt": "2024-12-29T19:00:00.000Z",
+      "createdAt": "2024-12-27T19:51:40.889Z",
+      "updatedAt": "2024-12-27T19:51:40.889Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 5,
+    "total": 28,
+    "totalPages": 6,
+    "hasMore": true
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Response Fields -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Response Fields</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold text-gray-900">Field</th>
+              <th class="px-4 py-2 text-left font-semibold text-gray-900">Type</th>
+              <th class="px-4 py-2 text-left font-semibold text-gray-900">Description</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr>
+              <td class="px-4 py-2 font-mono text-xs">success</td>
+              <td class="px-4 py-2 text-gray-600">boolean</td>
+              <td class="px-4 py-2 text-gray-600">Indicates if the request was successful</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 font-mono text-xs">query</td>
+              <td class="px-4 py-2 text-gray-600">string</td>
+              <td class="px-4 py-2 text-gray-600">The search query that was executed</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 font-mono text-xs">data</td>
+              <td class="px-4 py-2 text-gray-600">array</td>
+              <td class="px-4 py-2 text-gray-600">Array of matching article objects</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2 font-mono text-xs">pagination</td>
+              <td class="px-4 py-2 text-gray-600">object</td>
+              <td class="px-4 py-2 text-gray-600">Pagination metadata</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Features</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Full-text search across multiple fields</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Case-insensitive search</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Relevance-based sorting</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Pagination support</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Searches titles, subtitles, excerpts, content</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Fast query execution</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Responses -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Error Responses</h3>
+      <div class="space-y-3">
+        <div class="bg-red-50 border-l-4 border-red-500 rounded p-3">
+          <div class="flex items-center mb-2">
+            <span class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold mr-2">400</span>
+            <span class="font-semibold text-gray-900">Bad Request</span>
+          </div>
+          <code class="text-xs text-gray-700">{ "success": false, "error": "Query parameter 'q' is required" }</code>
+        </div>
+        <div class="bg-red-50 border-l-4 border-red-500 rounded p-3">
+          <div class="flex items-center mb-2">
+            <span class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold mr-2">400</span>
+            <span class="font-semibold text-gray-900">Query Too Short</span>
+          </div>
+          <code class="text-xs text-gray-700">{ "success": false, "error": "Query must be at least 2 characters" }</code>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
