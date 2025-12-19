@@ -1,71 +1,600 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Articles API - Documentation</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
-  <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
-    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6">
-      <h2 class="text-lg sm:text-2xl font-bold text-white mb-3">Articles</h2>
-      <div class="flex items-center space-x-3">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <code class="block text-white text-lg font-mono">/api/v1/articles</code>
-      </div>
-      <p class="text-purple-100 mt-3">Retrieve articles, latest articles, categories, search, and article by slug.</p>
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+
+  <!-- Endpoint Header -->
+  <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg sm:text-2xl font-bold text-white">Articles API</h2>
+      <a href="/getarticles" class="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-50 transition-colors font-semibold text-sm">
+        <i class="fas fa-flask mr-2"></i>Live Testing
+      </a>
     </div>
-    <div class="p-6">
-      <div class="mb-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-3">List Articles</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles</code></div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">page</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">limit</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">category</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">status</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">sort</span> optional (recent|views|likes|oldest)</div>
-          </div>
-          <div class="mt-3">
-            <a href="/getarticles" class="inline-flex items-center px-3 py-2 bg-purple-50 text-purple-700 rounded hover:bg-purple-100 text-sm font-semibold"><i class="fas fa-flask mr-2"></i>Live Testing</a>
-          </div>
-        </div>
-      </div>
-      <div class="mb-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-3">Latest Articles</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles/latest</code></div>
-          <div class="text-sm"><span class="font-mono bg-white px-2 py-1 rounded border">limit</span> optional</div>
-        </div>
-      </div>
-      <div class="mb-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-3">Categories</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles/categories</code></div>
-        </div>
-      </div>
-      <div class="mb-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-3">Search Articles</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles/search</code></div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">q</span> required</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">page</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">limit</span> optional</div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold text-gray-900 mb-3">Get By Slug</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles/{slug}</code></div>
-          <div class="text-sm"><span class="font-mono bg-white px-2 py-1 rounded border">slug</span> required</div>
-        </div>
-      </div>
+    <div class="flex items-center space-x-3">
+      <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
+      <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/v1/articles</code>
     </div>
+    <p class="word-break break-words text-purple-100 mt-3">
+      Comprehensive articles API with pagination, filtering, sorting, full-text search, category management, and individual article retrieval by slug.
+    </p>
   </div>
-</body>
-</html>
+
+  <div class="p-6">
+
+    <!-- Description -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Description</h3>
+      <p class="word-break break-words text-gray-600 leading-relaxed">
+        The Articles API provides access to a rich collection of articles about names, cultures, naming trends, and traditions.
+        Features include advanced pagination, category-based filtering, publication status control, multiple sorting options,
+        powerful full-text search, category statistics, and SEO-friendly slug-based retrieval. Perfect for building content-rich
+        naming applications and blogs.
+      </p>
+    </div>
+
+    <!-- Endpoints List -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-4">Available Endpoints</h3>
+      <div class="space-y-3">
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles</code>
+          </div>
+          <p class="text-sm text-gray-600">Get paginated list of articles with optional filters</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles/latest</code>
+          </div>
+          <p class="text-sm text-gray-600">Get latest published articles</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles/categories</code>
+          </div>
+          <p class="text-sm text-gray-600">Get all article categories with counts</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles/search</code>
+          </div>
+          <p class="text-sm text-gray-600">Search articles by query string</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles/:slug</code>
+          </div>
+          <p class="text-sm text-gray-600">Get single article by slug</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- List Articles -->
+    <div class="mb-8">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 13: GET /api/v1/articles</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Get paginated list of articles with optional filters for category, status, and sorting options.</p>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
+        <div class="space-y-3">
+          <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <code class="font-semibold text-gray-900 text-sm">page</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-1">Page number (default: 1)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> integer | <strong>Default:</strong> 1
+            </div>
+          </div>
+
+          <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <code class="font-semibold text-gray-900 text-sm">limit</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-1">Items per page (default: 10, max: 50)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> integer | <strong>Default:</strong> 10 | <strong>Max:</strong> 50
+            </div>
+          </div>
+
+          <div class="border-l-4 border-purple-500 bg-purple-50 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <code class="font-semibold text-gray-900 text-sm">category</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-1">Filter by category (e.g., "Baby Naming Trends", "Cultural Traditions")</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> string | <strong>Example:</strong> Baby Naming Trends
+            </div>
+          </div>
+
+          <div class="border-l-4 border-purple-500 bg-purple-50 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <code class="font-semibold text-gray-900 text-sm">status</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-1">Filter by publication status (default: published)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> enum | <strong>Values:</strong> published, draft | <strong>Default:</strong> published
+            </div>
+          </div>
+
+          <div class="border-l-4 border-green-500 bg-green-50 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <code class="font-semibold text-gray-900 text-sm">sort</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-1">Sort order for results (default: recent)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> enum | <strong>Values:</strong> recent, oldest, views, likes | <strong>Default:</strong> recent
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Request Examples</h4>
+        <div class="space-y-2">
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get first page with defaults:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get page 1 with 5 items:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles?page=1&limit=5</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Filter by category with limit:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles?category=Baby%20Naming%20Trends&limit=10</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Sort by views with limit:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles?sort=views&limit=5</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Examples</h4>
+        <div class="space-y-2">
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles?page=1&limit=5"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles?category=Baby%20Naming%20Trends&limit=10"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles?sort=views&limit=5"</code>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "data": [
+    {
+      "_id": "676f8c2c90e67baf2e5f142d",
+      "slug": "modern-noahkwvrin",
+      "title": "Noah in the 21st Century",
+      "subtitle": "Why Noah remains a top choice",
+      "author": "NameVerse Team",
+      "category": "Baby Naming Trends",
+      "tags": ["Modern Names", "Popular Names"],
+      "excerpt": "An exploration of Noah's enduring popularity...",
+      "cover_image_url": "https://images.unsplash.com/...",
+      "read_time_minutes": 5,
+      "views": 131,
+      "likes": 67,
+      "publishedAt": "2024-12-29T19:00:00.000Z",
+      "createdAt": "2024-12-27T19:51:40.889Z",
+      "updatedAt": "2024-12-27T19:51:40.889Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 468,
+    "totalPages": 47,
+    "hasMore": true
+  }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest Articles -->
+    <div class="mb-8">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 14: GET /api/v1/articles/latest</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Get latest published articles sorted by publication date.</p>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
+        <div class="border-l-4 border-pink-500 bg-pink-50 pl-4 py-2">
+          <div class="flex items-center justify-between mb-1">
+            <code class="font-semibold text-gray-900 text-sm">limit</code>
+            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+          </div>
+          <p class="text-xs text-gray-600 mb-1">Number of articles to return (default: 10, max: 50)</p>
+          <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+            <strong>Type:</strong> integer | <strong>Default:</strong> 10 | <strong>Max:</strong> 50
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Request Examples</h4>
+        <div class="space-y-2">
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get latest 10 articles (default):</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/latest</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get latest 5 articles:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/latest?limit=5</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get latest 20 articles:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/latest?limit=20</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Examples</h4>
+        <div class="space-y-2">
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/latest"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/latest?limit=5"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/latest?limit=20"</code>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "count": 5,
+  "data": [
+    {
+      "_id": "676f8c2c90e67baf2e5f142d",
+      "slug": "modern-noahkwvrin",
+      "title": "Noah in the 21st Century",
+      "subtitle": "Why Noah remains a top choice",
+      "author": "NameVerse Team",
+      "category": "Baby Naming Trends",
+      "tags": ["Modern Names", "Popular Names"],
+      "excerpt": "An exploration of Noah's enduring popularity...",
+      "cover_image_url": "https://images.unsplash.com/...",
+      "read_time_minutes": 5,
+      "views": 131,
+      "likes": 67,
+      "publishedAt": "2024-12-29T19:00:00.000Z",
+      "createdAt": "2024-12-27T19:51:40.889Z",
+      "updatedAt": "2024-12-27T19:51:40.889Z"
+    }
+  ]
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="mb-8">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 15: GET /api/v1/articles/categories</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Get all article categories with article counts for each category.</p>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
+        <div class="bg-gray-100 rounded-lg p-3 border border-gray-300">
+          <p class="text-xs text-gray-600 italic">No query parameters required for this endpoint.</p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Request Example</h4>
+        <div class="bg-gray-50 rounded-lg p-3 border">
+          <p class="text-xs text-gray-600 mb-1">Get all categories:</p>
+          <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/categories</code>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Example</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/categories"</code>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "count": 5,
+  "data": [
+    {
+      "_id": "Baby Naming Trends",
+      "count": 120
+    },
+    {
+      "_id": "Cultural Traditions",
+      "count": 85
+    },
+    {
+      "_id": "Name Meanings",
+      "count": 95
+    },
+    {
+      "_id": "Religious Significance",
+      "count": 78
+    },
+    {
+      "_id": "Modern Names",
+      "count": 90
+    }
+  ]
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Articles -->
+    <div class="mb-8">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 16: GET /api/v1/articles/search</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Search articles by query string with full-text search capability.</p>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
+        <div class="space-y-3">
+          <div class="border-l-4 border-red-500 bg-red-50 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <code class="font-semibold text-gray-900 text-sm">q</code>
+              <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-1">Search query (required, min: 2 characters)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> string | <strong>Min Length:</strong> 2 characters
+            </div>
+          </div>
+
+          <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <code class="font-semibold text-gray-900 text-sm">page</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-1">Page number (default: 1)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> integer | <strong>Default:</strong> 1
+            </div>
+          </div>
+
+          <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <code class="font-semibold text-gray-900 text-sm">limit</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600 mb-1">Items per page (default: 10, max: 50)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> integer | <strong>Default:</strong> 10 | <strong>Max:</strong> 50
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Request Examples</h4>
+        <div class="space-y-2">
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Search for "name" with limit 5:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/search?q=name&limit=5</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Search for "islamic" with pagination:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/search?q=islamic&page=1&limit=10</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Search for "meaning":</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/search?q=meaning</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Examples</h4>
+        <div class="space-y-2">
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/search?q=name&limit=5"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/search?q=islamic&page=1&limit=10"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/search?q=meaning"</code>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "query": "name",
+  "data": [
+    {
+      "_id": "676f8c2c90e67baf2e5f142d",
+      "slug": "modern-noahkwvrin",
+      "title": "Noah in the 21st Century",
+      "subtitle": "Why Noah remains a top choice",
+      "author": "NameVerse Team",
+      "category": "Baby Naming Trends",
+      "tags": ["Modern Names", "Popular Names"],
+      "excerpt": "An exploration of Noah's enduring popularity...",
+      "cover_image_url": "https://images.unsplash.com/...",
+      "read_time_minutes": 5,
+      "views": 131,
+      "likes": 67,
+      "publishedAt": "2024-12-29T19:00:00.000Z",
+      "createdAt": "2024-12-27T19:51:40.889Z",
+      "updatedAt": "2024-12-27T19:51:40.889Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 5,
+    "total": 28,
+    "totalPages": 6,
+    "hasMore": true
+  }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Get by Slug -->
+    <div class="mb-6">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 17: GET /api/v1/articles/:slug</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Get single article by its unique slug identifier.</p>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Path Parameters</h4>
+        <div class="border-l-4 border-green-500 bg-green-50 pl-4 py-2">
+          <div class="flex items-center justify-between mb-1">
+            <code class="font-semibold text-gray-900 text-sm">slug</code>
+            <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
+          </div>
+          <p class="text-xs text-gray-600 mb-1">Article slug (lowercase, hyphenated)</p>
+          <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+            <strong>Type:</strong> string | <strong>Format:</strong> lowercase-with-hyphens | <strong>Example:</strong> modern-noahkwvrin
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Request Examples</h4>
+        <div class="space-y-2">
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get article by slug:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/modern-noahkwvrin</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get another article:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/cultural-noramp7l47</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Examples</h4>
+        <div class="space-y-2">
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/modern-noahkwvrin"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/cultural-noramp7l47"</code>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "data": {
+    "_id": "676f8c2c90e67baf2e5f142d",
+    "slug": "modern-noahkwvrin",
+    "title": "Noah in the 21st Century",
+    "subtitle": "Why Noah remains a top choice",
+    "author": "NameVerse Team",
+    "category": "Baby Naming Trends",
+    "tags": ["Modern Names", "Popular Names"],
+    "excerpt": "An exploration of Noah's enduring popularity...",
+    "content": "## Introduction\n\nNoah has been a beloved name for centuries...\n\n## Popularity Trends\n\nIn recent years, Noah has consistently ranked...\n\n## Cultural Significance\n\nThe name Noah carries deep meaning across cultures...",
+    "cover_image_url": "https://images.unsplash.com/...",
+    "read_time_minutes": 5,
+    "views": 131,
+    "likes": 67,
+    "publishedAt": "2024-12-29T19:00:00.000Z",
+    "createdAt": "2024-12-27T19:51:40.889Z",
+    "updatedAt": "2024-12-27T19:51:40.889Z"
+  }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Features</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Pagination support for all list endpoints</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Filter by category and publication status</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Multiple sorting options</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Full-text search capability</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>SEO-friendly slug-based retrieval</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>View and like tracking</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
