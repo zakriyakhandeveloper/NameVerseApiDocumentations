@@ -4,26 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Primary Meta Tags -->
-  <title>Get Name by Slug API - NameVerse API | Get Detailed Name Information</title>
-  <meta name="title" content="Get Name by Slug API - NameVerse API | Get Detailed Name Information">
-  <meta name="description" content="Get detailed information about a specific name by slug. Access name meaning, origin, lucky day, personality traits, and more. Test the Get Name by Slug API endpoint.">
-  <meta name="keywords" content="name by slug, get name details, name information API, name meaning API, name details, name lookup">
+  <!-- Primary Meta Tags - Will be updated dynamically -->
+  <title id="pageTitle">Loading Name... | NameVerse API</title>
+  <meta name="title" id="metaTitle" content="Loading Name... | NameVerse API">
+  <meta name="description" id="metaDescription" content="Get detailed information about a specific name including meaning, origin, lucky day, personality traits, and more from NameVerse API.">
+  <meta name="keywords" id="metaKeywords" content="name meaning, name details, name information, baby names, name origin, name lookup">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://nameversedocumentations.vercel.app/names">
+  <link rel="canonical" id="canonical" href="https://nameversedocumentations.vercel.app/names">
   
-  <!-- Open Graph -->
+  <!-- Open Graph - Will be updated dynamically -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://nameversedocumentations.vercel.app/names">
-  <meta property="og:title" content="Get Name by Slug API - NameVerse API">
-  <meta property="og:description" content="Get detailed information about a specific name by slug">
+  <meta property="og:url" id="ogUrl" content="https://nameversedocumentations.vercel.app/names">
+  <meta property="og:title" id="ogTitle" content="Loading Name... | NameVerse API">
+  <meta property="og:description" id="ogDescription" content="Get detailed information about a specific name by slug">
   <meta property="og:image" content="https://nameversedocumentations.vercel.app/logo.svg">
   <meta property="og:site_name" content="NameVerse API">
-  
-  <!-- Twitter -->
+
+  <!-- Twitter - Will be updated dynamically -->
   <meta property="twitter:card" content="summary">
-  <meta property="twitter:url" content="https://nameversedocumentations.vercel.app/names">
-  <meta property="twitter:title" content="Get Name by Slug API - NameVerse API">
+  <meta property="twitter:url" id="twitterUrl" content="https://nameversedocumentations.vercel.app/names">
+  <meta property="twitter:title" id="twitterTitle" content="Loading Name... | NameVerse API">
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -100,6 +100,35 @@
       </div>
     </div>
   </header>
+
+  <!-- Name Display Card (Hidden until data loads) -->
+  <div id="nameDisplayCard" class="hidden container mx-auto px-6 py-6">
+    <div class="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl shadow-lg border border-purple-200 p-8">
+      <div class="text-center mb-6">
+        <h1 id="displayName" class="text-4xl sm:text-5xl font-bold gradient-text mb-3"></h1>
+        <p id="displayMeaning" class="text-lg text-gray-700 italic"></p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+        <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+          <div class="text-xs font-semibold text-gray-500 uppercase mb-1">Gender</div>
+          <div id="displayGender" class="text-lg font-bold text-purple-600"></div>
+        </div>
+        <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+          <div class="text-xs font-semibold text-gray-500 uppercase mb-1">Religion</div>
+          <div id="displayReligion" class="text-lg font-bold text-indigo-600"></div>
+        </div>
+        <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+          <div class="text-xs font-semibold text-gray-500 uppercase mb-1">Origin</div>
+          <div id="displayOrigin" class="text-lg font-bold text-blue-600"></div>
+        </div>
+      </div>
+
+      <div id="additionalInfo" class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
+        <!-- Additional info will be populated dynamically -->
+      </div>
+    </div>
+  </div>
 
   <!-- Main Container -->
   <div class="container mx-auto px-6 py-8">
@@ -430,12 +459,19 @@
     const parametersContent = document.getElementById('parametersContent');
 
     const API_BASE = 'https://namverse-api.vercel.app/api/v1/names';
+    const nameDisplayCard = document.getElementById('nameDisplayCard');
+    const displayName = document.getElementById('displayName');
+    const displayMeaning = document.getElementById('displayMeaning');
+    const displayGender = document.getElementById('displayGender');
+    const displayReligion = document.getElementById('displayReligion');
+    const displayOrigin = document.getElementById('displayOrigin');
+    const additionalInfo = document.getElementById('additionalInfo');
 
     // Get religion and slug from current URL path
     function getParamsFromUrl() {
       const path = window.location.pathname;
       const parts = path.split('/').filter(p => p);
-      
+
       // Expected format: /names/{religion}/{slug}
       if (parts.length >= 3 && parts[0] === 'names') {
         return {
@@ -443,31 +479,131 @@
           slug: parts[2]
         };
       }
-      
+
       return { religion: 'islamic', slug: 'zakriya' };
+    }
+
+    // Update page SEO meta tags
+    function updateSEO(nameData) {
+      const name = nameData.name || '';
+      const meaning = nameData.meaning || '';
+      const religion = nameData.religion || '';
+      const gender = nameData.gender || '';
+      const params = getParamsFromUrl();
+      const currentUrl = window.location.href;
+
+      // Update title
+      const title = `${name} Name Meaning - ${religion} ${gender} Name | NameVerse`;
+      document.getElementById('pageTitle').textContent = title;
+      document.getElementById('metaTitle').setAttribute('content', title);
+      document.getElementById('ogTitle').setAttribute('content', title);
+      document.getElementById('twitterTitle').setAttribute('content', title);
+
+      // Update description
+      const description = `Discover the meaning of ${name}: "${meaning}". A ${religion} ${gender} name with rich cultural heritage. Get detailed information about ${name} on NameVerse.`;
+      document.getElementById('metaDescription').setAttribute('content', description);
+      document.getElementById('ogDescription').setAttribute('content', description);
+
+      // Update keywords
+      const keywords = `${name}, ${name} meaning, ${name} name meaning, ${religion} names, ${gender} names, baby names, name origin, ${nameData.origin || ''}`;
+      document.getElementById('metaKeywords').setAttribute('content', keywords);
+
+      // Update canonical URL
+      document.getElementById('canonical').setAttribute('href', currentUrl);
+      document.getElementById('ogUrl').setAttribute('content', currentUrl);
+      document.getElementById('twitterUrl').setAttribute('content', currentUrl);
+    }
+
+    // Display name data in the card
+    function displayNameData(data) {
+      displayName.textContent = data.name || 'Unknown';
+      displayMeaning.textContent = data.meaning || 'No meaning available';
+      displayGender.textContent = (data.gender || 'N/A').charAt(0).toUpperCase() + (data.gender || 'N/A').slice(1);
+      displayReligion.textContent = (data.religion || 'N/A').charAt(0).toUpperCase() + (data.religion || 'N/A').slice(1);
+      displayOrigin.textContent = data.origin || 'N/A';
+
+      // Show additional info if available
+      if (data.lucky_day || data.lucky_number || data.personality || data.famous_people) {
+        additionalInfo.classList.remove('hidden');
+        additionalInfo.innerHTML = '';
+
+        if (data.lucky_day) {
+          additionalInfo.innerHTML += `
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+              <div class="text-xs font-semibold text-gray-500 uppercase mb-1">Lucky Day</div>
+              <div class="text-sm text-gray-700">${data.lucky_day}</div>
+            </div>
+          `;
+        }
+
+        if (data.lucky_number) {
+          additionalInfo.innerHTML += `
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+              <div class="text-xs font-semibold text-gray-500 uppercase mb-1">Lucky Number</div>
+              <div class="text-sm text-gray-700">${data.lucky_number}</div>
+            </div>
+          `;
+        }
+
+        if (data.personality) {
+          additionalInfo.innerHTML += `
+            <div class="bg-white rounded-lg p-4 shadow-sm md:col-span-2">
+              <div class="text-xs font-semibold text-gray-500 uppercase mb-2">Personality Traits</div>
+              <div class="text-sm text-gray-700">${data.personality}</div>
+            </div>
+          `;
+        }
+
+        if (data.famous_people) {
+          additionalInfo.innerHTML += `
+            <div class="bg-white rounded-lg p-4 shadow-sm md:col-span-2">
+              <div class="text-xs font-semibold text-gray-500 uppercase mb-2">Famous People</div>
+              <div class="text-sm text-gray-700">${data.famous_people}</div>
+            </div>
+          `;
+        }
+      }
+
+      // Show the card
+      nameDisplayCard.classList.remove('hidden');
+
+      // Update SEO
+      updateSEO(data);
+    }
+
+    // Fetch name data automatically on page load
+    async function fetchNameData() {
+      const params = getParamsFromUrl();
+      const url = `${API_BASE}/${params.religion}/${params.slug}`;
+
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          const data = await response.json();
+          displayNameData(data);
+        }
+      } catch (error) {
+        console.error('Error fetching name data:', error);
+      }
     }
 
     // Initialize with default values or URL params
     function initializeForm() {
       const params = getParamsFromUrl();
       slugInput.value = params.slug;
+      document.getElementById('religion').value = params.religion;
       updateUrlDisplay();
     }
 
     function updateUrlDisplay() {
       const slug = slugInput.value.trim().toLowerCase();
-      const params = getParamsFromUrl();
-      const religion = params.religion;
-      
-      // Build API URL with religion: /api/names/{religion}/{slug}
-      const fullUrl = BASE_URL + '/' + religion + '/' + (slug || '{slug}');
-      
+      const religion = document.getElementById('religion').value;
+
+      // Build API URL with religion: /api/v1/names/{religion}/{slug}
+      const fullUrl = API_BASE + '/' + religion + '/' + (slug || '{slug}');
+
       apiUrlDisplay.textContent = fullUrl;
       generatedUrlDisplay.textContent = fullUrl;
-      
-      // Keep URL clean without query parameters
-      const newUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState(null, null, newUrl);
     }
 
     function setFormValues(values) {
@@ -522,10 +658,16 @@
       updateUrlDisplay();
     });
 
+    document.getElementById('religion').addEventListener('change', () => {
+      updateUrlDisplay();
+    });
+
     quickSelectBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        slugInput.value = btn.dataset.slug;
-        updateUrlDisplay();
+        const religion = btn.dataset.religion;
+        const slug = btn.dataset.slug;
+        // Navigate to the new URL
+        window.location.href = `/names/${religion}/${slug}`;
       });
     });
 
@@ -560,45 +702,29 @@
 
     liveTestBtn.addEventListener('click', () => {
       const slug = slugInput.value.trim().toLowerCase();
-      const params = getParamsFromUrl();
-      const religion = params.religion;
-      
-      if (slug) {
-        const target = API_BASE + '/' + religion + '/' + slug;
+      const religion = document.getElementById('religion').value;
 
-        showNotification('Fetching name data...', 'success');
-
-        fetch(target)
-          .then(response => response.json())
-          .then(data => {
-            // API returns religion like "Islam" or "Islamic" — normalize to route categories
-            const rawReligion = (data && (data.religion || (data.data && data.data.religion))) || religion;
-            const normalized = normalizeReligion(rawReligion || religion);
-            const testUrl = '/names/' + normalized + '/' + slug;
-            window.location.href = testUrl;
-          })
-          .catch(err => {
-            showNotification('Failed to fetch name data', 'error');
-            console.error('Error:', err);
-          });
+      if (slug && religion) {
+        showNotification('Loading name...', 'success');
+        window.location.href = `/names/${religion}/${slug}`;
       } else {
-        showNotification('Please enter a slug first', 'error');
+        showNotification('Please enter a slug and select religion', 'error');
       }
     });
 
     testMuhammad.addEventListener('click', () => {
-      setFormValues({ slug: 'muhammad' });
-      showNotification('Muhammad test parameters loaded');
+      showNotification('Loading Muhammad...');
+      window.location.href = '/names/islamic/muhammad';
     });
 
     testZakriya.addEventListener('click', () => {
-      setFormValues({ slug: 'zakriya' });
-      showNotification('Zakriya test parameters loaded');
+      showNotification('Loading Zakriya...');
+      window.location.href = '/names/islamic/zakriya';
     });
 
     testGirls.addEventListener('click', () => {
-      setFormValues({ slug: 'aisha' });
-      showNotification('Girls names test parameters loaded');
+      showNotification('Loading Aisha...');
+      window.location.href = '/names/islamic/aisha';
     });
 
     resetBtn.addEventListener('click', () => {
@@ -612,48 +738,24 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
+
       const slug = slugInput.value.trim().toLowerCase();
-      
+      const religion = document.getElementById('religion').value;
+
       if (!slug) {
         alert('Please enter a name slug');
         return;
       }
-      
-      executeBtn.disabled = true;
-      loading.classList.remove('hidden');
-      responseSection.classList.add('hidden');
 
-      try {
-        const params = getParamsFromUrl();
-        const religion = params.religion;
-        
-        const target = API_BASE + '/' + religion + '/' + slug;
-        const response = await fetch(target);
-        const data = await response.json();
-        
-        statusBadge.textContent = response.status + ' ' + response.statusText;
-        statusBadge.className = response.ok 
-          ? 'px-3 py-1 rounded-md font-semibold text-xs bg-green-500 text-white' 
-          : 'px-3 py-1 rounded-md font-semibold text-xs bg-red-500 text-white';
-        
-        responseBody.textContent = JSON.stringify(data, null, 2);
-        responseSection.classList.remove('hidden');
-        
-      } catch (error) {
-        statusBadge.textContent = 'Error';
-        statusBadge.className = 'px-3 py-1 rounded-md font-semibold text-xs bg-red-500 text-white';
-        responseBody.textContent = JSON.stringify({ error: error.message }, null, 2);
-        responseSection.classList.remove('hidden');
-      } finally {
-        executeBtn.disabled = false;
-        loading.classList.add('hidden');
-      }
+      // Navigate to the new URL - this will trigger a page reload with new data
+      showNotification('Loading name...');
+      window.location.href = `/names/${religion}/${slug}`;
     });
 
     window.addEventListener('DOMContentLoaded', () => {
       initializeForm();
       loadUrlParameters();
+      fetchNameData(); // Automatically fetch and display name data on page load
     });
 
     // Normalize religion labels coming from API to the route categories used by the site
