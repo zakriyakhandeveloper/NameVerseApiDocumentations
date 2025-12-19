@@ -10,10 +10,10 @@
     </div>
     <div class="flex items-center space-x-3 mb-3">
       <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-      <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/religion/{religion}</code>
+      <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/v1/names</code>
     </div>
     <p class="word-break break-words text-emerald-100">
-      Retrieve paginated names from our 65,000+ database filtered by religion (Islamic, Christian, Hindu) with advanced filters, sorting, and ISR support.
+      Retrieve paginated names from our 65,000+ database filtered by religion (Islamic, Christian, Hindu) with comprehensive query parameters for pagination, sorting, and filtering.
     </p>
   </div>
 
@@ -23,9 +23,9 @@
     <div class="mb-6">
       <h3 class="text-lg font-bold text-gray-900 mb-3">Description</h3>
       <p class="word-break break-words text-gray-600 leading-relaxed mb-3">
-        Access our comprehensive database of over 65,000 religious names with detailed metadata. This endpoint returns 
-        paginated results with comprehensive name information including meanings, origins, cultural context, and more. 
-        Optimized for Next.js ISR with 60-second revalidation for optimal performance.
+        Access our comprehensive database of over 65,000 religious names with detailed metadata. This endpoint returns
+        paginated results filtered by religion with comprehensive name information including meanings, origins, cultural
+        context, and more.
       </p>
       <div class="grid grid-cols-3 gap-3 mt-4">
         <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
@@ -37,28 +37,8 @@
           <div class="text-xs text-blue-700 font-semibold">Religions</div>
         </div>
         <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
-          <div class="text-lg sm:text-2xl font-bold text-purple-600">ISR</div>
-          <div class="text-xs text-purple-700 font-semibold">60s Cache</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Path Parameters -->
-    <div class="mb-6">
-      <h3 class="text-lg font-bold text-gray-900 mb-4">Path Parameters</h3>
-      <div class="border border-gray-200 rounded-lg p-4">
-        <div class="flex items-start justify-between mb-2">
-          <div class="flex items-center space-x-2">
-            <code class="overflow-x-auto block word-break break-words text-emerald-600 font-semibold">religion</code>
-            <span class="text-xs bg-gray-100 px-2 py-1 rounded">string</span>
-            <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
-          </div>
-        </div>
-        <p class="word-break break-words text-sm text-gray-600 mb-2">The religion category to filter names by.</p>
-        <div class="bg-gray-50 p-3 rounded text-xs flex gap-2 flex-wrap">
-          <span class="bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded font-semibold">islamic</span>
-          <span class="bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded font-semibold">christian</span>
-          <span class="bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded font-semibold">hindu</span>
+          <div class="text-lg sm:text-2xl font-bold text-purple-600">REST</div>
+          <div class="text-xs text-purple-700 font-semibold">API v1</div>
         </div>
       </div>
     </div>
@@ -67,6 +47,23 @@
     <div class="mb-6">
       <h3 class="text-lg font-bold text-gray-900 mb-4">Query Parameters</h3>
       <div class="space-y-4">
+
+        <!-- Religion Parameter -->
+        <div class="border-l-4 border-emerald-500 bg-emerald-50 pl-4 py-3 rounded">
+          <div class="flex items-start justify-between mb-2">
+            <div class="flex items-center space-x-2">
+              <code class="overflow-x-auto block word-break break-words text-emerald-600 font-semibold">religion</code>
+              <span class="text-xs bg-white px-2 py-1 rounded">enum</span>
+              <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
+            </div>
+          </div>
+          <p class="word-break break-words text-sm text-gray-600 mb-2">The religion category to filter names by.</p>
+          <div class="bg-white p-3 rounded text-xs flex gap-2 flex-wrap mt-2">
+            <span class="bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded font-semibold">islamic</span>
+            <span class="bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded font-semibold">christian</span>
+            <span class="bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded font-semibold">hindu</span>
+          </div>
+        </div>
 
         <!-- Page Parameter -->
         <div class="border border-gray-200 rounded-lg p-4">
