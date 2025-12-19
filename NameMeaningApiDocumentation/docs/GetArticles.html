@@ -13,7 +13,7 @@
       <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/v1/articles</code>
     </div>
     <p class="word-break break-words text-purple-100 mt-3">
-      Get paginated articles with filtering, search, categories, and individual article details.
+      Comprehensive articles API with pagination, filtering, sorting, full-text search, category management, and individual article retrieval by slug.
     </p>
   </div>
 
@@ -23,8 +23,10 @@
     <div class="mb-6">
       <h3 class="text-lg font-bold text-gray-900 mb-3">Description</h3>
       <p class="word-break break-words text-gray-600 leading-relaxed">
-        The Articles API provides access to a comprehensive collection of articles with support for pagination,
-        filtering by category and status, sorting options, full-text search, and individual article retrieval.
+        The Articles API provides access to a rich collection of articles about names, cultures, naming trends, and traditions.
+        Features include advanced pagination, category-based filtering, publication status control, multiple sorting options,
+        powerful full-text search, category statistics, and SEO-friendly slug-based retrieval. Perfect for building content-rich
+        naming applications and blogs.
       </p>
     </div>
 
@@ -37,7 +39,7 @@
             <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
             <code class="text-sm font-semibold text-gray-800">/api/v1/articles</code>
           </div>
-          <p class="text-sm text-gray-600">List articles with pagination and filters</p>
+          <p class="text-sm text-gray-600">Get paginated list of articles with optional filters</p>
         </div>
 
         <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
@@ -45,7 +47,7 @@
             <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
             <code class="text-sm font-semibold text-gray-800">/api/v1/articles/latest</code>
           </div>
-          <p class="text-sm text-gray-600">Get most recent articles</p>
+          <p class="text-sm text-gray-600">Get latest published articles</p>
         </div>
 
         <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
@@ -53,7 +55,7 @@
             <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
             <code class="text-sm font-semibold text-gray-800">/api/v1/articles/categories</code>
           </div>
-          <p class="text-sm text-gray-600">Get all article categories</p>
+          <p class="text-sm text-gray-600">Get all article categories with counts</p>
         </div>
 
         <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
@@ -61,7 +63,7 @@
             <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
             <code class="text-sm font-semibold text-gray-800">/api/v1/articles/search</code>
           </div>
-          <p class="text-sm text-gray-600">Search articles by keyword</p>
+          <p class="text-sm text-gray-600">Search articles by query string</p>
         </div>
 
         <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
@@ -76,87 +78,143 @@
 
     <!-- List Articles -->
     <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">1. List Articles</h3>
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 13: GET /api/v1/articles</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Get paginated list of articles with optional filters for category, status, and sorting options.</p>
+      </div>
 
       <div class="mb-4">
         <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
         <div class="space-y-3">
-          <div class="border-l-4 border-purple-500 pl-4 py-2">
+          <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-semibold text-gray-900 text-sm">page</span>
+              <code class="font-semibold text-gray-900 text-sm">page</code>
               <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
             </div>
-            <p class="text-xs text-gray-600">Page number for pagination (default: 1)</p>
+            <p class="text-xs text-gray-600 mb-1">Page number (default: 1)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> integer | <strong>Default:</strong> 1
+            </div>
           </div>
 
-          <div class="border-l-4 border-purple-500 pl-4 py-2">
+          <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-semibold text-gray-900 text-sm">limit</span>
+              <code class="font-semibold text-gray-900 text-sm">limit</code>
               <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
             </div>
-            <p class="text-xs text-gray-600">Items per page (default: 10, max: 50)</p>
+            <p class="text-xs text-gray-600 mb-1">Items per page (default: 10, max: 50)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> integer | <strong>Default:</strong> 10 | <strong>Max:</strong> 50
+            </div>
           </div>
 
-          <div class="border-l-4 border-purple-500 pl-4 py-2">
+          <div class="border-l-4 border-purple-500 bg-purple-50 pl-4 py-2">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-semibold text-gray-900 text-sm">category</span>
+              <code class="font-semibold text-gray-900 text-sm">category</code>
               <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
             </div>
-            <p class="text-xs text-gray-600">Filter by category</p>
+            <p class="text-xs text-gray-600 mb-1">Filter by category (e.g., "Baby Naming Trends", "Cultural Traditions")</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> string | <strong>Example:</strong> Baby Naming Trends
+            </div>
           </div>
 
-          <div class="border-l-4 border-purple-500 pl-4 py-2">
+          <div class="border-l-4 border-purple-500 bg-purple-50 pl-4 py-2">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-semibold text-gray-900 text-sm">status</span>
+              <code class="font-semibold text-gray-900 text-sm">status</code>
               <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
             </div>
-            <p class="text-xs text-gray-600">published or draft (default: published)</p>
+            <p class="text-xs text-gray-600 mb-1">Filter by publication status (default: published)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> enum | <strong>Values:</strong> published, draft | <strong>Default:</strong> published
+            </div>
           </div>
 
-          <div class="border-l-4 border-purple-500 pl-4 py-2">
+          <div class="border-l-4 border-green-500 bg-green-50 pl-4 py-2">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-semibold text-gray-900 text-sm">sort</span>
+              <code class="font-semibold text-gray-900 text-sm">sort</code>
               <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
             </div>
-            <p class="text-xs text-gray-600">recent, oldest, views, or likes (default: recent)</p>
+            <p class="text-xs text-gray-600 mb-1">Sort order for results (default: recent)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> enum | <strong>Values:</strong> recent, oldest, views, likes | <strong>Default:</strong> recent
+            </div>
           </div>
         </div>
       </div>
 
       <div class="mb-4">
-        <h4 class="font-semibold text-gray-900 mb-2">Examples</h4>
+        <h4 class="font-semibold text-gray-900 mb-2">Request Examples</h4>
         <div class="space-y-2">
-          <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles</code>
-          <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles?page=2&limit=20</code>
-          <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles?category=islamic&sort=views</code>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get first page with defaults:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get page 1 with 5 items:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles?page=1&limit=5</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Filter by category with limit:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles?category=Baby%20Naming%20Trends&limit=10</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Sort by views with limit:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles?sort=views&limit=5</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Examples</h4>
+        <div class="space-y-2">
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles?page=1&limit=5"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles?category=Baby%20Naming%20Trends&limit=10"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles?sort=views&limit=5"</code>
+          </div>
         </div>
       </div>
 
       <div>
-        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
         <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
           <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
   "success": true,
   "data": [
     {
-      "id": 1,
-      "title": "The Significance of Names in Islam",
-      "slug": "significance-of-names-in-islam",
-      "excerpt": "Understanding the importance...",
-      "category": "islamic",
-      "author": "Admin",
-      "views": 1250,
-      "likes": 45,
-      "createdAt": "2025-01-15T10:00:00Z"
+      "_id": "676f8c2c90e67baf2e5f142d",
+      "slug": "modern-noahkwvrin",
+      "title": "Noah in the 21st Century",
+      "subtitle": "Why Noah remains a top choice",
+      "author": "NameVerse Team",
+      "category": "Baby Naming Trends",
+      "tags": ["Modern Names", "Popular Names"],
+      "excerpt": "An exploration of Noah's enduring popularity...",
+      "cover_image_url": "https://images.unsplash.com/...",
+      "read_time_minutes": 5,
+      "views": 131,
+      "likes": 67,
+      "publishedAt": "2024-12-29T19:00:00.000Z",
+      "createdAt": "2024-12-27T19:51:40.889Z",
+      "updatedAt": "2024-12-27T19:51:40.889Z"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 10,
-    "total": 50,
-    "totalPages": 5,
-    "hasNext": true,
-    "hasPrev": false
+    "total": 468,
+    "totalPages": 47,
+    "hasMore": true
   }
 }</code></pre>
         </div>
@@ -165,37 +223,83 @@
 
     <!-- Latest Articles -->
     <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">2. Latest Articles</h3>
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 14: GET /api/v1/articles/latest</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Get latest published articles sorted by publication date.</p>
+      </div>
 
       <div class="mb-4">
         <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
-        <div class="border-l-4 border-pink-500 pl-4 py-2">
+        <div class="border-l-4 border-pink-500 bg-pink-50 pl-4 py-2">
           <div class="flex items-center justify-between mb-1">
-            <span class="font-semibold text-gray-900 text-sm">limit</span>
+            <code class="font-semibold text-gray-900 text-sm">limit</code>
             <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
           </div>
-          <p class="text-xs text-gray-600">Number of articles to return (default: 10, max: 50)</p>
+          <p class="text-xs text-gray-600 mb-1">Number of articles to return (default: 10, max: 50)</p>
+          <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+            <strong>Type:</strong> integer | <strong>Default:</strong> 10 | <strong>Max:</strong> 50
+          </div>
         </div>
       </div>
 
       <div class="mb-4">
-        <h4 class="font-semibold text-gray-900 mb-2">Example</h4>
-        <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles/latest?limit=5</code>
+        <h4 class="font-semibold text-gray-900 mb-2">Request Examples</h4>
+        <div class="space-y-2">
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get latest 10 articles (default):</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/latest</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get latest 5 articles:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/latest?limit=5</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get latest 20 articles:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/latest?limit=20</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Examples</h4>
+        <div class="space-y-2">
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/latest"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/latest?limit=5"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/latest?limit=20"</code>
+          </div>
+        </div>
       </div>
 
       <div>
-        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
         <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
           <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
   "success": true,
+  "count": 5,
   "data": [
     {
-      "id": 5,
-      "title": "Modern Islamic Names for 2025",
-      "slug": "modern-islamic-names-2025",
-      "excerpt": "Trending names...",
-      "category": "islamic",
-      "createdAt": "2025-12-15T08:30:00Z"
+      "_id": "676f8c2c90e67baf2e5f142d",
+      "slug": "modern-noahkwvrin",
+      "title": "Noah in the 21st Century",
+      "subtitle": "Why Noah remains a top choice",
+      "author": "NameVerse Team",
+      "category": "Baby Naming Trends",
+      "tags": ["Modern Names", "Popular Names"],
+      "excerpt": "An exploration of Noah's enduring popularity...",
+      "cover_image_url": "https://images.unsplash.com/...",
+      "read_time_minutes": 5,
+      "views": 131,
+      "likes": 67,
+      "publishedAt": "2024-12-29T19:00:00.000Z",
+      "createdAt": "2024-12-27T19:51:40.889Z",
+      "updatedAt": "2024-12-27T19:51:40.889Z"
     }
   ]
 }</code></pre>
@@ -205,30 +309,61 @@
 
     <!-- Categories -->
     <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">3. Get Categories</h3>
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 15: GET /api/v1/articles/categories</h3>
 
       <div class="mb-4">
-        <h4 class="font-semibold text-gray-900 mb-2">Example</h4>
-        <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles/categories</code>
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Get all article categories with article counts for each category.</p>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
+        <div class="bg-gray-100 rounded-lg p-3 border border-gray-300">
+          <p class="text-xs text-gray-600 italic">No query parameters required for this endpoint.</p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Request Example</h4>
+        <div class="bg-gray-50 rounded-lg p-3 border">
+          <p class="text-xs text-gray-600 mb-1">Get all categories:</p>
+          <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/categories</code>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Example</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/categories"</code>
+        </div>
       </div>
 
       <div>
-        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
         <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
           <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
   "success": true,
+  "count": 5,
   "data": [
     {
-      "name": "islamic",
-      "count": 25
+      "_id": "Baby Naming Trends",
+      "count": 120
     },
     {
-      "name": "christian",
-      "count": 18
+      "_id": "Cultural Traditions",
+      "count": 85
     },
     {
-      "name": "hindu",
-      "count": 12
+      "_id": "Name Meanings",
+      "count": 95
+    },
+    {
+      "_id": "Religious Significance",
+      "count": 78
+    },
+    {
+      "_id": "Modern Names",
+      "count": 90
     }
   ]
 }</code></pre>
@@ -238,62 +373,115 @@
 
     <!-- Search Articles -->
     <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">4. Search Articles</h3>
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 16: GET /api/v1/articles/search</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Search articles by query string with full-text search capability.</p>
+      </div>
 
       <div class="mb-4">
         <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
         <div class="space-y-3">
-          <div class="border-l-4 border-indigo-500 pl-4 py-2">
+          <div class="border-l-4 border-red-500 bg-red-50 pl-4 py-2">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-semibold text-gray-900 text-sm">q</span>
+              <code class="font-semibold text-gray-900 text-sm">q</code>
               <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
             </div>
-            <p class="text-xs text-gray-600">Search query string</p>
+            <p class="text-xs text-gray-600 mb-1">Search query (required, min: 2 characters)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> string | <strong>Min Length:</strong> 2 characters
+            </div>
           </div>
 
-          <div class="border-l-4 border-indigo-500 pl-4 py-2">
+          <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-semibold text-gray-900 text-sm">page</span>
+              <code class="font-semibold text-gray-900 text-sm">page</code>
               <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
             </div>
-            <p class="text-xs text-gray-600">Page number (default: 1)</p>
+            <p class="text-xs text-gray-600 mb-1">Page number (default: 1)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> integer | <strong>Default:</strong> 1
+            </div>
           </div>
 
-          <div class="border-l-4 border-indigo-500 pl-4 py-2">
+          <div class="border-l-4 border-indigo-500 bg-indigo-50 pl-4 py-2">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-semibold text-gray-900 text-sm">limit</span>
+              <code class="font-semibold text-gray-900 text-sm">limit</code>
               <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
             </div>
-            <p class="text-xs text-gray-600">Items per page (default: 10, max: 50)</p>
+            <p class="text-xs text-gray-600 mb-1">Items per page (default: 10, max: 50)</p>
+            <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+              <strong>Type:</strong> integer | <strong>Default:</strong> 10 | <strong>Max:</strong> 50
+            </div>
           </div>
         </div>
       </div>
 
       <div class="mb-4">
-        <h4 class="font-semibold text-gray-900 mb-2">Example</h4>
-        <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles/search?q=islamic+names&limit=5</code>
+        <h4 class="font-semibold text-gray-900 mb-2">Request Examples</h4>
+        <div class="space-y-2">
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Search for "name" with limit 5:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/search?q=name&limit=5</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Search for "islamic" with pagination:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/search?q=islamic&page=1&limit=10</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Search for "meaning":</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/search?q=meaning</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Examples</h4>
+        <div class="space-y-2">
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/search?q=name&limit=5"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/search?q=islamic&page=1&limit=10"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/search?q=meaning"</code>
+          </div>
+        </div>
       </div>
 
       <div>
-        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
         <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
           <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
   "success": true,
-  "query": "islamic names",
+  "query": "name",
   "data": [
     {
-      "id": 1,
-      "title": "Popular Islamic Names",
-      "slug": "popular-islamic-names",
-      "excerpt": "Discover the most beloved...",
-      "category": "islamic",
-      "relevance": 0.95
+      "_id": "676f8c2c90e67baf2e5f142d",
+      "slug": "modern-noahkwvrin",
+      "title": "Noah in the 21st Century",
+      "subtitle": "Why Noah remains a top choice",
+      "author": "NameVerse Team",
+      "category": "Baby Naming Trends",
+      "tags": ["Modern Names", "Popular Names"],
+      "excerpt": "An exploration of Noah's enduring popularity...",
+      "cover_image_url": "https://images.unsplash.com/...",
+      "read_time_minutes": 5,
+      "views": 131,
+      "likes": 67,
+      "publishedAt": "2024-12-29T19:00:00.000Z",
+      "createdAt": "2024-12-27T19:51:40.889Z",
+      "updatedAt": "2024-12-27T19:51:40.889Z"
     }
   ],
   "pagination": {
     "page": 1,
     "limit": 5,
-    "total": 12
+    "total": 28,
+    "totalPages": 6,
+    "hasMore": true
   }
 }</code></pre>
         </div>
@@ -302,42 +490,75 @@
 
     <!-- Get by Slug -->
     <div class="mb-6">
-      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">5. Get Article by Slug</h3>
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">Endpoint 17: GET /api/v1/articles/:slug</h3>
 
       <div class="mb-4">
-        <h4 class="font-semibold text-gray-900 mb-3">Path Parameter</h4>
-        <div class="border-l-4 border-green-500 pl-4 py-2">
+        <h4 class="font-semibold text-gray-900 mb-2">Description</h4>
+        <p class="text-sm text-gray-700">Get single article by its unique slug identifier.</p>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Path Parameters</h4>
+        <div class="border-l-4 border-green-500 bg-green-50 pl-4 py-2">
           <div class="flex items-center justify-between mb-1">
-            <span class="font-semibold text-gray-900 text-sm">slug</span>
+            <code class="font-semibold text-gray-900 text-sm">slug</code>
             <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
           </div>
-          <p class="text-xs text-gray-600">Article slug identifier</p>
+          <p class="text-xs text-gray-600 mb-1">Article slug (lowercase, hyphenated)</p>
+          <div class="bg-white rounded px-2 py-1 text-xs text-gray-700 mt-1">
+            <strong>Type:</strong> string | <strong>Format:</strong> lowercase-with-hyphens | <strong>Example:</strong> modern-noahkwvrin
+          </div>
         </div>
       </div>
 
       <div class="mb-4">
-        <h4 class="font-semibold text-gray-900 mb-2">Example</h4>
-        <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles/significance-of-names-in-islam</code>
+        <h4 class="font-semibold text-gray-900 mb-2">Request Examples</h4>
+        <div class="space-y-2">
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get article by slug:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/modern-noahkwvrin</code>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-3 border">
+            <p class="text-xs text-gray-600 mb-1">Get another article:</p>
+            <code class="block text-xs text-purple-700 font-mono">GET /api/v1/articles/cultural-noramp7l47</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">cURL Examples</h4>
+        <div class="space-y-2">
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/modern-noahkwvrin"</code>
+          </div>
+          <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+            <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 12px;">curl "http://localhost:5000/api/v1/articles/cultural-noramp7l47"</code>
+          </div>
+        </div>
       </div>
 
       <div>
-        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <h4 class="font-semibold text-gray-900 mb-2">Response Structure (200 OK)</h4>
         <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
           <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
   "success": true,
   "data": {
-    "id": 1,
-    "title": "The Significance of Names in Islam",
-    "slug": "significance-of-names-in-islam",
-    "content": "Full article content here...",
-    "excerpt": "Understanding the importance...",
-    "category": "islamic",
-    "author": "Admin",
-    "views": 1250,
-    "likes": 45,
-    "tags": ["islamic", "names", "culture"],
-    "createdAt": "2025-01-15T10:00:00Z",
-    "updatedAt": "2025-01-15T10:00:00Z"
+    "_id": "676f8c2c90e67baf2e5f142d",
+    "slug": "modern-noahkwvrin",
+    "title": "Noah in the 21st Century",
+    "subtitle": "Why Noah remains a top choice",
+    "author": "NameVerse Team",
+    "category": "Baby Naming Trends",
+    "tags": ["Modern Names", "Popular Names"],
+    "excerpt": "An exploration of Noah's enduring popularity...",
+    "content": "## Introduction\n\nNoah has been a beloved name for centuries...\n\n## Popularity Trends\n\nIn recent years, Noah has consistently ranked...\n\n## Cultural Significance\n\nThe name Noah carries deep meaning across cultures...",
+    "cover_image_url": "https://images.unsplash.com/...",
+    "read_time_minutes": 5,
+    "views": 131,
+    "likes": 67,
+    "publishedAt": "2024-12-29T19:00:00.000Z",
+    "createdAt": "2024-12-27T19:51:40.889Z",
+    "updatedAt": "2024-12-27T19:51:40.889Z"
   }
 }</code></pre>
         </div>
