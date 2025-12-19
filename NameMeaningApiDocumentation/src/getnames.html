@@ -111,7 +111,7 @@
             <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
           </div>
           <div class="bg-gray-900 break-words word-break overflow-x-auto text-green-400 p-2 sm:p-3 rounded-lg font-mono text-xs sm:text-sm break-all leading-relaxed whitespace-pre-wrap" id="apiUrl">
-            /api/names
+            /api/v1/names
           </div>
         </div>
 
@@ -130,7 +130,7 @@
             </div>
             <div>
               <label class="block text-xs font-semibold text-gray-700 mb-2">LIMIT</label>
-              <input type="number" id="limit" value="20" min="1" max="500" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+              <input type="number" id="limit" value="50" min="1" max="100" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
             </div>
           </div>
         </div>
@@ -148,13 +148,25 @@
               <label class="block text-xs font-semibold text-gray-700 mb-2">GENDER</label>
               <select id="gender" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
                 <option value="">All Genders</option>
-                <option value="boy">Boy</option>
-                <option value="girl">Girl</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
               </select>
             </div>
             <div>
               <label class="block text-xs font-semibold text-gray-700 mb-2">ALPHABET (A-Z)</label>
               <input type="text" id="alphabet" placeholder="e.g., M" maxlength="1" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 uppercase">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">SEARCH</label>
+              <input type="text" id="search" placeholder="e.g., ali" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">SORT</label>
+              <select id="sort" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+                <option value="">Default (asc)</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
             </div>
           </div>
         </div>
@@ -248,11 +260,11 @@
             <i class="fas fa-bolt text-yellow-500 mr-2"></i>Quick Examples
           </h3>
           <div class="space-y-2">
-            <button class="quick-action w-full text-left px-3 py-2 bg-purple-50 text-purple-700 rounded-lg text-xs font-semibold hover:bg-purple-100 transition-colors" data-filters='{"gender":"boy","religion":"islamic","alphabet":"M"}'>
-              <i class="fas fa-rocket mr-2"></i>Islamic Boy Names (M)
+            <button class="quick-action w-full text-left px-3 py-2 bg-purple-50 text-purple-700 rounded-lg text-xs font-semibold hover:bg-purple-100 transition-colors" data-filters='{"gender":"male","religion":"islamic","alphabet":"M"}'>
+              <i class="fas fa-rocket mr-2"></i>Islamic Male Names (M)
             </button>
-            <button class="quick-action w-full text-left px-3 py-2 bg-pink-50 text-pink-700 rounded-lg text-xs font-semibold hover:bg-pink-100 transition-colors" data-filters='{"gender":"girl","religion":"christian","alphabet":"A"}'>
-              <i class="fas fa-heart mr-2"></i>Christian Girl Names (A)
+            <button class="quick-action w-full text-left px-3 py-2 bg-pink-50 text-pink-700 rounded-lg text-xs font-semibold hover:bg-pink-100 transition-colors" data-filters='{"gender":"female","religion":"christian","alphabet":"A"}'>
+              <i class="fas fa-heart mr-2"></i>Christian Female Names (A)
             </button>
             <button class="quick-action w-full text-left px-3 py-2 bg-green-50 text-green-700 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors" data-filters='{"theme":"Nature","limit":"30"}'>
               <i class="fas fa-leaf mr-2"></i>Nature-Themed Names
@@ -341,7 +353,7 @@
   </div>
 
   <script>
-    const BASE_URL = 'https://api.allorigins.win/raw?url=https://namverse-api.vercel.app/api/names';
+    const BASE_URL = 'https://namverse-api.vercel.app/api/v1/names';
     let currentData = null;
     let startTime = 0;
 
@@ -353,12 +365,8 @@
       alphabet: document.getElementById('alphabet'),
       religion: document.getElementById('religion'),
       origin: document.getElementById('origin'),
-      language: document.getElementById('language'),
-      category: document.getElementById('category'),
-      theme: document.getElementById('theme'),
-      luckyDay: document.getElementById('luckyDay'),
-      luckyColor: document.getElementById('luckyColor'),
-      luckyStone: document.getElementById('luckyStone')
+      search: document.getElementById('search'),
+      sort: document.getElementById('sort')
     };
 
     const apiUrl = document.getElementById('apiUrl');
@@ -373,12 +381,33 @@
     const responseTime = document.getElementById('responseTime');
     const quickStats = document.getElementById('quickStats');
 
+    // Only send supported parameters to the v1 API
+    const allowedParams = new Set([
+      'page',
+      'limit',
+      'gender',
+      'religion',
+      'search',
+      'sort',
+    ]);
+
     // Update URL display
     function updateURL() {
       const params = new URLSearchParams();
       Object.entries(inputs).forEach(([key, input]) => {
-        const value = input.value.trim();
-        if (value) params.append(key, value);
+        const value = (input?.value || '').trim();
+        if (!value) return;
+        if (key === 'alphabet') {
+          params.append('startsWith', value.toUpperCase());
+          return;
+        }
+        if (key === 'sort') {
+          params.append('sort', value || 'asc');
+          return;
+        }
+        if (allowedParams.has(key)) {
+          params.append(key, value);
+        }
       });
       apiUrl.textContent = `${BASE_URL}${params.toString() ? '?' + params.toString() : ''}`;
     }
@@ -393,7 +422,7 @@
     clearFiltersBtn.addEventListener('click', () => {
       Object.values(inputs).forEach(input => {
         if (input.type === 'number') {
-          input.value = input.id === 'page' ? '1' : input.id === 'limit' ? '20' : '';
+          input.value = input.id === 'page' ? '1' : input.id === 'limit' ? '50' : '';
         } else {
           input.value = '';
         }
@@ -445,8 +474,19 @@
       try {
         const params = new URLSearchParams();
         Object.entries(inputs).forEach(([key, input]) => {
-          const value = input.value.trim();
-          if (value) params.append(key, value);
+          const value = (input?.value || '').trim();
+          if (!value) return;
+          if (key === 'alphabet') {
+            params.append('startsWith', value.toUpperCase());
+            return;
+          }
+          if (key === 'sort') {
+            params.append('sort', value || 'asc');
+            return;
+          }
+          if (allowedParams.has(key)) {
+            params.append(key, value);
+          }
         });
 
         const url = `${BASE_URL}?${params.toString()}`;

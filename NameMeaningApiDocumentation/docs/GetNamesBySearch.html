@@ -10,10 +10,10 @@
     </div>
     <div class="flex items-center space-x-3">
       <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-      <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/names/search</code>
+      <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/v1/search</code>
     </div>
     <p class="word-break break-words text-purple-100 mt-3">
-      Search names by keyword, substring, or partial text matching.
+      Search for names using a query string with partial matching and flexible filtering.
     </p>
   </div>
 
@@ -23,9 +23,8 @@
     <div class="mb-6">
       <h3 class="text-lg font-bold text-gray-900 mb-3">Description</h3>
       <p class="word-break break-words text-gray-600 leading-relaxed">
-        This endpoint allows searching for names using a text query. It supports partial matches, 
-        case-insensitive search, and returns a list of all names matching the text pattern. 
-        Works for all religions and alphabets.
+        Search for names using a query string. Supports partial matching, case-insensitive search,
+        and returns matching names across all religions. Includes optional filtering by religion and limit control.
       </p>
     </div>
 
@@ -38,20 +37,20 @@
         <div class="border border-gray-200 rounded-lg p-4">
           <div class="flex items-start justify-between mb-2">
             <div class="flex items-center space-x-2">
-              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">query</code>
+              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">q</code>
               <span class="text-xs bg-gray-100 px-2 py-1 rounded">string</span>
               <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">required</span>
             </div>
           </div>
           <p class="word-break break-words text-sm text-gray-600 mb-2">
-            Text keyword to search names by. Supports partial search.
+            Search query string (minimum 1 character). Names that start with this query will be returned.
           </p>
           <div class="bg-gray-50 p-2 rounded text-xs">
             <div class="text-gray-500 mb-1">Examples</div>
             <div class="flex gap-2 flex-wrap">
-              <span class="bg-white border px-2 py-1 rounded font-mono">aa</span>
-              <span class="bg-white border px-2 py-1 rounded font-mono">rah</span>
-              <span class="bg-white border px-2 py-1 rounded font-mono">mu</span>
+              <span class="bg-white border px-2 py-1 rounded font-mono">sa</span>
+              <span class="bg-white border px-2 py-1 rounded font-mono">muh</span>
+              <span class="bg-white border px-2 py-1 rounded font-mono">john</span>
             </div>
           </div>
         </div>
@@ -71,7 +70,7 @@
           <div class="grid grid-cols-3 gap-3 text-xs">
             <div class="bg-gray-50 p-2 rounded">
               <div class="text-gray-500">Default</div>
-              <div class="font-semibold text-gray-900">50</div>
+              <div class="font-semibold text-gray-900">20</div>
             </div>
             <div class="bg-gray-50 p-2 rounded">
               <div class="text-gray-500">Minimum</div>
@@ -79,7 +78,29 @@
             </div>
             <div class="bg-gray-50 p-2 rounded">
               <div class="text-gray-500">Maximum</div>
-              <div class="font-semibold text-gray-900">500</div>
+              <div class="font-semibold text-gray-900">100</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Religion Parameter -->
+        <div class="border border-gray-200 rounded-lg p-4">
+          <div class="flex items-start justify-between mb-2">
+            <div class="flex items-center space-x-2">
+              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">religion</code>
+              <span class="text-xs bg-gray-100 px-2 py-1 rounded">string</span>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
+            </div>
+          </div>
+          <p class="word-break break-words text-sm text-gray-600 mb-2">
+            Filter results by religion category.
+          </p>
+          <div class="bg-gray-50 p-2 rounded text-xs">
+            <div class="text-gray-500 mb-1">Available values</div>
+            <div class="flex gap-2 flex-wrap">
+              <span class="bg-white border px-2 py-1 rounded font-mono">islamic</span>
+              <span class="bg-white border px-2 py-1 rounded font-mono">christian</span>
+              <span class="bg-white border px-2 py-1 rounded font-mono">hindu</span>
             </div>
           </div>
         </div>
@@ -87,11 +108,19 @@
       </div>
     </div>
 
-    <!-- Request Example -->
+    <!-- Request Examples -->
     <div class="mb-6">
-      <h3 class="text-lg font-bold text-gray-900 mb-3">Request Example</h3>
-      <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
-        <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 14px;">GET /api/names/search?query=aa&limit=10</code>
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Request Examples</h3>
+      <div class="space-y-2">
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">GET /api/v1/search?q=sa&limit=5</code>
+        </div>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">GET /api/v1/search?q=muh&limit=10&religion=islamic</code>
+        </div>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
+          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">GET /api/v1/search?q=john</code>
+        </div>
       </div>
     </div>
 
@@ -106,15 +135,24 @@
           <span class="text-sm font-semibold text-gray-700">Success</span>
         </div>
         <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
-<pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 14px;">{
-  "success": true,
-  "count": 3,
-  "data": [
-    "Aarav",
-    "Aayan",
-    "Aamina"
-  ]
-}</code></pre>
+<pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 14px;">[
+  {
+    "name": "Sarah",
+    "slug": "sarah",
+    "meaning": "Princess, lady",
+    "gender": "female",
+    "religion": "christian",
+    "origin": "Hebrew"
+  },
+  {
+    "name": "Samuel",
+    "slug": "samuel",
+    "meaning": "Asked of God",
+    "gender": "male",
+    "religion": "christian",
+    "origin": "Hebrew"
+  }
+]</code></pre>
         </div>
       </div>
 
@@ -126,7 +164,7 @@
         </div>
         <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
 <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 14px;">{
-  "error": "Missing required parameter: query"
+  "error": "Query parameter 'q' is required"
 }</code></pre>
         </div>
       </div>

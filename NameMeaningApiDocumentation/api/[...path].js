@@ -9,6 +9,7 @@ const routeMap = {
   '/getnamesbyletter': 'src/getnamesbyletter.html',
   '/getnamesbyreligion': 'src/getnamesbyreligion.html',
   '/getfilteroptions': 'src/getfilters.html',
+  '/getarticles': 'src/getarticles.html',
 };
 
 const mimeTypes = {

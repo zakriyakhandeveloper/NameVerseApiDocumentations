@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Articles API - NameVerse API | Live Testing</title>
+  <meta name="description" content="Test Articles API endpoints: list, latest, categories, search, and get by slug. Live requests against NameVerse V1 Articles routes.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .api-response { font-family: 'Courier New', monospace; }
+    .tab-btn { transition: all .2s; }
+    .tab-btn.active { background: #eef2ff; color: #4f46e5; border-color: #c7d2fe; }
+    .code { background:#111827; color:#10b981; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+  <header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="/logo.svg" class="w-10 h-10 rounded-xl shadow" alt="Logo">
+        <div>
+          <h1 class="text-lg sm:text-2xl font-bold">Articles API Testing</h1>
+          <p class="text-xs text-gray-600">Test /api/v1/articles endpoints</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="/docs" class="px-3 py-2 bg-gray-50 text-gray-700 rounded-lg border hover:bg-gray-100 text-sm font-semibold">
+          <i class="fas fa-book mr-1"></i>Docs
+        </a>
+        <a href="/health" class="px-3 py-2 bg-green-50 text-green-700 rounded-lg border hover:bg-green-100 text-sm font-semibold">
+          <i class="fas fa-heartbeat mr-1"></i>Health
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section class="space-y-6">
+      <div class="bg-white rounded-xl border p-6">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+              <i class="fas fa-link text-indigo-600"></i>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Endpoint</h2>
+          </div>
+          <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+        </div>
+        <div id="endpointPreview" class="code p-3 rounded text-sm break-all">/api/v1/articles</div>
+      </div>
+
+      <div class="bg-white rounded-xl border p-6">
+        <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i class="fas fa-sliders-h text-purple-600"></i>Parameters</h3>
+        <div class="space-y-4" id="paramsContainer">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">PAGE</label>
+              <input id="page" type="number" min="1" value="1" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">LIMIT</label>
+              <input id="limit" type="number" min="1" max="50" value="10" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3" data-for="list">
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">CATEGORY</label>
+              <input id="category" type="text" placeholder="e.g., islamic" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">STATUS</label>
+              <select id="status" class="w-full px-3 py-2 text-sm border rounded-lg">
+                <option value="">Any</option>
+                <option value="published">published</option>
+                <option value="draft">draft</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3" data-for="list">
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">SORT</label>
+              <select id="sort" class="w-full px-3 py-2 text-sm border rounded-lg">
+                <option value="">recent</option>
+                <option value="recent">recent</option>
+                <option value="views">views</option>
+                <option value="likes">likes</option>
+                <option value="oldest">oldest</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3 hidden" data-for="latest">
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">LIMIT</label>
+              <input id="latestLimit" type="number" min="1" max="50" value="10" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3 hidden" data-for="search">
+            <div class="col-span-2">
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">QUERY</label>
+              <input id="query" type="text" placeholder="e.g., islamic" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">PAGE</label>
+              <input id="searchPage" type="number" min="1" value="1" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">LIMIT</label>
+              <input id="searchLimit" type="number" min="1" max="50" value="10" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-3 hidden" data-for="bySlug">
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">SLUG</label>
+              <input id="slug" type="text" placeholder="top-100-islamic-names" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <button id="sendBtn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:shadow-lg transition-all">
+            <i class="fas fa-paper-plane mr-2"></i>Send Request
+          </button>
+          <button id="clearBtn" class="w-full bg-gray-100 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200">
+            <i class="fas fa-times mr-2"></i>Clear
+          </button>
+        </div>
+        <div class="mt-4">
+          <label class="text-xs font-semibold text-gray-700 mb-2 block">Endpoint Type</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="list"><i class="fas fa-list mr-1"></i>List</button>
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="latest"><i class="fas fa-clock mr-1"></i>Latest</button>
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="categories"><i class="fas fa-tags mr-1"></i>Categories</button>
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="search"><i class="fas fa-search mr-1"></i>Search</button>
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="bySlug"><i class="fas fa-file-alt mr-1"></i>By Slug</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="md:col-span-2 space-y-6">
+      <div id="loading" class="hidden bg-white rounded-xl border p-20 text-center">
+        <div class="inline-flex flex-col items-center space-y-4">
+          <svg class="animate-spin h-16 w-16 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span class="text-purple-600 font-semibold text-lg">Fetching data from API...</span>
+        </div>
+      </div>
+
+      <div id="responseContainer" class="hidden bg-white rounded-xl border overflow-hidden">
+        <div class="border-b p-6 bg-gray-50 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <h3 class="text-lg font-bold text-gray-900">API Response</h3>
+            <span id="statusBadge" class="px-3 py-1 rounded-md font-semibold text-xs"></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div id="responseTime" class="text-sm text-gray-600 bg-white px-3 py-1 rounded-lg border"></div>
+            <button id="copyBtn" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-semibold">
+              <i class="fas fa-copy mr-2"></i>Copy JSON
+            </button>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="bg-gray-900 rounded-lg border border-gray-700">
+            <div class="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
+              <span class="text-xs text-gray-400 font-mono">JSON Response</span>
+              <span class="text-xs text-green-400 font-mono">application/json</span>
+            </div>
+            <pre id="jsonContent" class="text-green-400 p-4 text-xs font-mono overflow-x-auto max-h-[600px] overflow-y-auto leading-relaxed"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const BASE = 'https://namverse-api.vercel.app/api/v1/articles';
+    const endpointPreview = document.getElementById('endpointPreview');
+    const tabBtns = Array.from(document.querySelectorAll('.tab-btn'));
+    const paramsContainer = document.getElementById('paramsContainer');
+    const sendBtn = document.getElementById('sendBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const loading = document.getElementById('loading');
+    const responseContainer = document.getElementById('responseContainer');
+    const statusBadge = document.getElementById('statusBadge');
+    const responseTime = document.getElementById('responseTime');
+    const jsonContent = document.getElementById('jsonContent');
+    const copyBtn = document.getElementById('copyBtn');
+
+    let currentType = 'list';
+
+    function setActiveTab(type) {
+      currentType = type;
+      tabBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.type === type));
+      Array.from(paramsContainer.querySelectorAll('[data-for]')).forEach(group => {
+        group.classList.toggle('hidden', group.getAttribute('data-for') !== type);
+      });
+      updatePreview();
+    }
+
+    function updatePreview() {
+      if (currentType === 'list') {
+        const params = new URLSearchParams();
+        const page = (document.getElementById('page')?.value || '').trim();
+        const limit = (document.getElementById('limit')?.value || '').trim();
+        const category = (document.getElementById('category')?.value || '').trim();
+        const status = (document.getElementById('status')?.value || '').trim();
+        const sort = (document.getElementById('sort')?.value || '').trim();
+        if (page) params.append('page', page);
+        if (limit) params.append('limit', limit);
+        if (category) params.append('category', category);
+        if (status) params.append('status', status);
+        if (sort) params.append('sort', sort || 'recent');
+        endpointPreview.textContent = BASE + (params.toString() ? '?' + params.toString() : '');
+      } else if (currentType === 'latest') {
+        const limit = (document.getElementById('latestLimit')?.value || '').trim();
+        endpointPreview.textContent = BASE + '/latest' + (limit ? ('?limit=' + limit) : '');
+      } else if (currentType === 'categories') {
+        endpointPreview.textContent = BASE + '/categories';
+      } else if (currentType === 'search') {
+        const q = (document.getElementById('query')?.value || '').trim() || '{query}';
+        const page = (document.getElementById('searchPage')?.value || '').trim();
+        const limit = (document.getElementById('searchLimit')?.value || '').trim();
+        const params = new URLSearchParams();
+        params.append('q', q);
+        if (page) params.append('page', page);
+        if (limit) params.append('limit', limit);
+        endpointPreview.textContent = BASE + '/search?' + params.toString();
+      } else if (currentType === 'bySlug') {
+        const slug = (document.getElementById('slug')?.value || '').trim() || '{slug}';
+        endpointPreview.textContent = BASE + '/' + slug;
+      }
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => setActiveTab(btn.dataset.type));
+    });
+
+    Array.from(paramsContainer.querySelectorAll('input, select')).forEach(el => {
+      el.addEventListener('input', updatePreview);
+      el.addEventListener('change', updatePreview);
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(jsonContent.textContent);
+        const orig = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+        copyBtn.classList.add('bg-green-600');
+        copyBtn.classList.remove('bg-purple-600');
+        setTimeout(() => {
+          copyBtn.innerHTML = orig;
+          copyBtn.classList.remove('bg-green-600');
+          copyBtn.classList.add('bg-purple-600');
+        }, 2000);
+      } catch (err) {}
+    });
+
+    async function sendRequest() {
+      sendBtn.disabled = true;
+      loading.classList.remove('hidden');
+      responseContainer.classList.add('hidden');
+      const start = performance.now();
+      try {
+        let url = BASE;
+        if (currentType === 'list') {
+          const params = new URLSearchParams();
+          const page = (document.getElementById('page')?.value || '').trim();
+          const limit = (document.getElementById('limit')?.value || '').trim();
+          const category = (document.getElementById('category')?.value || '').trim();
+          const status = (document.getElementById('status')?.value || '').trim();
+          const sort = (document.getElementById('sort')?.value || '').trim();
+          if (page) params.append('page', page);
+          if (limit) params.append('limit', limit);
+          if (category) params.append('category', category);
+          if (status) params.append('status', status);
+          if (sort) params.append('sort', sort || 'recent');
+          url = BASE + (params.toString() ? '?' + params.toString() : '');
+        } else if (currentType === 'latest') {
+          const limit = (document.getElementById('latestLimit')?.value || '').trim();
+          url = BASE + '/latest' + (limit ? ('?limit=' + limit) : '');
+        } else if (currentType === 'categories') {
+          url = BASE + '/categories';
+        } else if (currentType === 'search') {
+          const q = (document.getElementById('query')?.value || '').trim();
+          const page = (document.getElementById('searchPage')?.value || '').trim();
+          const limit = (document.getElementById('searchLimit')?.value || '').trim();
+          const params = new URLSearchParams();
+          params.append('q', q);
+          if (page) params.append('page', page);
+          if (limit) params.append('limit', limit);
+          url = BASE + '/search?' + params.toString();
+        } else if (currentType === 'bySlug') {
+          const slug = (document.getElementById('slug')?.value || '').trim();
+          url = BASE + '/' + slug;
+        }
+        const res = await fetch(url);
+        const elapsed = Math.round(performance.now() - start);
+        const data = await res.json();
+        statusBadge.textContent = `${res.status} ${res.statusText}`;
+        statusBadge.className = res.ok ? 'px-3 py-1 rounded-md font-semibold text-xs bg-green-500 text-white' : 'px-3 py-1 rounded-md font-semibold text-xs bg-red-500 text-white';
+        responseTime.textContent = `⚡ ${elapsed}ms`;
+        jsonContent.textContent = JSON.stringify(data, null, 2);
+        responseContainer.classList.remove('hidden');
+      } catch (err) {
+        statusBadge.textContent = 'Network Error';
+        statusBadge.className = 'px-3 py-1 rounded-md font-semibold text-xs bg-red-500 text-white';
+        jsonContent.textContent = JSON.stringify({ error: 'Network Error', message: err.message }, null, 2);
+        responseContainer.classList.remove('hidden');
+      } finally {
+        sendBtn.disabled = false;
+        loading.classList.add('hidden');
+      }
+    }
+
+    sendBtn.addEventListener('click', sendRequest);
+    clearBtn.addEventListener('click', () => {
+      ['page','limit','category','status','sort','latestLimit','query','searchPage','searchLimit','slug']
+        .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      document.getElementById('page').value = '1';
+      document.getElementById('limit').value = '10';
+      document.getElementById('sort').value = 'recent';
+      updatePreview();
+    });
+
+    setActiveTab('list');
+    updatePreview();
+  </script>
+</body>
+</html>

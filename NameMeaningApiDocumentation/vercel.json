@@ -36,6 +36,10 @@
       "destination": "/src/getfilters.html"
     },
     {
+      "source": "/getarticles",
+      "destination": "/src/getarticles.html"
+    },
+    {
       "source": "/names/:religion/:slug",
       "destination": "/src/getnamesbyslug.html"
     }

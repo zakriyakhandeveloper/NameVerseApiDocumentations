@@ -1,0 +1,96 @@
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+  <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg sm:text-2xl font-bold text-white">Names (v1)</h2>
+      <a href="/getnames" class="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-50 transition-colors font-semibold text-sm">
+        <i class="fas fa-flask mr-2"></i>Live Testing
+      </a>
+    </div>
+    <div class="flex items-center space-x-3">
+      <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
+      <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/v1/names</code>
+    </div>
+    <p class="word-break break-words text-purple-100 mt-3">
+      Fetch names with pagination and filtering across religions and origins.
+    </p>
+  </div>
+  <div class="p-6">
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Query Parameters</h3>
+      <div class="space-y-4">
+        <div class="border border-gray-200 rounded-lg p-4">
+          <div class="flex items-center space-x-2 mb-2">
+            <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">religion</code>
+            <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">required</span>
+          </div>
+          <p class="word-break break-words text-sm text-gray-600 mb-2">islamic, christian, hindu</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center space-x-2 mb-2">
+              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">page</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
+            </div>
+            <p class="word-break break-words text-sm text-gray-600">Default: 1</p>
+          </div>
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center space-x-2 mb-2">
+              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">limit</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
+            </div>
+            <p class="word-break break-words text-sm text-gray-600">Default: 50, Max: 100</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center space-x-2 mb-2">
+              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">gender</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
+            </div>
+            <p class="word-break break-words text-sm text-gray-600">male, female</p>
+          </div>
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center space-x-2 mb-2">
+              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">origin</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
+            </div>
+            <p class="word-break break-words text-sm text-gray-600">Filter by origin (e.g., Arabic, Hebrew)</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center space-x-2 mb-2">
+              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">startsWith</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
+            </div>
+            <p class="word-break break-words text-sm text-gray-600">Filter by starting letter (A-Z)</p>
+          </div>
+          <div class="border border-gray-200 rounded-lg p-4">
+            <div class="flex items-center space-x-2 mb-2">
+              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">search</code>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
+            </div>
+            <p class="word-break break-words text-sm text-gray-600">Search in name and meaning</p>
+          </div>
+        </div>
+        <div class="border border-gray-200 rounded-lg p-4">
+          <div class="flex items-center space-x-2 mb-2">
+            <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">sort</code>
+            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
+          </div>
+          <p class="word-break break-words text-sm text-gray-600">asc, desc</p>
+        </div>
+      </div>
+    </div>
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Examples</h3>
+      <div class="space-y-2">
+        <code class="overflow-x-auto block word-break break-words bg-gray-50 px-3 py-2 rounded border">/api/v1/names?religion=islamic</code>
+        <code class="overflow-x-auto block word-break break-words bg-gray-50 px-3 py-2 rounded border">/api/v1/names?religion=islamic&gender=male&limit=10</code>
+        <code class="overflow-x-auto block word-break break-words bg-gray-50 px-3 py-2 rounded border">/api/v1/names?religion=islamic&search=ali</code>
+        <code class="overflow-x-auto block word-break break-words bg-gray-50 px-3 py-2 rounded border">/api/v1/names?religion=islamic&startsWith=A&limit=20</code>
+        <code class="overflow-x-auto block word-break break-words bg-gray-50 px-3 py-2 rounded border">/api/v1/names?religion=islamic&page=2&limit=50</code>
+      </div>
+    </div>
+  </div>
+</div>

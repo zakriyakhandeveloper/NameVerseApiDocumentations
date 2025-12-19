@@ -49,7 +49,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 const staticOptions = {
   maxAge: config.nodeEnv === 'production' ? '1d' : '0',
   etag: true,
-  lastModified: true
+  lastModified: true,
+  redirect: false
 };
 
 app.use('/docs', express.static(path.join(__dirname, "docs"), staticOptions));
@@ -107,6 +108,10 @@ app.get("/getnamesbyreligion", (req, res) => {
 
 app.get("/getfilteroptions", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "getfilters.html"));
+});
+
+app.get("/getarticles", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "getarticles.html"));
 });
 
 /**
@@ -318,8 +323,9 @@ app.use((err, req, res, next) => {
 const PORT = config.port;
 const HOST = config.host;
 
-app.listen(PORT, HOST, () => {
-  console.log(`
+if (config.nodeEnv !== 'test') {
+  app.listen(PORT, HOST, () => {
+    console.log(`
 ╔════════════════════════════════════════════════╗
 ║     🚀 NameVerse API Server Running            ║
 ╠════════════════════════════════════════════════╣
@@ -329,7 +335,8 @@ app.listen(PORT, HOST, () => {
 ║  🏥 Health Check:    http://${HOST}:${PORT}/health║
 ║  🔧 API Endpoint:    http://${HOST}:${PORT}/api/names║
 ╚════════════════════════════════════════════════╝
-  `);
-});
+    `);
+  });
+}
 
 export default app;
