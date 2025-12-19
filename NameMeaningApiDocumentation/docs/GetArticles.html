@@ -1,71 +1,379 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Articles API - Documentation</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
-  <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
-    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6">
-      <h2 class="text-lg sm:text-2xl font-bold text-white mb-3">Articles</h2>
-      <div class="flex items-center space-x-3">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <code class="block text-white text-lg font-mono">/api/v1/articles</code>
-      </div>
-      <p class="text-purple-100 mt-3">Retrieve articles, latest articles, categories, search, and article by slug.</p>
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+
+  <!-- Endpoint Header -->
+  <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg sm:text-2xl font-bold text-white">Articles API</h2>
+      <a href="/getarticles" class="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-50 transition-colors font-semibold text-sm">
+        <i class="fas fa-flask mr-2"></i>Live Testing
+      </a>
     </div>
-    <div class="p-6">
-      <div class="mb-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-3">List Articles</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles</code></div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">page</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">limit</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">category</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">status</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">sort</span> optional (recent|views|likes|oldest)</div>
-          </div>
-          <div class="mt-3">
-            <a href="/getarticles" class="inline-flex items-center px-3 py-2 bg-purple-50 text-purple-700 rounded hover:bg-purple-100 text-sm font-semibold"><i class="fas fa-flask mr-2"></i>Live Testing</a>
-          </div>
-        </div>
-      </div>
-      <div class="mb-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-3">Latest Articles</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles/latest</code></div>
-          <div class="text-sm"><span class="font-mono bg-white px-2 py-1 rounded border">limit</span> optional</div>
-        </div>
-      </div>
-      <div class="mb-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-3">Categories</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles/categories</code></div>
-        </div>
-      </div>
-      <div class="mb-6">
-        <h3 class="text-lg font-bold text-gray-900 mb-3">Search Articles</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles/search</code></div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">q</span> required</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">page</span> optional</div>
-            <div><span class="font-mono bg-white px-2 py-1 rounded border">limit</span> optional</div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold text-gray-900 mb-3">Get By Slug</h3>
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="mb-2"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">GET</span> <code class="ml-2">/api/v1/articles/{slug}</code></div>
-          <div class="text-sm"><span class="font-mono bg-white px-2 py-1 rounded border">slug</span> required</div>
-        </div>
-      </div>
+    <div class="flex items-center space-x-3">
+      <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
+      <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/v1/articles</code>
     </div>
+    <p class="word-break break-words text-purple-100 mt-3">
+      Get paginated articles with filtering, search, categories, and individual article details.
+    </p>
   </div>
-</body>
-</html>
+
+  <div class="p-6">
+
+    <!-- Description -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Description</h3>
+      <p class="word-break break-words text-gray-600 leading-relaxed">
+        The Articles API provides access to a comprehensive collection of articles with support for pagination,
+        filtering by category and status, sorting options, full-text search, and individual article retrieval.
+      </p>
+    </div>
+
+    <!-- Endpoints List -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-4">Available Endpoints</h3>
+      <div class="space-y-3">
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles</code>
+          </div>
+          <p class="text-sm text-gray-600">List articles with pagination and filters</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles/latest</code>
+          </div>
+          <p class="text-sm text-gray-600">Get most recent articles</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles/categories</code>
+          </div>
+          <p class="text-sm text-gray-600">Get all article categories</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles/search</code>
+          </div>
+          <p class="text-sm text-gray-600">Search articles by keyword</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+            <code class="text-sm font-semibold text-gray-800">/api/v1/articles/:slug</code>
+          </div>
+          <p class="text-sm text-gray-600">Get single article by slug</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- List Articles -->
+    <div class="mb-8">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">1. List Articles</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
+        <div class="space-y-3">
+          <div class="border-l-4 border-purple-500 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-gray-900 text-sm">page</span>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600">Page number for pagination (default: 1)</p>
+          </div>
+
+          <div class="border-l-4 border-purple-500 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-gray-900 text-sm">limit</span>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600">Items per page (default: 10, max: 50)</p>
+          </div>
+
+          <div class="border-l-4 border-purple-500 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-gray-900 text-sm">category</span>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600">Filter by category</p>
+          </div>
+
+          <div class="border-l-4 border-purple-500 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-gray-900 text-sm">status</span>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600">published or draft (default: published)</p>
+          </div>
+
+          <div class="border-l-4 border-purple-500 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-gray-900 text-sm">sort</span>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600">recent, oldest, views, or likes (default: recent)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Examples</h4>
+        <div class="space-y-2">
+          <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles</code>
+          <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles?page=2&limit=20</code>
+          <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles?category=islamic&sort=views</code>
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "title": "The Significance of Names in Islam",
+      "slug": "significance-of-names-in-islam",
+      "excerpt": "Understanding the importance...",
+      "category": "islamic",
+      "author": "Admin",
+      "views": 1250,
+      "likes": 45,
+      "createdAt": "2025-01-15T10:00:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 50,
+    "totalPages": 5,
+    "hasNext": true,
+    "hasPrev": false
+  }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest Articles -->
+    <div class="mb-8">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">2. Latest Articles</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
+        <div class="border-l-4 border-pink-500 pl-4 py-2">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-semibold text-gray-900 text-sm">limit</span>
+            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+          </div>
+          <p class="text-xs text-gray-600">Number of articles to return (default: 10, max: 50)</p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Example</h4>
+        <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles/latest?limit=5</code>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "data": [
+    {
+      "id": 5,
+      "title": "Modern Islamic Names for 2025",
+      "slug": "modern-islamic-names-2025",
+      "excerpt": "Trending names...",
+      "category": "islamic",
+      "createdAt": "2025-12-15T08:30:00Z"
+    }
+  ]
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="mb-8">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">3. Get Categories</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Example</h4>
+        <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles/categories</code>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "data": [
+    {
+      "name": "islamic",
+      "count": 25
+    },
+    {
+      "name": "christian",
+      "count": 18
+    },
+    {
+      "name": "hindu",
+      "count": 12
+    }
+  ]
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Articles -->
+    <div class="mb-8">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">4. Search Articles</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Query Parameters</h4>
+        <div class="space-y-3">
+          <div class="border-l-4 border-indigo-500 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-gray-900 text-sm">q</span>
+              <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
+            </div>
+            <p class="text-xs text-gray-600">Search query string</p>
+          </div>
+
+          <div class="border-l-4 border-indigo-500 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-gray-900 text-sm">page</span>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600">Page number (default: 1)</p>
+          </div>
+
+          <div class="border-l-4 border-indigo-500 pl-4 py-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-semibold text-gray-900 text-sm">limit</span>
+              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">optional</span>
+            </div>
+            <p class="text-xs text-gray-600">Items per page (default: 10, max: 50)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Example</h4>
+        <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles/search?q=islamic+names&limit=5</code>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "query": "islamic names",
+  "data": [
+    {
+      "id": 1,
+      "title": "Popular Islamic Names",
+      "slug": "popular-islamic-names",
+      "excerpt": "Discover the most beloved...",
+      "category": "islamic",
+      "relevance": 0.95
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 5,
+    "total": 12
+  }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Get by Slug -->
+    <div class="mb-6">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2">5. Get Article by Slug</h3>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-3">Path Parameter</h4>
+        <div class="border-l-4 border-green-500 pl-4 py-2">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-semibold text-gray-900 text-sm">slug</span>
+            <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
+          </div>
+          <p class="text-xs text-gray-600">Article slug identifier</p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h4 class="font-semibold text-gray-900 mb-2">Example</h4>
+        <code class="block bg-gray-50 px-3 py-2 rounded border text-xs">/api/v1/articles/significance-of-names-in-islam</code>
+      </div>
+
+      <div>
+        <h4 class="font-semibold text-gray-900 mb-2">Response</h4>
+        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
+          <pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "The Significance of Names in Islam",
+    "slug": "significance-of-names-in-islam",
+    "content": "Full article content here...",
+    "excerpt": "Understanding the importance...",
+    "category": "islamic",
+    "author": "Admin",
+    "views": 1250,
+    "likes": 45,
+    "tags": ["islamic", "names", "culture"],
+    "createdAt": "2025-01-15T10:00:00Z",
+    "updatedAt": "2025-01-15T10:00:00Z"
+  }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-3">Features</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Pagination support for all list endpoints</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Filter by category and publication status</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Multiple sorting options</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>Full-text search capability</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>SEO-friendly slug-based retrieval</span>
+        </div>
+        <div class="flex items-start space-x-2">
+          <i class="fas fa-check text-green-600 mt-1"></i>
+          <span>View and like tracking</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
