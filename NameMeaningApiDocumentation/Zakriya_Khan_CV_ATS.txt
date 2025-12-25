@@ -1,0 +1,248 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                           Z A K R I Y A   K H A N                            ║
+║                          Full Stack Developer                                 ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 📧 CONTACT INFORMATION                                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+Email: coding4443@gmail.com
+Phone: [Your WhatsApp Number]
+LinkedIn: linkedin.com/in/zakriya-khan-a6321a390
+GitHub: github.com/zakriyakhandeveloper
+Portfolio: nameversedocumentations.vercel.app
+Location: Nowshera, Peshawar, KPK, Pakistan
+Date of Birth: October 5, 2005
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  💼 PROFESSIONAL SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Self-taught Full Stack Developer with 2-3 years of independent experience
+building web applications. Specialized in JavaScript ecosystem including Node.js,
+React, and MongoDB. Expert in AI-assisted development. Successfully delivered
+multiple production-ready projects working independently. Available for remote
+work worldwide and on-site in Pakistan.
+
+╭─────────────────────────────────────────────────────────────────────────────╮
+│ 🛠️  T E C H N I C A L   S K I L L S                                        │
+╰─────────────────────────────────────────────────────────────────────────────╯
+
+▸ Programming Languages
+  JavaScript ES6 and ES5, HTML5, CSS3
+
+▸ Frontend Technologies
+  React.js, Next.js, Vue.js, JSX, Tailwind CSS, Bootstrap, Module CSS,
+  Responsive Design, Progressive Web Apps
+
+▸ Backend Technologies
+  Node.js, Express.js, RESTful API Development, API Documentation,
+  Authentication, Authorization
+
+▸ Databases
+  MongoDB, Mongoose, Supabase, Database Design and Optimization
+
+▸ Tools and Platforms
+  Git, GitHub, Swagger, OpenAPI, Vercel, AI Tools (Claude, ChatGPT),
+  SEO Optimization, Service Workers
+
+═══════════════════════════════════════════════════════════════════════════════
+  💻 W O R K   E X P E R I E N C E
+═══════════════════════════════════════════════════════════════════════════════
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Independent Full Stack Developer                                           ┃
+┃ Self-Employed, Remote                                                       ┃
+┃ January 2022 - Present                                                      ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Responsibilities:
+  • Develop full-stack web applications independently from concept to deployment
+  • Design and implement RESTful APIs with comprehensive documentation
+  • Create responsive user interfaces using modern frontend frameworks
+  • Design and optimize database schemas for MongoDB
+  • Implement security features including authentication and rate limiting
+  • Deploy and maintain applications on cloud platforms
+  • Write technical documentation for APIs and applications
+  • Optimize application performance and debug issues
+
+Key Achievements:
+  ✓ Built web application serving 70,000+ database records
+  ✓ Developed interactive API documentation with live testing capabilities
+  ✓ Implemented Progressive Web App with offline functionality
+  ✓ Created comprehensive SEO optimization with structured data
+  ✓ Designed scalable database architecture
+  ✓ Deployed production applications with zero downtime
+
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+  🚀 P R O J E C T S
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓uph▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║              NameVerse Names Database Platform                            ║
+║              January 2023 - Present                                        ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+Live URL: nameverse.vercel.app
+Documentation: nameversedocumentations.vercel.app
+
+Description:
+  Comprehensive platform providing access to 70,000+ names with meanings
+  and cultural information across multiple religious traditions.
+
+Technologies:
+  Node.js, Express.js, MongoDB, HTML5, CSS3, Tailwind CSS, JavaScript ES6, Swagger
+
+Key Features:
+  → RESTful API with 15+ endpoints
+  → Dynamic data filtering and search functionality
+  → Real-time data retrieval system
+  → Progressive Web App implementation
+  → Comprehensive SEO with JSON-LD schemas
+  → Interactive API documentation
+  → Security implementation including rate limiting and CORS
+  → Responsive design for all device sizes
+
+Role:
+  Solo Developer - Designed, developed, tested, and deployed entire application
+
+Technical Highlights:
+  ◆ Implemented dynamic routing with parameter validation
+  ◆ Created service workers for offline support
+  ◆ Developed custom documentation with live API testing
+  ◆ Optimized database queries for performance
+  ◆ Implemented comprehensive error handling
+
+GitHub Repository: github.com/zakriyakhandeveloper
+
+┌───────────────────────────────────────────────────────────────────────────┐
+│ 🎓 E D U C A T I O N                                                      │
+└───────────────────────────────────────────────────────────────────────────┘
+
+Self-Taught Full Stack Development
+2022 - Present
+
+Focus Areas:
+  ▪ JavaScript Full Stack Development
+  ▪ Modern Web Technologies
+  ▪ Database Design and Management
+  ▪ API Development and Documentation
+  ▪ Cloud Deployment and DevOps
+  ▪ AI-Assisted Programming
+
+Learning Resources:
+  • Official documentation (MDN Web Docs, Node.js, React)
+  • Online courses and tutorials
+  • AI assistants for learning and problem-solving
+  • Open source projects on GitHub
+  • Hands-on project development
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  📜 C E R T I F I C A T I O N S
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Self-Study Certifications:
+  ► JavaScript ES6+ through online platforms
+  ► Node.js and Express.js through documentation
+  ► React.js through official tutorials
+  ► MongoDB University courses
+  ► API Development best practices
+
+╭═════════════════════════════════════════════════════════════════════════════╮
+│ 🌐 L A N G U A G E S                                                        │
+╰═════════════════════════════════════════════════════════════════════════════╯
+
+English - Fluent (Professional and Technical)
+Urdu - Native
+Pashto - Native
+
+▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+  ℹ️  A D D I T I O N A L   I N F O R M A T I O N
+▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+
+Age: 19 years
+Work Authorization: Available for remote work worldwide
+Availability: Immediate
+Willing to Relocate: Yes, within Pakistan for on-site opportunities
+Work Preference: Remote with optional on-site visits
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⭐ C O R E   C O M P E T E N C I E S                                       ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Technical Skills:
+  ◉ Full Stack Development
+  ◉ RESTful API Design
+  ◉ Database Architecture
+  ◉ Frontend Development
+  ◉ Backend Development
+  ◉ Cloud Deployment
+  ◉ Version Control
+  ◉ Technical Documentation
+
+Soft Skills:
+  ◉ Independent Worker
+  ◉ Fast Learner
+  ◉ Problem Solving
+  ◉ Self-Motivated
+  ◉ Time Management
+  ◉ Attention to Detail
+  ◉ Communication
+
+Development Skills:
+  ◉ AI-Assisted Development
+  ◉ Rapid Prototyping
+  ◉ Performance Optimization
+  ◉ Security Implementation
+  ◉ Testing and Debugging
+  ◉ Code Review
+  ◉ Documentation Writing
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║ 💼 W O R K   P R E F E R E N C E S                                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+Available For:
+  ✦ Full-time Remote Positions
+  ✦ Contract Work
+  ✦ Freelance Projects
+  ✦ On-site Work in Pakistan
+  ✦ Hybrid Arrangements
+
+Preferred Work Type:
+  Remote work with occasional on-site visits if required
+
+═══════════════════════════════════════════════════════════════════════════════
+  🎯 P R O F E S S I O N A L   G O A L S
+═══════════════════════════════════════════════════════════════════════════════
+
+  ▸ Continue advancing full-stack development skills
+  ▸ Contribute to large-scale production applications
+  ▸ Learn cloud technologies (AWS, Azure, GCP)
+  ▸ Gain experience working in development teams
+  ▸ Build expertise in DevOps and CI/CD pipelines
+  ▸ Contribute to open-source projects
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 📝 R E F E R E N C E S                                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Available upon request
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  📌 N O T E S
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Experience Type: Independent projects and self-employment (No formal company experience)
+Portfolio: All projects and code samples available on GitHub and live URLs
+Working Style: Self-directed, independent, results-focused
+Learning Style: Continuous learning through AI assistance and documentation
+
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                         📞 C O N T A C T                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+Email: coding4443@gmail.com
+Phone: [Your WhatsApp Number]
+LinkedIn: linkedin.com/in/zakriya-khan-a6321a390
+GitHub: github.com/zakriyakhandeveloper
+Portfolio: nameversedocumentations.vercel.app
+Live Project: nameverse.vercel.app
