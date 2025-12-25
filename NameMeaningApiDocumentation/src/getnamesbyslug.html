@@ -37,6 +37,52 @@
   <!-- Stylesheets -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- JSON-LD Structured Data - Will be updated dynamically -->
+  <script type="application/ld+json" id="personSchema">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Loading...",
+    "description": "Loading name information...",
+    "url": "https://nameversedocumentations.vercel.app/names"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://nameversedocumentations.vercel.app/"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Names",
+      "item": "https://nameversedocumentations.vercel.app/names"
+    }]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebAPI",
+    "name": "NameVerse Names by Slug API",
+    "description": "Get detailed information about a specific name by its slug identifier including meaning, origin, lucky day, personality traits, and famous people.",
+    "url": "https://nameversedocumentations.vercel.app/names",
+    "documentation": "https://nameversedocumentations.vercel.app/names",
+    "provider": {
+      "@type": "Organization",
+      "name": "NameVerse",
+      "url": "https://nameverse.vercel.app"
+    }
+  }
+  </script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     body {
@@ -79,22 +125,25 @@
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
   
   <!-- Header -->
-  <header class="bg-white shadow-sm border-b border-gray-200">
+  <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
     <div class="container mx-auto px-3 sm:px-6 py-3 sm:py-6">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-4">
-          <img src="/logo.svg" alt="NameVerse API Logo" class="w-12 h-12 rounded-xl shadow-lg" loading="eager">
-          <div>
-            <h1 class="text-lg sm:text-2xl font-bold gradient-text">NameVerse API</h1>
-            <p class="word-break break-words text-sm text-gray-600">Get name details by slug</p>
+      <div class="flex items-center justify-between flex-wrap gap-2 sm:gap-4">
+        <div class="flex items-center space-x-2 sm:space-x-4">
+          <img src="/logo.svg" alt="NameVerse API Logo" class="w-8 sm:w-12 h-8 sm:h-12 rounded-xl shadow-lg" loading="eager">
+          <div class="min-w-0">
+            <h1 class="text-lg sm:text-2xl font-bold gradient-text truncate">Get Name by Slug</h1>
+            <p id="pageSubtitle" class="text-xs sm:text-sm text-gray-600 truncate">Test /api/v1/names/:slug endpoint</p>
           </div>
         </div>
-        <div class="flex items-center space-x-3">
-          <button id="liveTestBtn" class="px-4 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors text-sm font-semibold">
-            <i class="fas fa-flask mr-2"></i>Live Testing
-          </button>
-          <a href="/health" class="px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors text-sm font-semibold">
-            <i class="fas fa-heartbeat mr-2"></i>Health Check
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="/" class="px-2 sm:px-3 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-xs sm:text-sm font-semibold border border-blue-200">
+            <i class="fas fa-home mr-1"></i><span class="hidden sm:inline">Home</span>
+          </a>
+          <a href="/docs" class="px-2 sm:px-3 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors text-xs sm:text-sm font-semibold border border-purple-200">
+            <i class="fas fa-book mr-1"></i><span class="hidden sm:inline">Docs</span>
+          </a>
+          <a href="/health" class="px-2 sm:px-3 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors text-xs sm:text-sm font-semibold border border-green-200">
+            <i class="fas fa-heartbeat mr-1"></i><span class="hidden sm:inline">Health</span>
           </a>
         </div>
       </div>
@@ -180,13 +229,13 @@
               </div>
               <p class="word-break break-words text-xs text-gray-600 mb-2">Religion category (lowercase)</p>
               <div class="bg-gray-50 px-3 py-2 rounded text-xs border border-gray-200">
-                <span class="text-gray-500">Example:</span>
-                <code class="overflow-x-auto block word-break break-words text-purple-600 ml-2">islamic</code>
-                <code class="overflow-x-auto block word-break break-words text-purple-600 ml-2">christian</code>
-                <code class="overflow-x-auto block word-break break-words text-purple-600 ml-2">hindu</code>
+                <span class="text-gray-500">Current:</span>
+                <code id="exampleReligion" class="overflow-x-auto block word-break break-words text-purple-600 ml-2 font-bold">islamic</code>
+                <span class="text-gray-500 mt-2 block">Available:</span>
+                <code class="overflow-x-auto block word-break break-words text-gray-500 ml-2">islamic, christian, hindu</code>
               </div>
             </div>
-            
+
             <!-- Slug -->
             <div class="border-l-4 border-blue-500 pl-4 py-2">
               <div class="flex items-center justify-between mb-1">
@@ -195,10 +244,8 @@
               </div>
               <p class="word-break break-words text-xs text-gray-600 mb-2">Unique identifier for the name (lowercase, hyphenated)</p>
               <div class="bg-gray-50 px-3 py-2 rounded text-xs border border-gray-200">
-                <span class="text-gray-500">Example:</span>
-                <code class="overflow-x-auto block word-break break-words text-purple-600 ml-2">zakriya</code>
-                <code class="overflow-x-auto block word-break break-words text-purple-600 ml-2">ismail</code>
-                <code class="overflow-x-auto block word-break break-words text-purple-600 ml-2">muhammad</code>
+                <span class="text-gray-500">Current:</span>
+                <code id="exampleSlug" class="overflow-x-auto block word-break break-words text-purple-600 ml-2 font-bold">zakriya</code>
               </div>
             </div>
           </div>
@@ -248,21 +295,27 @@
             <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
               <i class="fas fa-lightbulb text-yellow-600"></i>
             </div>
-            <h2 class="text-lg font-bold text-gray-900">Examples</h2>
+            <h2 class="text-lg font-bold text-gray-900">Current Example</h2>
           </div>
-          
+
           <div class="space-y-3 text-xs">
             <div>
-              <p class="word-break break-words text-gray-600 mb-1">Get details for "Zakriya" (Islamic)</p>
-              <code class="overflow-x-auto block word-break break-words block bg-gray-50 px-3 py-2 rounded text-purple-600 border border-gray-200">/api/names/islamic/zakriya</code>
+              <p id="exampleDescription" class="word-break break-words text-gray-600 mb-1">Get details for this name</p>
+              <code id="exampleEndpoint" class="overflow-x-auto block word-break break-words block bg-gray-50 px-3 py-2 rounded text-purple-600 border border-gray-200 font-bold">/api/names/islamic/zakriya</code>
             </div>
-            <div>
-              <p class="word-break break-words text-gray-600 mb-1">Get details for "Ismail" (Islamic)</p>
-              <code class="overflow-x-auto block word-break break-words block bg-gray-50 px-3 py-2 rounded text-purple-600 border border-gray-200">/api/names/islamic/ismail</code>
-            </div>
-            <div>
-              <p class="word-break break-words text-gray-600 mb-1">Get details for "Muhammad" (Islamic)</p>
-              <code class="overflow-x-auto block word-break break-words block bg-gray-50 px-3 py-2 rounded text-purple-600 border border-gray-200">/api/names/islamic/muhammad</code>
+            <div class="mt-4 pt-3 border-t border-gray-200">
+              <p class="word-break break-words text-gray-600 mb-2">Try other examples:</p>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="window.location.href='/names/islamic/muhammad'" class="px-3 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded text-xs font-semibold transition-colors">
+                  Muhammad
+                </button>
+                <button onclick="window.location.href='/names/christian/john'" class="px-3 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded text-xs font-semibold transition-colors">
+                  John
+                </button>
+                <button onclick="window.location.href='/names/hindu/arjun'" class="px-3 py-1 bg-green-50 hover:bg-green-100 text-green-700 rounded text-xs font-semibold transition-colors">
+                  Arjun
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -467,6 +520,13 @@
     const displayOrigin = document.getElementById('displayOrigin');
     const additionalInfo = document.getElementById('additionalInfo');
 
+    // Dynamic documentation elements
+    const exampleReligion = document.getElementById('exampleReligion');
+    const exampleSlug = document.getElementById('exampleSlug');
+    const exampleDescription = document.getElementById('exampleDescription');
+    const exampleEndpoint = document.getElementById('exampleEndpoint');
+    const pageSubtitle = document.getElementById('pageSubtitle');
+
     // Get religion and slug from current URL path
     function getParamsFromUrl() {
       const path = window.location.pathname;
@@ -483,12 +543,47 @@
       return { religion: 'islamic', slug: 'zakriya' };
     }
 
-    // Update page SEO meta tags
+    // Update documentation examples with current URL parameters or form values
+    function updateDocumentation(religion = null, slug = null) {
+      // If no parameters provided, get from URL
+      if (!religion || !slug) {
+        const params = getParamsFromUrl();
+        religion = params.religion;
+        slug = params.slug;
+      }
+
+      const capitalizedReligion = religion.charAt(0).toUpperCase() + religion.slice(1);
+      const capitalizedSlug = slug.charAt(0).toUpperCase() + slug.slice(1);
+
+      // Update page subtitle
+      if (pageSubtitle) {
+        pageSubtitle.textContent = `${capitalizedSlug} - ${capitalizedReligion} Name`;
+      }
+
+      // Update parameter examples
+      if (exampleReligion) {
+        exampleReligion.textContent = religion;
+      }
+      if (exampleSlug) {
+        exampleSlug.textContent = slug;
+      }
+
+      // Update example description and endpoint
+      if (exampleDescription) {
+        exampleDescription.textContent = `Get details for "${capitalizedSlug}" (${capitalizedReligion})`;
+      }
+      if (exampleEndpoint) {
+        exampleEndpoint.textContent = `/api/v1/names/${religion}/${slug}`;
+      }
+    }
+
+    // Update page SEO meta tags and JSON-LD schema
     function updateSEO(nameData) {
       const name = nameData.name || '';
       const meaning = nameData.meaning || '';
       const religion = nameData.religion || '';
       const gender = nameData.gender || '';
+      const origin = nameData.origin || '';
       const params = getParamsFromUrl();
       const currentUrl = window.location.href;
 
@@ -505,13 +600,36 @@
       document.getElementById('ogDescription').setAttribute('content', description);
 
       // Update keywords
-      const keywords = `${name}, ${name} meaning, ${name} name meaning, ${religion} names, ${gender} names, baby names, name origin, ${nameData.origin || ''}`;
+      const keywords = `${name}, ${name} meaning, ${name} name meaning, ${religion} names, ${gender} names, baby names, name origin, ${origin}`;
       document.getElementById('metaKeywords').setAttribute('content', keywords);
 
       // Update canonical URL
       document.getElementById('canonical').setAttribute('href', currentUrl);
       document.getElementById('ogUrl').setAttribute('content', currentUrl);
       document.getElementById('twitterUrl').setAttribute('content', currentUrl);
+
+      // Update JSON-LD Person Schema dynamically
+      const personSchema = {
+        "@context": "https://schema.org",
+        "@type": "Thing",
+        "name": name,
+        "description": `${name} is a ${religion} ${gender} name meaning "${meaning}". Origin: ${origin}`,
+        "url": currentUrl,
+        "additionalType": "GivenName",
+        "alternateName": nameData.slug || '',
+        "inLanguage": religion === 'islamic' ? 'ar' : (religion === 'hindu' ? 'hi' : 'en')
+      };
+
+      // Add additional properties if available
+      if (nameData.personality) {
+        personSchema.description += `. Personality: ${nameData.personality}`;
+      }
+
+      // Update the schema in the page
+      const schemaElement = document.getElementById('personSchema');
+      if (schemaElement) {
+        schemaElement.textContent = JSON.stringify(personSchema, null, 2);
+      }
     }
 
     // Display name data in the card
@@ -655,11 +773,17 @@
     // Event Listeners
     slugInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.toLowerCase();
+      const religion = document.getElementById('religion').value;
+      const slug = e.target.value.trim() || 'slug';
       updateUrlDisplay();
+      updateDocumentation(religion, slug); // Update documentation in real-time
     });
 
     document.getElementById('religion').addEventListener('change', () => {
+      const religion = document.getElementById('religion').value;
+      const slug = slugInput.value.trim() || 'slug';
       updateUrlDisplay();
+      updateDocumentation(religion, slug); // Update documentation in real-time
     });
 
     quickSelectBtns.forEach(btn => {
@@ -753,6 +877,7 @@
     });
 
     window.addEventListener('DOMContentLoaded', () => {
+      updateDocumentation(); // Update documentation with current URL params
       initializeForm();
       loadUrlParameters();
       fetchNameData(); // Automatically fetch and display name data on page load

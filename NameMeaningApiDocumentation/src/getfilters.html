@@ -69,24 +69,27 @@
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
   
   <!-- Header -->
-  <header class="bg-white shadow-sm border-b border-gray-200">
+  <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
     <div class="container mx-auto px-3 sm:px-6 py-3 sm:py-6">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-4">
-          <div class="w-12 h-12 bg-gradient-to-br from-cyan-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-            <i class="fas fa-filter text-white text-xl"></i>
+      <div class="flex items-center justify-between flex-wrap gap-2 sm:gap-4">
+        <div class="flex items-center space-x-2 sm:space-x-4">
+          <div class="w-8 sm:w-12 h-8 sm:h-12 bg-gradient-to-br from-cyan-600 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+            <i class="fas fa-filter text-white text-sm sm:text-xl"></i>
           </div>
-          <div>
-            <h1 class="text-lg sm:text-2xl font-bold gradient-text">NameVerse API</h1>
-            <p class="word-break break-words text-sm text-gray-600">Get all available filter options</p>
+          <div class="min-w-0">
+            <h1 class="text-lg sm:text-2xl font-bold gradient-text truncate">Get Filters API</h1>
+            <p class="text-xs sm:text-sm text-gray-600 truncate">Test /api/v1/filters endpoint</p>
           </div>
         </div>
-        <div class="flex items-center space-x-3">
-          <a href="/" class="px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm font-semibold">
-            <i class="fas fa-book mr-2"></i>Docs
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="/" class="px-2 sm:px-3 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-xs sm:text-sm font-semibold border border-blue-200">
+            <i class="fas fa-home mr-1"></i><span class="hidden sm:inline">Home</span>
           </a>
-          <a href="/health" class="px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors text-sm font-semibold">
-            <i class="fas fa-heartbeat mr-2"></i>Health
+          <a href="/docs" class="px-2 sm:px-3 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors text-xs sm:text-sm font-semibold border border-purple-200">
+            <i class="fas fa-book mr-1"></i><span class="hidden sm:inline">Docs</span>
+          </a>
+          <a href="/health" class="px-2 sm:px-3 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors text-xs sm:text-sm font-semibold border border-green-200">
+            <i class="fas fa-heartbeat mr-1"></i><span class="hidden sm:inline">Health</span>
           </a>
         </div>
       </div>

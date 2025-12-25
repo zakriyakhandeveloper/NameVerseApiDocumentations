@@ -1,0 +1,177 @@
+ZAKRIYA KHAN
+Full Stack Developer
+
+Email: coding4443@gmail.com
+Phone/WhatsApp: [Your Number]
+LinkedIn: linkedin.com/in/zakriya-khan-a6321a390/
+GitHub: github.com/zakriyakhandeveloper
+Portfolio: nameversedocumentations.vercel.app
+Location: Nowshera, Peshawar, KPK, Pakistan
+Date of Birth: October 5, 2005
+
+================================================================================
+
+PROFESSIONAL SUMMARY
+
+Self-taught Full Stack Developer with 2-3 years of hands-on experience building web applications independently. Specialized in modern JavaScript technologies including Node.js, React, and MongoDB. Expert in AI-assisted development workflows. Successfully completed multiple projects from scratch without any team support. Available for remote work worldwide and on-site visits in Pakistan.
+
+================================================================================
+
+TECHNICAL SKILLS
+
+Languages & Core Technologies:
+• HTML5, CSS3, JavaScript (ES6 and older versions)
+• Node.js, Express.js
+• React.js, Next.js, Vue.js, JSX
+
+Styling & UI:
+• Tailwind CSS, Bootstrap, Module CSS
+• Responsive Design, Mobile-First Development
+
+Backend & Databases:
+• Node.js & Express.js (Advanced)
+• MongoDB, Mongoose
+• Supabase
+• RESTful API Development
+
+Tools & Others:
+• Git, GitHub
+• Swagger/OpenAPI Documentation
+• SEO Optimization
+• Progressive Web Apps (PWA)
+• AI Tools (Claude, ChatGPT)
+• Vercel Deployment
+
+================================================================================
+
+EXPERIENCE
+
+Independent Developer (Self-Employed)
+2022 - Present | Remote | Nowshera, Pakistan
+
+Working alone on full-stack projects, learning new technologies through AI assistance and online resources. Building production-ready applications from concept to deployment.
+
+Key Accomplishments:
+• Built complete web applications independently without any team
+• Created RESTful API serving 70,000+ database records
+• Developed interactive documentation with live API testing
+• Implemented Progressive Web App with offline capabilities
+• Designed and optimized MongoDB database schemas
+• Deployed scalable applications on cloud platforms
+
+Responsibilities:
+• Full-stack development (frontend + backend + database)
+• Database design and management
+• API architecture and documentation
+• UI/UX implementation
+• Performance optimization
+• Security implementation
+• Deployment and maintenance
+
+================================================================================
+
+PROJECTS
+
+NameVerse - Names Database Platform
+Live: nameverse.vercel.app | Docs: nameversedocumentations.vercel.app
+
+A comprehensive platform providing access to 70,000+ names with meanings and cultural information.
+
+Technologies Used:
+Backend: Node.js, Express.js, MongoDB
+Frontend: HTML5, CSS3, Tailwind CSS, JavaScript ES6
+Documentation: Swagger, Custom HTML pages
+
+Features Built:
+• RESTful API with 15+ endpoints
+• Dynamic filtering and search functionality
+• Real-time data retrieval
+• Progressive Web App (PWA)
+• Comprehensive SEO implementation
+• Interactive documentation
+• Responsive design for all devices
+• Security features (rate limiting, CORS, authentication)
+
+Role: Solo Developer - Designed, developed, and deployed everything independently
+
+GitHub: github.com/zakriyakhandeveloper
+
+================================================================================
+
+EDUCATION
+
+Self-Taught Developer
+2022 - Present
+
+Completed online courses and documentation-based learning focusing on:
+• Full Stack JavaScript Development
+• Modern Web Technologies
+• Database Design
+• API Development
+• AI-Assisted Programming
+
+Learning Resources:
+• Official documentation (MDN, Node.js, React)
+• Online tutorials and courses
+• AI assistants (Claude, ChatGPT)
+• GitHub open source projects
+• Hands-on project building
+
+================================================================================
+
+KEY STRENGTHS
+
+• Independent worker - Proven ability to complete projects alone
+• Fast learner - Quick adaptation to new technologies
+• AI-powered productivity - Use AI tools effectively for development
+• Problem solver - Find solutions independently
+• Modern tech stack - Up-to-date with current technologies
+• Full stack capability - Handle both frontend and backend
+• Self-motivated - Work without constant supervision
+
+================================================================================
+
+LANGUAGES
+
+• English (Fluent - Technical and Professional)
+• Urdu (Native)
+• Pashto (Native)
+
+================================================================================
+
+WORK PREFERENCES
+
+Available For:
+• Remote work (Worldwide)
+• On-site work (Pakistan - KPK region)
+• Hybrid arrangements
+• Full-time positions
+• Contract projects
+• Freelance work
+
+Preferred: Remote work with occasional on-site visits if needed
+
+================================================================================
+
+ADDITIONAL INFORMATION
+
+Age: 19 years old
+Experience Type: Independent/Solo projects (No formal company experience)
+Working Style: Self-directed, independent, results-focused
+Availability: Immediate
+Willing to Travel: Yes, within Pakistan for on-site visits
+
+================================================================================
+
+REFERENCES
+
+Available upon request
+
+================================================================================
+
+Contact Information:
+Email: coding4443@gmail.com
+Phone/WhatsApp: [Your Number]
+LinkedIn: linkedin.com/in/zakriya-khan-a6321a390/
+Portfolio: nameversedocumentations.vercel.app
+Location: Nowshera, Peshawar, KPK, Pakistan

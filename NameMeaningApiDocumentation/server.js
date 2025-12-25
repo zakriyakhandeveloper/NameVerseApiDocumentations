@@ -114,6 +114,14 @@ app.get("/getarticles", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "getarticles.html"));
 });
 
+app.get("/getarticlessearch", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "getarticlessearch.html"));
+});
+
+app.get("/getarticlescategories", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "getarticlescategories.html"));
+});
+
 /**
  * Dynamic name page route
  * @param {string} religion - Religion type (christian, islamic, hindu)

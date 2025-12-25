@@ -3,11 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NameVerse API - Live Testing</title>
-  <meta name="robots" content="index, follow">
+  
+  <!-- Primary Meta Tags -->
+  <title>Get Names API - NameVerse API Documentation | Test Names Endpoint</title>
+  <meta name="title" content="Get Names API - NameVerse API Documentation | Test Names Endpoint">
+  <meta name="description" content="Test and explore the Get Names API endpoint. Filter 70,000+ names by religion (Islamic, Hindu, Christian), alphabet, and limit. Live API testing interface with real-time results.">
+  <meta name="keywords" content="Get Names API, NameVerse API test, names API endpoint, test API, live API testing, names database API, filter names by religion">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://nameversedocumentations.vercel.app/getnames">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nameversedocumentations.vercel.app/getnames">
+  <meta property="og:title" content="Get Names API - NameVerse API Documentation">
+  <meta property="og:description" content="Test and explore the Get Names API endpoint with live results">
+  <meta property="og:image" content="https://nameversedocumentations.vercel.app/logo.svg">
   <meta property="og:site_name" content="NameVerse API">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://nameversedocumentations.vercel.app/getnames">
+  <meta property="twitter:title" content="Get Names API - NameVerse API">
+  <meta property="twitter:description" content="Test and explore the Get Names API endpoint">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/logo.svg">
+  
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Stylesheets -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebAPI",
+    "name": "NameVerse Get Names API",
+    "description": "RESTful API endpoint to retrieve names from a database of 70,000+ names across Islamic, Hindu, and Christian traditions. Filter by religion, alphabet, and limit results.",
+    "url": "https://nameversedocumentations.vercel.app/getnames",
+    "documentation": "https://nameversedocumentations.vercel.app/getnames",
+    "provider": {
+      "@type": "Organization",
+      "name": "NameVerse",
+      "url": "https://nameverse.vercel.app"
+    },
+    "termsOfService": "https://nameversedocumentations.vercel.app/terms",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://nameversedocumentations.vercel.app/"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Documentation",
+      "item": "https://nameversedocumentations.vercel.app/docs"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Get Names API",
+      "item": "https://nameversedocumentations.vercel.app/getnames"
+    }]
+  }
+  </script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     body {
@@ -43,21 +120,25 @@
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
   
   <!-- Header -->
-  <header class="bg-white shadow-sm border-b border-gray-200">
+  <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
     <div class="container mx-auto px-3 sm:px-6 py-3 sm:py-6">
       <div class="flex items-center justify-between flex-wrap gap-2 sm:gap-4">
         <div class="flex items-center space-x-2 sm:space-x-4">
-          <div class="w-8 sm:w-12 h-8 sm:h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-            <i class="fas fa-user-tag text-white text-sm sm:text-xl"></i>
-          </div>
+          <img src="/logo.svg" alt="NameVerse API Logo" class="w-8 sm:w-12 h-8 sm:h-12 rounded-xl shadow-lg" loading="eager">
           <div class="min-w-0">
-            <h1 class="text-lg sm:text-lg sm:text-2xl font-bold gradient-text truncate">NameVerse API Testing</h1>
-            <p class="text-xs sm:text-sm text-gray-600 truncate">Test /api/names endpoint</p>
+            <h1 class="text-lg sm:text-lg sm:text-2xl font-bold gradient-text truncate">Get Names API Testing</h1>
+            <p class="text-xs sm:text-sm text-gray-600 truncate">Test /api/v1/names endpoint</p>
           </div>
         </div>
-        <div class="flex items-center space-x-1 sm:space-x-3">
-          <a href="/" class="px-2 sm:px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-xs sm:text-sm font-semibold">
-            <i class="fas fa-book mr-1 sm:mr-2"></i><span class="hidden sm:inline">Documentation</span><span class="sm:hidden">Docs</span>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="/" class="px-2 sm:px-3 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-xs sm:text-sm font-semibold border border-blue-200">
+            <i class="fas fa-home mr-1"></i><span class="hidden sm:inline">Home</span>
+          </a>
+          <a href="/docs" class="px-2 sm:px-3 py-2 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition-colors text-xs sm:text-sm font-semibold border border-purple-200">
+            <i class="fas fa-book mr-1"></i><span class="hidden sm:inline">Docs</span>
+          </a>
+          <a href="/health" class="px-2 sm:px-3 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors text-xs sm:text-sm font-semibold border border-green-200">
+            <i class="fas fa-heartbeat mr-1"></i><span class="hidden sm:inline">Health</span>
           </a>
         </div>
       </div>
@@ -83,7 +164,7 @@
             <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
           </div>
           <div class="bg-gray-900 break-words word-break overflow-x-auto text-green-400 p-2 sm:p-3 rounded-lg font-mono text-xs sm:text-sm break-all leading-relaxed whitespace-pre-wrap" id="apiUrl">
-            /api/names
+            /api/v1/names
           </div>
         </div>
 
@@ -102,7 +183,7 @@
             </div>
             <div>
               <label class="block text-xs font-semibold text-gray-700 mb-2">LIMIT</label>
-              <input type="number" id="limit" value="20" min="1" max="500" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+              <input type="number" id="limit" value="50" min="1" max="100" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
             </div>
           </div>
         </div>
@@ -120,13 +201,25 @@
               <label class="block text-xs font-semibold text-gray-700 mb-2">GENDER</label>
               <select id="gender" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
                 <option value="">All Genders</option>
-                <option value="boy">Boy</option>
-                <option value="girl">Girl</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
               </select>
             </div>
             <div>
               <label class="block text-xs font-semibold text-gray-700 mb-2">ALPHABET (A-Z)</label>
               <input type="text" id="alphabet" placeholder="e.g., M" maxlength="1" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 uppercase">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">SEARCH</label>
+              <input type="text" id="search" placeholder="e.g., ali" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-2">SORT</label>
+              <select id="sort" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+                <option value="">Default (asc)</option>
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
             </div>
           </div>
         </div>
@@ -220,11 +313,11 @@
             <i class="fas fa-bolt text-yellow-500 mr-2"></i>Quick Examples
           </h3>
           <div class="space-y-2">
-            <button class="quick-action w-full text-left px-3 py-2 bg-purple-50 text-purple-700 rounded-lg text-xs font-semibold hover:bg-purple-100 transition-colors" data-filters='{"gender":"boy","religion":"islamic","alphabet":"M"}'>
-              <i class="fas fa-rocket mr-2"></i>Islamic Boy Names (M)
+            <button class="quick-action w-full text-left px-3 py-2 bg-purple-50 text-purple-700 rounded-lg text-xs font-semibold hover:bg-purple-100 transition-colors" data-filters='{"gender":"male","religion":"islamic","alphabet":"M"}'>
+              <i class="fas fa-rocket mr-2"></i>Islamic Male Names (M)
             </button>
-            <button class="quick-action w-full text-left px-3 py-2 bg-pink-50 text-pink-700 rounded-lg text-xs font-semibold hover:bg-pink-100 transition-colors" data-filters='{"gender":"girl","religion":"christian","alphabet":"A"}'>
-              <i class="fas fa-heart mr-2"></i>Christian Girl Names (A)
+            <button class="quick-action w-full text-left px-3 py-2 bg-pink-50 text-pink-700 rounded-lg text-xs font-semibold hover:bg-pink-100 transition-colors" data-filters='{"gender":"female","religion":"christian","alphabet":"A"}'>
+              <i class="fas fa-heart mr-2"></i>Christian Female Names (A)
             </button>
             <button class="quick-action w-full text-left px-3 py-2 bg-green-50 text-green-700 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors" data-filters='{"theme":"Nature","limit":"30"}'>
               <i class="fas fa-leaf mr-2"></i>Nature-Themed Names
@@ -313,7 +406,7 @@
   </div>
 
   <script>
-    const BASE_URL = 'https://api.allorigins.win/raw?url=https://namverse-api.vercel.app/api/names';
+    const BASE_URL = 'https://namverse-api.vercel.app/api/v1/names';
     let currentData = null;
     let startTime = 0;
 
@@ -325,12 +418,8 @@
       alphabet: document.getElementById('alphabet'),
       religion: document.getElementById('religion'),
       origin: document.getElementById('origin'),
-      language: document.getElementById('language'),
-      category: document.getElementById('category'),
-      theme: document.getElementById('theme'),
-      luckyDay: document.getElementById('luckyDay'),
-      luckyColor: document.getElementById('luckyColor'),
-      luckyStone: document.getElementById('luckyStone')
+      search: document.getElementById('search'),
+      sort: document.getElementById('sort')
     };
 
     const apiUrl = document.getElementById('apiUrl');
@@ -345,12 +434,33 @@
     const responseTime = document.getElementById('responseTime');
     const quickStats = document.getElementById('quickStats');
 
+    // Only send supported parameters to the v1 API
+    const allowedParams = new Set([
+      'page',
+      'limit',
+      'gender',
+      'religion',
+      'search',
+      'sort',
+    ]);
+
     // Update URL display
     function updateURL() {
       const params = new URLSearchParams();
       Object.entries(inputs).forEach(([key, input]) => {
-        const value = input.value.trim();
-        if (value) params.append(key, value);
+        const value = (input?.value || '').trim();
+        if (!value) return;
+        if (key === 'alphabet') {
+          params.append('startsWith', value.toUpperCase());
+          return;
+        }
+        if (key === 'sort') {
+          params.append('sort', value || 'asc');
+          return;
+        }
+        if (allowedParams.has(key)) {
+          params.append(key, value);
+        }
       });
       apiUrl.textContent = `${BASE_URL}${params.toString() ? '?' + params.toString() : ''}`;
     }
@@ -365,7 +475,7 @@
     clearFiltersBtn.addEventListener('click', () => {
       Object.values(inputs).forEach(input => {
         if (input.type === 'number') {
-          input.value = input.id === 'page' ? '1' : input.id === 'limit' ? '20' : '';
+          input.value = input.id === 'page' ? '1' : input.id === 'limit' ? '50' : '';
         } else {
           input.value = '';
         }
@@ -417,8 +527,19 @@
       try {
         const params = new URLSearchParams();
         Object.entries(inputs).forEach(([key, input]) => {
-          const value = input.value.trim();
-          if (value) params.append(key, value);
+          const value = (input?.value || '').trim();
+          if (!value) return;
+          if (key === 'alphabet') {
+            params.append('startsWith', value.toUpperCase());
+            return;
+          }
+          if (key === 'sort') {
+            params.append('sort', value || 'asc');
+            return;
+          }
+          if (allowedParams.has(key)) {
+            params.append(key, value);
+          }
         });
 
         const url = `${BASE_URL}?${params.toString()}`;

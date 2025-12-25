@@ -1,0 +1,61 @@
+{
+  "name": "NameVerse API Documentation",
+  "short_name": "NameVerse API",
+  "description": "Access 70,000+ names across Islamic, Hindu, and Christian traditions with meanings, origins, and API documentation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": [
+    "education",
+    "reference",
+    "utilities"
+  ],
+  "screenshots": [
+    {
+      "src": "/logo.svg",
+      "sizes": "540x720",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Get Names",
+      "short_name": "Names",
+      "description": "Browse all names",
+      "url": "/getnames",
+      "icons": [{ "src": "/logo.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Search Names",
+      "short_name": "Search",
+      "description": "Search for names",
+      "url": "/getnamesbysearch",
+      "icons": [{ "src": "/logo.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Articles",
+      "short_name": "Articles",
+      "description": "Read articles about names",
+      "url": "/getarticles",
+      "icons": [{ "src": "/logo.svg", "sizes": "96x96" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

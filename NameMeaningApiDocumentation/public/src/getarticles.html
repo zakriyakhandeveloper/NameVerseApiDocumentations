@@ -3,652 +3,395 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NameVerse Articles API - Live Testing</title>
+  <title>Articles API Live Testing - NameVerse API Documentation</title>
+  <meta name="description" content="Live testing interface for NameVerse Articles API. Test all endpoints: paginated list, latest articles, categories with counts, full-text search, and slug-based retrieval. Real-time API response testing.">
+  <meta name="keywords" content="Articles API testing, NameVerse API, live API testing, article endpoints, API documentation, REST API test">
   <meta name="robots" content="index, follow">
-  <meta property="og:site_name" content="NameVerse API">
+  <link rel="canonical" href="https://nameversedocumentations.vercel.app/getarticles">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nameversedocumentations.vercel.app/getarticles">
+  <meta property="og:title" content="Articles API Live Testing - NameVerse API">
+  <meta property="og:description" content="Interactive live testing for NameVerse Articles API endpoints with real-time responses">
+  <meta property="og:image" content="https://nameversedocumentations.vercel.app/logo.svg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://nameversedocumentations.vercel.app/getarticles">
+  <meta property="twitter:title" content="Articles API Live Testing - NameVerse API">
+  <meta property="twitter:description" content="Interactive live testing for NameVerse Articles API endpoints with real-time responses">
+  <meta property="twitter:image" content="https://nameversedocumentations.vercel.app/logo.svg">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebAPI",
+    "name": "NameVerse Articles API",
+    "description": "Access articles about names, meanings, and cultural traditions. Includes pagination, search, categories, and slug-based retrieval.",
+    "url": "https://nameversedocumentations.vercel.app/getarticles",
+    "documentation": "https://nameversedocumentations.vercel.app/getarticles",
+    "provider": {
+      "@type": "Organization",
+      "name": "NameVerse",
+      "url": "https://nameverse.vercel.app"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://nameversedocumentations.vercel.app/"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Documentation",
+      "item": "https://nameversedocumentations.vercel.app/docs"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Articles API",
+      "item": "https://nameversedocumentations.vercel.app/getarticles"
+    }]
+  }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-    .gradient-text {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .filter-card {
-      transition: all 0.3s;
-    }
-    .filter-card:hover {
-      transform: translateY(-2px);
-    }
-    /* Additional responsive fixes */
-    .container { max-width: 1200px; margin-left:auto; margin-right:auto; padding-left:1rem; padding-right:1rem; }
-    img, table, pre, code { max-width:100%; height:auto; word-break:break-word; }
-    .code-block, pre, .endpoint-card, .stat-card { overflow-x:auto; -webkit-overflow-scrolling:touch; }
-
-    @media (max-width: 1024px) {
-      .lg\:col-span-2 { grid-column: span 2 / span 2; }
-    }
-
-    @media (max-width: 768px) {
-      /* Use 3-column layout earlier so the filters stack less aggressively */
-      .grid { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-    }
-    </style>
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .api-response { font-family: 'Courier New', monospace; }
+    .tab-btn { transition: all .2s; }
+    .tab-btn.active { background: #eef2ff; color: #4f46e5; border-color: #c7d2fe; }
+    .code { background:#111827; color:#10b981; }
+  </style>
 </head>
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-
-  <!-- Header -->
   <header class="bg-white shadow-sm border-b border-gray-200">
-    <div class="container mx-auto px-3 sm:px-6 py-3 sm:py-6">
-      <div class="flex items-center justify-between flex-wrap gap-2 sm:gap-4">
-        <div class="flex items-center space-x-2 sm:space-x-4">
-          <div class="w-8 sm:w-12 h-8 sm:h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
-            <i class="fas fa-newspaper text-white text-sm sm:text-xl"></i>
-          </div>
-          <div class="min-w-0">
-            <h1 class="text-lg sm:text-lg sm:text-2xl font-bold gradient-text truncate">NameVerse Articles API</h1>
-            <p class="text-xs sm:text-sm text-gray-600 truncate">Test /api/v1/articles endpoints</p>
-          </div>
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <img src="/logo.svg" class="w-10 h-10 rounded-xl shadow" alt="Logo">
+        <div>
+          <h1 class="text-lg sm:text-2xl font-bold">Articles API Testing</h1>
+          <p class="text-xs text-gray-600">Test /api/v1/articles endpoints</p>
         </div>
-        <div class="flex items-center space-x-1 sm:space-x-3">
-          <a href="/" class="px-2 sm:px-4 py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-xs sm:text-sm font-semibold">
-            <i class="fas fa-book mr-1 sm:mr-2"></i><span class="hidden sm:inline">Documentation</span><span class="sm:hidden">Docs</span>
-          </a>
-        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="/docs" class="px-3 py-2 bg-gray-50 text-gray-700 rounded-lg border hover:bg-gray-100 text-sm font-semibold">
+          <i class="fas fa-book mr-1"></i>Docs
+        </a>
+        <a href="/health" class="px-3 py-2 bg-green-50 text-green-700 rounded-lg border hover:bg-green-100 text-sm font-semibold">
+          <i class="fas fa-heartbeat mr-1"></i>Health
+        </a>
       </div>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <div class="container mx-auto px-3 sm:px-6 py-4 sm:py-8">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-
-      <!-- LEFT SIDE: FILTERS & CONTROLS -->
-      <div class="lg:col-span-1 space-y-6">
-
-        <!-- Endpoint Selector -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <i class="fas fa-link text-blue-600"></i>
-              </div>
-              <h2 class="text-lg font-bold text-gray-900">Endpoint</h2>
-            </div>
-            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
-          </div>
-
-          <div class="mb-3">
-            <label class="block text-xs font-semibold text-gray-700 mb-2">SELECT ENDPOINT</label>
-            <select id="endpointSelector" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
-              <option value="articles">GET /api/v1/articles</option>
-              <option value="latest">GET /api/v1/articles/latest</option>
-              <option value="categories">GET /api/v1/articles/categories</option>
-              <option value="search">GET /api/v1/articles/search</option>
-              <option value="slug">GET /api/v1/articles/:slug</option>
-            </select>
-          </div>
-
-          <div class="bg-gray-900 break-words word-break overflow-x-auto text-green-400 p-2 sm:p-3 rounded-lg font-mono text-xs sm:text-sm break-all leading-relaxed whitespace-pre-wrap" id="apiUrl">
-            /api/v1/articles
-          </div>
-        </div>
-
-        <!-- Pagination Controls (for articles & search) -->
-        <div id="paginationControls" class="filter-card bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center space-x-3 mb-4">
+  <main class="container mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section class="space-y-6">
+      <div class="bg-white rounded-xl border p-6">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-3">
             <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
-              <i class="fas fa-list-ol text-indigo-600"></i>
+              <i class="fas fa-link text-indigo-600"></i>
             </div>
-            <h3 class="text-lg font-bold text-gray-900">Pagination</h3>
+            <h2 class="text-lg font-bold text-gray-900">Endpoint</h2>
           </div>
+          <span class="bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">GET</span>
+        </div>
+        <div id="endpointPreview" class="code p-3 rounded text-sm break-all">/api/v1/articles</div>
+      </div>
+
+      <div class="bg-white rounded-xl border p-6">
+        <h3 class="text-lg font-bold mb-4 flex items-center gap-2"><i class="fas fa-sliders-h text-purple-600"></i>Parameters</h3>
+        <div class="space-y-4" id="paramsContainer">
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-2">PAGE</label>
-              <input type="number" id="page" value="1" min="1" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">PAGE</label>
+              <input id="page" type="number" min="1" value="1" class="w-full px-3 py-2 text-sm border rounded-lg">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-2">LIMIT</label>
-              <input type="number" id="limit" value="10" min="1" max="50" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">LIMIT</label>
+              <input id="limit" type="number" min="1" max="50" value="10" class="w-full px-3 py-2 text-sm border rounded-lg">
             </div>
           </div>
-        </div>
-
-        <!-- Article Filters (for articles endpoint) -->
-        <div id="articleFilters" class="filter-card bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <i class="fas fa-filter text-purple-600"></i>
-            </div>
-            <h3 class="text-lg font-bold text-gray-900">Article Filters</h3>
-          </div>
-          <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-3" data-for="list">
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-2">CATEGORY</label>
-              <input type="text" id="category" placeholder="e.g., Baby Naming Trends" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">CATEGORY</label>
+              <input id="category" type="text" placeholder="e.g., Baby Naming Trends" class="w-full px-3 py-2 text-sm border rounded-lg">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-2">STATUS</label>
-              <select id="status" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
-                <option value="">All</option>
-                <option value="published" selected>Published</option>
-                <option value="draft">Draft</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-2">SORT BY</label>
-              <select id="sort" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
-                <option value="recent" selected>Recent</option>
-                <option value="oldest">Oldest</option>
-                <option value="views">Most Viewed</option>
-                <option value="likes">Most Liked</option>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">STATUS</label>
+              <select id="status" class="w-full px-3 py-2 text-sm border rounded-lg">
+                <option value="">Any</option>
+                <option value="published">published</option>
+                <option value="draft">draft</option>
               </select>
             </div>
           </div>
-        </div>
-
-        <!-- Search Query (for search endpoint) -->
-        <div id="searchControls" class="hidden filter-card bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <i class="fas fa-search text-yellow-600"></i>
+          <div class="grid grid-cols-2 gap-3" data-for="list">
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">SORT</label>
+              <select id="sort" class="w-full px-3 py-2 text-sm border rounded-lg">
+                <option value="">recent</option>
+                <option value="recent">recent</option>
+                <option value="views">views</option>
+                <option value="likes">likes</option>
+                <option value="oldest">oldest</option>
+              </select>
             </div>
-            <h3 class="text-lg font-bold text-gray-900">Search Query</h3>
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">QUERY (Required, min 2 chars)</label>
-            <input type="text" id="searchQuery" placeholder="e.g., name, islamic, meaning" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
-          </div>
-        </div>
-
-        <!-- Slug Input (for slug endpoint) -->
-        <div id="slugControls" class="hidden filter-card bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <i class="fas fa-tag text-green-600"></i>
+          <div class="grid grid-cols-2 gap-3 hidden" data-for="latest">
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">LIMIT</label>
+              <input id="latestLimit" type="number" min="1" max="50" value="10" class="w-full px-3 py-2 text-sm border rounded-lg">
             </div>
-            <h3 class="text-lg font-bold text-gray-900">Article Slug</h3>
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">SLUG (Required)</label>
-            <input type="text" id="slugInput" placeholder="e.g., modern-noahkwvrin" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
-          </div>
-        </div>
-
-        <!-- Limit for Latest (for latest endpoint) -->
-        <div id="latestControls" class="hidden filter-card bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center">
-              <i class="fas fa-clock text-pink-600"></i>
+          <div class="grid grid-cols-2 gap-3 hidden" data-for="search">
+            <div class="col-span-2">
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">QUERY</label>
+              <input id="query" type="text" placeholder="e.g., islamic" class="w-full px-3 py-2 text-sm border rounded-lg">
             </div>
-            <h3 class="text-lg font-bold text-gray-900">Latest Articles</h3>
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">PAGE</label>
+              <input id="searchPage" type="number" min="1" value="1" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">LIMIT</label>
+              <input id="searchLimit" type="number" min="1" max="50" value="10" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-2">LIMIT (max 50)</label>
-            <input type="number" id="latestLimit" value="10" min="1" max="50" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+          <div class="grid grid-cols-1 gap-3 hidden" data-for="bySlug">
+            <div>
+              <label class="text-xs font-semibold text-gray-700 mb-2 block">SLUG</label>
+              <input id="slug" type="text" placeholder="top-100-islamic-names" class="w-full px-3 py-2 text-sm border rounded-lg">
+            </div>
           </div>
         </div>
-
-        <!-- Action Buttons -->
-        <div class="space-y-3">
-          <button id="fetchBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-4 px-6 rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <button id="sendBtn" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:shadow-lg transition-all">
             <i class="fas fa-paper-plane mr-2"></i>Send Request
           </button>
-          <button id="clearFilters" class="w-full bg-gray-100 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition-colors">
-            <i class="fas fa-times mr-2"></i>Clear All Filters
+          <button id="clearBtn" class="w-full bg-gray-100 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200">
+            <i class="fas fa-times mr-2"></i>Clear
           </button>
         </div>
-
-        <!-- Quick Examples -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 class="text-sm font-bold text-gray-900 mb-3 flex items-center">
-            <i class="fas fa-bolt text-yellow-500 mr-2"></i>Quick Examples
-          </h3>
-          <div class="space-y-2">
-            <button class="quick-action w-full text-left px-3 py-2 bg-purple-50 text-purple-700 rounded-lg text-xs font-semibold hover:bg-purple-100 transition-colors" data-endpoint="articles" data-filters='{"limit":"3"}'>
-              <i class="fas fa-rocket mr-2"></i>Get 3 Articles
-            </button>
-            <button class="quick-action w-full text-left px-3 py-2 bg-pink-50 text-pink-700 rounded-lg text-xs font-semibold hover:bg-pink-100 transition-colors" data-endpoint="latest" data-filters='{"limit":"5"}'>
-              <i class="fas fa-clock mr-2"></i>Latest 5 Articles
-            </button>
-            <button class="quick-action w-full text-left px-3 py-2 bg-green-50 text-green-700 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors" data-endpoint="search" data-filters='{"q":"name","limit":"5"}'>
-              <i class="fas fa-search mr-2"></i>Search "name"
-            </button>
-            <button class="quick-action w-full text-left px-3 py-2 bg-yellow-50 text-yellow-700 rounded-lg text-xs font-semibold hover:bg-yellow-100 transition-colors" data-endpoint="articles" data-filters='{"category":"Baby Naming Trends","limit":"5"}'>
-              <i class="fas fa-filter mr-2"></i>Baby Naming Trends
-            </button>
-            <button class="quick-action w-full text-left px-3 py-2 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-semibold hover:bg-indigo-100 transition-colors" data-endpoint="categories">
-              <i class="fas fa-list mr-2"></i>All Categories
-            </button>
+        <div class="mt-4">
+          <label class="text-xs font-semibold text-gray-700 mb-2 block">Endpoint Type</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="list"><i class="fas fa-list mr-1"></i>List</button>
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="latest"><i class="fas fa-clock mr-1"></i>Latest</button>
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="categories"><i class="fas fa-tags mr-1"></i>Categories</button>
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="search"><i class="fas fa-search mr-1"></i>Search</button>
+            <button class="tab-btn px-3 py-2 border rounded-lg text-sm" data-type="bySlug"><i class="fas fa-file-alt mr-1"></i>By Slug</button>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- RIGHT SIDE: JSON RESPONSE -->
-      <div class="lg:col-span-2">
-
-        <!-- Loading State -->
-        <div id="loading" class="hidden bg-white rounded-xl shadow-sm border border-gray-200 p-20 text-center">
-          <div class="inline-flex flex-col items-center space-y-4">
-            <svg class="animate-spin h-16 w-16 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <span class="text-purple-600 font-semibold text-lg">Fetching articles from API...</span>
-          </div>
+    <section class="md:col-span-2 space-y-6">
+      <div id="loading" class="hidden bg-white rounded-xl border p-20 text-center">
+        <div class="inline-flex flex-col items-center space-y-4">
+          <svg class="animate-spin h-16 w-16 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span class="text-purple-600 font-semibold text-lg">Fetching data from API...</span>
         </div>
-
-        <!-- Initial Message -->
-        <div id="initialMessage" class="bg-white rounded-xl shadow-sm border border-gray-200 p-16 text-center">
-          <div class="w-24 h-24 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <i class="fas fa-newspaper text-purple-600 text-5xl"></i>
-          </div>
-          <h3 class="text-lg sm:text-2xl font-bold text-gray-900 mb-3">Articles API Testing Console</h3>
-          <p class="word-break break-words text-gray-600 mb-8 max-w-md mx-auto">Select an endpoint, configure your filters and click "Send Request" to see the JSON response from the API</p>
-          <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto">
-            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4">
-              <div class="text-3xl font-bold text-purple-600 mb-1">468</div>
-              <div class="text-xs text-purple-700 font-semibold">Total Articles</div>
-            </div>
-            <div class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg p-4">
-              <div class="text-3xl font-bold text-pink-600 mb-1">5</div>
-              <div class="text-xs text-pink-700 font-semibold">Categories</div>
-            </div>
-            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4">
-              <div class="text-3xl font-bold text-green-600 mb-1">JSON</div>
-              <div class="text-xs text-green-700 font-semibold">Response Format</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- JSON Response Container -->
-        <div id="responseContainer" class="hidden bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-
-          <!-- Response Header -->
-          <div class="border-b border-gray-200 p-6 bg-gray-50">
-            <div class="flex items-center justify-between flex-wrap gap-4">
-              <div class="flex items-center space-x-4">
-                <h3 class="text-lg font-bold text-gray-900">API Response</h3>
-                <span id="statusBadge" class="px-3 py-1 rounded-md font-semibold text-xs"></span>
-              </div>
-              <div class="flex items-center space-x-2">
-                <div id="responseTime" class="text-sm text-gray-600 bg-white px-3 py-1 rounded-lg border border-gray-200"></div>
-                <button id="copyBtn" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-semibold transition-colors">
-                  <i class="fas fa-copy mr-2"></i>Copy JSON
-                </button>
-              </div>
-            </div>
-
-            <!-- Quick Stats -->
-            <div id="quickStats" class="mt-4 grid grid-cols-3 gap-3"></div>
-          </div>
-
-          <!-- JSON Display -->
-          <div class="p-6">
-            <div class="bg-gray-900 break-words word-break overflow-x-auto rounded-lg overflow-hidden border border-gray-700">
-              <div class="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
-                <span class="text-xs text-gray-400 font-mono">JSON Response</span>
-                <span class="text-xs text-green-400 font-mono">application/json</span>
-              </div>
-              <pre id="jsonContent" class="text-green-400 p-4 text-xs font-mono overflow-x-auto max-h-[600px] overflow-y-auto leading-relaxed"></pre>
-            </div>
-          </div>
-
-        </div>
-
       </div>
-    </div>
-  </div>
+
+      <div id="responseContainer" class="hidden bg-white rounded-xl border overflow-hidden">
+        <div class="border-b p-6 bg-gray-50 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <h3 class="text-lg font-bold text-gray-900">API Response</h3>
+            <span id="statusBadge" class="px-3 py-1 rounded-md font-semibold text-xs"></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div id="responseTime" class="text-sm text-gray-600 bg-white px-3 py-1 rounded-lg border"></div>
+            <button id="copyBtn" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-semibold">
+              <i class="fas fa-copy mr-2"></i>Copy JSON
+            </button>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="bg-gray-900 rounded-lg border border-gray-700">
+            <div class="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
+              <span class="text-xs text-gray-400 font-mono">JSON Response</span>
+              <span class="text-xs text-green-400 font-mono">application/json</span>
+            </div>
+            <pre id="jsonContent" class="text-green-400 p-4 text-xs font-mono overflow-x-auto max-h-[600px] overflow-y-auto leading-relaxed"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script>
-    const BASE_URL = 'https://namverse-api.vercel.app/api/v1/articles';
-    let currentData = null;
-    let startTime = 0;
-
-    // Get all elements
-    const endpointSelector = document.getElementById('endpointSelector');
-    const paginationControls = document.getElementById('paginationControls');
-    const articleFilters = document.getElementById('articleFilters');
-    const searchControls = document.getElementById('searchControls');
-    const slugControls = document.getElementById('slugControls');
-    const latestControls = document.getElementById('latestControls');
-
-    const inputs = {
-      page: document.getElementById('page'),
-      limit: document.getElementById('limit'),
-      category: document.getElementById('category'),
-      status: document.getElementById('status'),
-      sort: document.getElementById('sort'),
-      searchQuery: document.getElementById('searchQuery'),
-      slugInput: document.getElementById('slugInput'),
-      latestLimit: document.getElementById('latestLimit')
-    };
-
-    const apiUrl = document.getElementById('apiUrl');
-    const fetchBtn = document.getElementById('fetchBtn');
-    const clearFiltersBtn = document.getElementById('clearFilters');
-    const copyBtn = document.getElementById('copyBtn');
+    const BASE = 'https://namverse-api.vercel.app/api/v1/articles';
+    const endpointPreview = document.getElementById('endpointPreview');
+    const tabBtns = Array.from(document.querySelectorAll('.tab-btn'));
+    const paramsContainer = document.getElementById('paramsContainer');
+    const sendBtn = document.getElementById('sendBtn');
+    const clearBtn = document.getElementById('clearBtn');
     const loading = document.getElementById('loading');
-    const initialMessage = document.getElementById('initialMessage');
     const responseContainer = document.getElementById('responseContainer');
-    const jsonContent = document.getElementById('jsonContent');
     const statusBadge = document.getElementById('statusBadge');
     const responseTime = document.getElementById('responseTime');
-    const quickStats = document.getElementById('quickStats');
+    const jsonContent = document.getElementById('jsonContent');
+    const copyBtn = document.getElementById('copyBtn');
 
-    // Update controls visibility based on selected endpoint
-    function updateControlsVisibility() {
-      const endpoint = endpointSelector.value;
+    let currentType = 'list';
 
-      // Hide all dynamic controls
-      paginationControls.classList.add('hidden');
-      articleFilters.classList.add('hidden');
-      searchControls.classList.add('hidden');
-      slugControls.classList.add('hidden');
-      latestControls.classList.add('hidden');
-
-      // Show relevant controls
-      switch(endpoint) {
-        case 'articles':
-          paginationControls.classList.remove('hidden');
-          articleFilters.classList.remove('hidden');
-          break;
-        case 'latest':
-          latestControls.classList.remove('hidden');
-          break;
-        case 'categories':
-          // No additional controls needed
-          break;
-        case 'search':
-          paginationControls.classList.remove('hidden');
-          searchControls.classList.remove('hidden');
-          break;
-        case 'slug':
-          slugControls.classList.remove('hidden');
-          break;
-      }
-
-      updateURL();
-    }
-
-    // Update URL display
-    function updateURL() {
-      const endpoint = endpointSelector.value;
-      let url = BASE_URL;
-      const params = new URLSearchParams();
-
-      switch(endpoint) {
-        case 'articles':
-          if (inputs.page.value) params.append('page', inputs.page.value);
-          if (inputs.limit.value) params.append('limit', inputs.limit.value);
-          if (inputs.category.value.trim()) params.append('category', inputs.category.value.trim());
-          if (inputs.status.value) params.append('status', inputs.status.value);
-          if (inputs.sort.value) params.append('sort', inputs.sort.value);
-          break;
-        case 'latest':
-          url += '/latest';
-          if (inputs.latestLimit.value) params.append('limit', inputs.latestLimit.value);
-          break;
-        case 'categories':
-          url += '/categories';
-          break;
-        case 'search':
-          url += '/search';
-          if (inputs.searchQuery.value.trim()) params.append('q', inputs.searchQuery.value.trim());
-          if (inputs.page.value) params.append('page', inputs.page.value);
-          if (inputs.limit.value) params.append('limit', inputs.limit.value);
-          break;
-        case 'slug':
-          if (inputs.slugInput.value.trim()) {
-            url += '/' + inputs.slugInput.value.trim();
-          } else {
-            url += '/:slug';
-          }
-          break;
-      }
-
-      apiUrl.textContent = url + (params.toString() ? '?' + params.toString() : '');
-    }
-
-    // Add listeners to endpoint selector
-    endpointSelector.addEventListener('change', updateControlsVisibility);
-
-    // Add listeners to all inputs
-    Object.values(inputs).forEach(input => {
-      input.addEventListener('input', updateURL);
-      input.addEventListener('change', updateURL);
-    });
-
-    // Clear filters
-    clearFiltersBtn.addEventListener('click', () => {
-      inputs.page.value = '1';
-      inputs.limit.value = '10';
-      inputs.category.value = '';
-      inputs.status.value = 'published';
-      inputs.sort.value = 'recent';
-      inputs.searchQuery.value = '';
-      inputs.slugInput.value = '';
-      inputs.latestLimit.value = '10';
-      updateURL();
-    });
-
-    // Quick actions
-    document.querySelectorAll('.quick-action').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const endpoint = btn.dataset.endpoint;
-        const filters = JSON.parse(btn.dataset.filters);
-
-        endpointSelector.value = endpoint;
-        updateControlsVisibility();
-
-        // Set filters based on endpoint
-        Object.keys(filters).forEach(key => {
-          if (inputs[key]) {
-            inputs[key].value = filters[key];
-          }
-        });
-
-        updateURL();
-        fetchData();
+    function setActiveTab(type) {
+      currentType = type;
+      tabBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.type === type));
+      Array.from(paramsContainer.querySelectorAll('[data-for]')).forEach(group => {
+        group.classList.toggle('hidden', group.getAttribute('data-for') !== type);
       });
+      updatePreview();
+    }
+
+    function updatePreview() {
+      if (currentType === 'list') {
+        const params = new URLSearchParams();
+        const page = (document.getElementById('page')?.value || '').trim();
+        const limit = (document.getElementById('limit')?.value || '').trim();
+        const category = (document.getElementById('category')?.value || '').trim();
+        const status = (document.getElementById('status')?.value || '').trim();
+        const sort = (document.getElementById('sort')?.value || '').trim();
+        if (page) params.append('page', page);
+        if (limit) params.append('limit', limit);
+        if (category) params.append('category', category);
+        if (status) params.append('status', status);
+        if (sort) params.append('sort', sort || 'recent');
+        endpointPreview.textContent = BASE + (params.toString() ? '?' + params.toString() : '');
+      } else if (currentType === 'latest') {
+        const limit = (document.getElementById('latestLimit')?.value || '').trim();
+        endpointPreview.textContent = BASE + '/latest' + (limit ? ('?limit=' + limit) : '');
+      } else if (currentType === 'categories') {
+        endpointPreview.textContent = BASE + '/categories';
+      } else if (currentType === 'search') {
+        const q = (document.getElementById('query')?.value || '').trim() || '{query}';
+        const page = (document.getElementById('searchPage')?.value || '').trim();
+        const limit = (document.getElementById('searchLimit')?.value || '').trim();
+        const params = new URLSearchParams();
+        params.append('q', q);
+        if (page) params.append('page', page);
+        if (limit) params.append('limit', limit);
+        endpointPreview.textContent = BASE + '/search?' + params.toString();
+      } else if (currentType === 'bySlug') {
+        const slug = (document.getElementById('slug')?.value || '').trim() || '{slug}';
+        endpointPreview.textContent = BASE + '/' + slug;
+      }
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => setActiveTab(btn.dataset.type));
     });
 
-    // Copy JSON to clipboard
+    Array.from(paramsContainer.querySelectorAll('input, select')).forEach(el => {
+      el.addEventListener('input', updatePreview);
+      el.addEventListener('change', updatePreview);
+    });
+
     copyBtn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(jsonContent.textContent);
-        const originalHTML = copyBtn.innerHTML;
+        const orig = copyBtn.innerHTML;
         copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
         copyBtn.classList.add('bg-green-600');
         copyBtn.classList.remove('bg-purple-600');
-
         setTimeout(() => {
-          copyBtn.innerHTML = originalHTML;
+          copyBtn.innerHTML = orig;
           copyBtn.classList.remove('bg-green-600');
           copyBtn.classList.add('bg-purple-600');
         }, 2000);
-      } catch (err) {
-        console.error('Failed to copy:', err);
-        alert('Failed to copy to clipboard');
-      }
+      } catch (err) {}
     });
 
-    // Fetch data from API
-    async function fetchData() {
-      const endpoint = endpointSelector.value;
-
-      // Validation
-      if (endpoint === 'search' && !inputs.searchQuery.value.trim()) {
-        alert('Please enter a search query (minimum 2 characters)');
-        return;
-      }
-
-      if (endpoint === 'slug' && !inputs.slugInput.value.trim()) {
-        alert('Please enter an article slug');
-        return;
-      }
-
-      fetchBtn.disabled = true;
+    async function sendRequest() {
+      sendBtn.disabled = true;
       loading.classList.remove('hidden');
-      initialMessage.classList.add('hidden');
       responseContainer.classList.add('hidden');
-
-      startTime = performance.now();
-
+      const start = performance.now();
       try {
-        let url = BASE_URL;
-        const params = new URLSearchParams();
-
-        switch(endpoint) {
-          case 'articles':
-            if (inputs.page.value) params.append('page', inputs.page.value);
-            if (inputs.limit.value) params.append('limit', inputs.limit.value);
-            if (inputs.category.value.trim()) params.append('category', inputs.category.value.trim());
-            if (inputs.status.value) params.append('status', inputs.status.value);
-            if (inputs.sort.value) params.append('sort', inputs.sort.value);
-            url += '?' + params.toString();
-            break;
-          case 'latest':
-            url += '/latest';
-            if (inputs.latestLimit.value) params.append('limit', inputs.latestLimit.value);
-            url += '?' + params.toString();
-            break;
-          case 'categories':
-            url += '/categories';
-            break;
-          case 'search':
-            url += '/search';
-            if (inputs.searchQuery.value.trim()) params.append('q', inputs.searchQuery.value.trim());
-            if (inputs.page.value) params.append('page', inputs.page.value);
-            if (inputs.limit.value) params.append('limit', inputs.limit.value);
-            url += '?' + params.toString();
-            break;
-          case 'slug':
-            url += '/' + inputs.slugInput.value.trim();
-            break;
+        let url = BASE;
+        if (currentType === 'list') {
+          const params = new URLSearchParams();
+          const page = (document.getElementById('page')?.value || '').trim();
+          const limit = (document.getElementById('limit')?.value || '').trim();
+          const category = (document.getElementById('category')?.value || '').trim();
+          const status = (document.getElementById('status')?.value || '').trim();
+          const sort = (document.getElementById('sort')?.value || '').trim();
+          if (page) params.append('page', page);
+          if (limit) params.append('limit', limit);
+          if (category) params.append('category', category);
+          if (status) params.append('status', status);
+          if (sort) params.append('sort', sort || 'recent');
+          url = BASE + (params.toString() ? '?' + params.toString() : '');
+        } else if (currentType === 'latest') {
+          const limit = (document.getElementById('latestLimit')?.value || '').trim();
+          url = BASE + '/latest' + (limit ? ('?limit=' + limit) : '');
+        } else if (currentType === 'categories') {
+          url = BASE + '/categories';
+        } else if (currentType === 'search') {
+          const q = (document.getElementById('query')?.value || '').trim();
+          const page = (document.getElementById('searchPage')?.value || '').trim();
+          const limit = (document.getElementById('searchLimit')?.value || '').trim();
+          const params = new URLSearchParams();
+          params.append('q', q);
+          if (page) params.append('page', page);
+          if (limit) params.append('limit', limit);
+          url = BASE + '/search?' + params.toString();
+        } else if (currentType === 'bySlug') {
+          const slug = (document.getElementById('slug')?.value || '').trim();
+          url = BASE + '/' + slug;
         }
-
-        const response = await fetch(url);
-        const endTime = performance.now();
-        const duration = Math.round(endTime - startTime);
-
-        currentData = await response.json();
-
-        // Update status badge
-        statusBadge.textContent = `${response.status} ${response.statusText}`;
-        statusBadge.className = response.ok
-          ? 'px-3 py-1 rounded-md font-semibold text-xs bg-green-500 text-white'
-          : 'px-3 py-1 rounded-md font-semibold text-xs bg-red-500 text-white';
-
-        // Update response time
-        responseTime.textContent = `⚡ ${duration}ms`;
-
-        // Display JSON
-        jsonContent.textContent = JSON.stringify(currentData, null, 2);
-
-        // Update quick stats based on response
-        if (currentData.success) {
-          if (endpoint === 'articles' || endpoint === 'search') {
-            quickStats.innerHTML = `
-              <div class="bg-purple-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-purple-600">${currentData.data?.length || 0}</div>
-                <div class="text-xs text-purple-700 font-semibold">Articles Returned</div>
-              </div>
-              <div class="bg-pink-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-pink-600">${currentData.pagination?.page || 0}/${currentData.pagination?.totalPages || 0}</div>
-                <div class="text-xs text-pink-700 font-semibold">Page</div>
-              </div>
-              <div class="bg-green-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-green-600">${currentData.pagination?.total || 0}</div>
-                <div class="text-xs text-green-700 font-semibold">Total Results</div>
-              </div>
-            `;
-          } else if (endpoint === 'latest') {
-            quickStats.innerHTML = `
-              <div class="bg-purple-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-purple-600">${currentData.count || 0}</div>
-                <div class="text-xs text-purple-700 font-semibold">Articles Returned</div>
-              </div>
-              <div class="bg-pink-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-pink-600">Latest</div>
-                <div class="text-xs text-pink-700 font-semibold">By Date</div>
-              </div>
-              <div class="bg-green-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-green-600">✓</div>
-                <div class="text-xs text-green-700 font-semibold">Success</div>
-              </div>
-            `;
-          } else if (endpoint === 'categories') {
-            quickStats.innerHTML = `
-              <div class="bg-purple-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-purple-600">${currentData.count || 0}</div>
-                <div class="text-xs text-purple-700 font-semibold">Categories Found</div>
-              </div>
-              <div class="bg-pink-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-pink-600">${currentData.data?.reduce((sum, cat) => sum + (cat.count || 0), 0) || 0}</div>
-                <div class="text-xs text-pink-700 font-semibold">Total Articles</div>
-              </div>
-              <div class="bg-green-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-green-600">✓</div>
-                <div class="text-xs text-green-700 font-semibold">Success</div>
-              </div>
-            `;
-          } else if (endpoint === 'slug') {
-            const article = currentData.data;
-            quickStats.innerHTML = `
-              <div class="bg-purple-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-purple-600">${article?.views || 0}</div>
-                <div class="text-xs text-purple-700 font-semibold">Views</div>
-              </div>
-              <div class="bg-pink-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-pink-600">${article?.likes || 0}</div>
-                <div class="text-xs text-pink-700 font-semibold">Likes</div>
-              </div>
-              <div class="bg-green-50 rounded-lg p-3">
-                <div class="text-lg sm:text-2xl font-bold text-green-600">${article?.read_time_minutes || 0}m</div>
-                <div class="text-xs text-green-700 font-semibold">Read Time</div>
-              </div>
-            `;
-          }
-        } else {
-          quickStats.innerHTML = `
-            <div class="col-span-3 bg-red-50 rounded-lg p-3 text-center">
-              <div class="text-sm font-semibold text-red-700">Error: ${currentData.error || 'Unknown error'}</div>
-            </div>
-          `;
-        }
-
+        const res = await fetch(url);
+        const elapsed = Math.round(performance.now() - start);
+        const data = await res.json();
+        statusBadge.textContent = `${res.status} ${res.statusText}`;
+        statusBadge.className = res.ok ? 'px-3 py-1 rounded-md font-semibold text-xs bg-green-500 text-white' : 'px-3 py-1 rounded-md font-semibold text-xs bg-red-500 text-white';
+        responseTime.textContent = `⚡ ${elapsed}ms`;
+        jsonContent.textContent = JSON.stringify(data, null, 2);
         responseContainer.classList.remove('hidden');
-
-      } catch (error) {
+      } catch (err) {
         statusBadge.textContent = 'Network Error';
         statusBadge.className = 'px-3 py-1 rounded-md font-semibold text-xs bg-red-500 text-white';
-        jsonContent.textContent = JSON.stringify({
-          error: 'Network Error',
-          message: error.message
-        }, null, 2);
-        quickStats.innerHTML = `
-          <div class="col-span-3 bg-red-50 rounded-lg p-3 text-center">
-            <div class="text-sm font-semibold text-red-700">Network Error: ${error.message}</div>
-          </div>
-        `;
+        jsonContent.textContent = JSON.stringify({ error: 'Network Error', message: err.message }, null, 2);
         responseContainer.classList.remove('hidden');
       } finally {
-        fetchBtn.disabled = false;
+        sendBtn.disabled = false;
         loading.classList.add('hidden');
       }
     }
 
-    // Fetch on button click
-    fetchBtn.addEventListener('click', fetchData);
+    sendBtn.addEventListener('click', sendRequest);
+    clearBtn.addEventListener('click', () => {
+      ['page','limit','category','status','sort','latestLimit','query','searchPage','searchLimit','slug']
+        .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+      document.getElementById('page').value = '1';
+      document.getElementById('limit').value = '10';
+      document.getElementById('sort').value = 'recent';
+      updatePreview();
+    });
 
-    // Initialize
-    updateControlsVisibility();
+    setActiveTab('list');
+    updatePreview();
   </script>
 </body>
 </html>

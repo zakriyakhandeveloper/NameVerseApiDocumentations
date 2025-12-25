@@ -1,175 +1,548 @@
-<div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Endpoint Header -->
-  <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-6">
-    <div class="flex items-center justify-between mb-4">
-      <h2 class="text-lg sm:text-2xl font-bold text-white">Search Names</h2>
-      <a href="/getnamesbysearch" class="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-50 transition-colors font-semibold text-sm">
-        <i class="fas fa-flask mr-2"></i>Live Testing
-      </a>
-    </div>
-    <div class="flex items-center space-x-3">
-      <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-      <code class="overflow-x-auto block word-break break-words text-white text-lg font-mono">/api/v1/search</code>
-    </div>
-    <p class="word-break break-words text-purple-100 mt-3">
-      Search for names using a query string with partial matching and flexible filtering.
-    </p>
-  </div>
+  <!-- Primary Meta Tags -->
+  <title>Search Names API v1 - NameVerse API | Live Testing & Documentation</title>
+  <meta name="title" content="Search Names API v1 - NameVerse API | Live Testing & Documentation">
+  <meta name="description" content="Test the v1 Search Names API endpoint live. Search 70,000+ names with partial matching, filter by religion, and get instant results. Try /api/v1/search with real-time testing.">
+  <meta name="keywords" content="search names API v1, name search, find names, search baby names, API testing, NameVerse search, live API demo">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://nameversedocumentations.vercel.app/getnamesbysearch">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nameversedocumentations.vercel.app/getnamesbysearch">
+  <meta property="og:title" content="Search Names API - NameVerse API">
+  <meta property="og:description" content="Search 70,000+ names by keyword with real-time results">
+  <meta property="og:image" content="https://nameversedocumentations.vercel.app/logo.svg">
+  <meta property="og:site_name" content="NameVerse API">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://nameversedocumentations.vercel.app/getnamesbysearch">
+  <meta property="twitter:title" content="Search Names API - NameVerse API">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/logo.svg">
+  
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Stylesheets -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <div class="p-6">
-
-    <!-- Description -->
-    <div class="mb-6">
-      <h3 class="text-lg font-bold text-gray-900 mb-3">Description</h3>
-      <p class="word-break break-words text-gray-600 leading-relaxed">
-        Search for names using a query string. Supports partial matching, case-insensitive search,
-        and returns matching names across all religions. Includes optional filtering by religion and limit control.
-      </p>
-    </div>
-
-    <!-- Parameters -->
-    <div class="mb-6">
-      <h3 class="text-lg font-bold text-gray-900 mb-4">Query Parameters</h3>
-      <div class="space-y-4">
-
-        <!-- Query Parameter -->
-        <div class="border border-gray-200 rounded-lg p-4">
-          <div class="flex items-start justify-between mb-2">
-            <div class="flex items-center space-x-2">
-              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">q</code>
-              <span class="text-xs bg-gray-100 px-2 py-1 rounded">string</span>
-              <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">required</span>
-            </div>
-          </div>
-          <p class="word-break break-words text-sm text-gray-600 mb-2">
-            Search query string (minimum 1 character). Names that start with this query will be returned.
-          </p>
-          <div class="bg-gray-50 p-2 rounded text-xs">
-            <div class="text-gray-500 mb-1">Examples</div>
-            <div class="flex gap-2 flex-wrap">
-              <span class="bg-white border px-2 py-1 rounded font-mono">sa</span>
-              <span class="bg-white border px-2 py-1 rounded font-mono">muh</span>
-              <span class="bg-white border px-2 py-1 rounded font-mono">john</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Limit Parameter -->
-        <div class="border border-gray-200 rounded-lg p-4">
-          <div class="flex items-start justify-between mb-2">
-            <div class="flex items-center space-x-2">
-              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">limit</code>
-              <span class="text-xs bg-gray-100 px-2 py-1 rounded">integer</span>
-              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
-            </div>
-          </div>
-          <p class="word-break break-words text-sm text-gray-600 mb-2">
-            Maximum number of search results to return.
-          </p>
-          <div class="grid grid-cols-3 gap-3 text-xs">
-            <div class="bg-gray-50 p-2 rounded">
-              <div class="text-gray-500">Default</div>
-              <div class="font-semibold text-gray-900">20</div>
-            </div>
-            <div class="bg-gray-50 p-2 rounded">
-              <div class="text-gray-500">Minimum</div>
-              <div class="font-semibold text-gray-900">1</div>
-            </div>
-            <div class="bg-gray-50 p-2 rounded">
-              <div class="text-gray-500">Maximum</div>
-              <div class="font-semibold text-gray-900">100</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Religion Parameter -->
-        <div class="border border-gray-200 rounded-lg p-4">
-          <div class="flex items-start justify-between mb-2">
-            <div class="flex items-center space-x-2">
-              <code class="overflow-x-auto block word-break break-words text-purple-600 font-semibold">religion</code>
-              <span class="text-xs bg-gray-100 px-2 py-1 rounded">string</span>
-              <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">optional</span>
-            </div>
-          </div>
-          <p class="word-break break-words text-sm text-gray-600 mb-2">
-            Filter results by religion category.
-          </p>
-          <div class="bg-gray-50 p-2 rounded text-xs">
-            <div class="text-gray-500 mb-1">Available values</div>
-            <div class="flex gap-2 flex-wrap">
-              <span class="bg-white border px-2 py-1 rounded font-mono">islamic</span>
-              <span class="bg-white border px-2 py-1 rounded font-mono">christian</span>
-              <span class="bg-white border px-2 py-1 rounded font-mono">hindu</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Request Examples -->
-    <div class="mb-6">
-      <h3 class="text-lg font-bold text-gray-900 mb-3">Request Examples</h3>
-      <div class="space-y-2">
-        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
-          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">GET /api/v1/search?q=sa&limit=5</code>
-        </div>
-        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
-          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">GET /api/v1/search?q=muh&limit=10&religion=islamic</code>
-        </div>
-        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 12px; overflow-x: auto;">
-          <code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 13px;">GET /api/v1/search?q=john</code>
-        </div>
-      </div>
-    </div>
-
-    <!-- Response -->
-    <div class="mb-6">
-      <h3 class="text-lg font-bold text-gray-900 mb-3">Response</h3>
-
-      <!-- Success Response -->
-      <div class="mb-4">
-        <div class="flex items-center space-x-2 mb-2">
-          <span class="bg-green-500 text-white px-3 py-1 rounded text-sm font-bold">200</span>
-          <span class="text-sm font-semibold text-gray-700">Success</span>
-        </div>
-        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
-<pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 14px;">[
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
   {
-    "name": "Sarah",
-    "slug": "sarah",
-    "meaning": "Princess, lady",
-    "gender": "female",
-    "religion": "christian",
-    "origin": "Hebrew"
-  },
-  {
-    "name": "Samuel",
-    "slug": "samuel",
-    "meaning": "Asked of God",
-    "gender": "male",
-    "religion": "christian",
-    "origin": "Hebrew"
+    "@context": "https://schema.org",
+    "@type": "WebAPI",
+    "name": "NameVerse Name Search API",
+    "description": "Search through 70,000+ names by keyword or partial match. Get instant results with meanings, origins, and religious traditions.",
+    "url": "https://nameversedocumentations.vercel.app/getnamesbysearch",
+    "documentation": "https://nameversedocumentations.vercel.app/getnamesbysearch",
+    "provider": {
+      "@type": "Organization",
+      "name": "NameVerse",
+      "url": "https://nameverse.vercel.app"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
   }
-]</code></pre>
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://nameversedocumentations.vercel.app/"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Documentation",
+      "item": "https://nameversedocumentations.vercel.app/docs"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Name Search API",
+      "item": "https://nameversedocumentations.vercel.app/getnamesbysearch"
+    }]
+  }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .api-response {
+      font-family: 'Courier New', monospace;
+    }
+    /* Responsive utilities */
+    .container { max-width: 1200px; margin-left:auto; margin-right:auto; padding-left:1rem; padding-right:1rem; }
+    img, table, pre, code { max-width:100%; height:auto; word-break:break-word; }
+    .code-block, pre, .endpoint-card, .stat-card { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    @media (max-width: 1024px) {
+      .lg\:col-span-2 { grid-column: span 2 / span 2; }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+  
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="container mx-auto px-3 sm:px-6 py-3 sm:py-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <img src="/logo.svg" alt="NameVerse API Logo" class="w-12 h-12 rounded-xl shadow-lg" loading="eager">
+          </div>
+          <div>
+            <h1 class="text-lg sm:text-2xl font-bold gradient-text">NameVerse API</h1>
+            <p class="word-break break-words text-sm text-gray-600">Search names by query</p>
+          </div>
+        </div>
+        <a href="/health" class="px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors text-sm font-semibold">
+          <i class="fas fa-heartbeat mr-2"></i>Health Check
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container mx-auto px-6 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+      
+      <!-- LEFT SIDE: DOCUMENTATION -->
+      <div class="lg:col-span-2 space-y-6">
+        
+        <!-- Endpoint Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+              <i class="fas fa-code text-purple-600"></i>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Endpoint</h2>
+          </div>
+          
+          <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+            <div class="flex items-center space-x-3 mb-2">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-xs">GET</span>
+              <code class="overflow-x-auto block word-break break-words text-sm font-semibold text-gray-800">/api/v1/search</code>
+            </div>
+            <p class="word-break break-words text-sm text-gray-600 mt-3">
+              Search for names using a query string with partial matching
+            </p>
+          </div>
+        </div>
+
+        <!-- Parameters -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <i class="fas fa-sliders-h text-blue-600"></i>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Query Parameters</h2>
+          </div>
+          
+          <div class="space-y-4">
+            <!-- Query -->
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-semibold text-gray-900 text-sm">q</span>
+                <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded font-semibold">required</span>
+              </div>
+              <p class="word-break break-words text-xs text-gray-600 mb-2">Search query string (minimum 1 character)</p>
+              <div class="bg-gray-50 px-3 py-2 rounded text-xs border border-gray-200">
+                <span class="text-gray-500">Examples:</span>
+                <code class="overflow-x-auto block word-break break-words text-purple-600 ml-2">sa</code>
+                <code class="overflow-x-auto block word-break break-words text-purple-600 ml-2">muh</code>
+                <code class="overflow-x-auto block word-break break-words text-purple-600 ml-2">john</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <i class="fas fa-magic text-green-600"></i>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Features</h2>
+          </div>
+          
+          <div class="space-y-2 text-sm text-gray-700">
+            <div class="flex items-start space-x-2">
+              <i class="fas fa-check text-green-600 mt-1"></i>
+              <span>Partial matching - searches names that start with query</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <i class="fas fa-check text-green-600 mt-1"></i>
+              <span>Case-insensitive search</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <i class="fas fa-check text-green-600 mt-1"></i>
+              <span>Returns matching names across all religions</span>
+            </div>
+            <div class="flex items-start space-x-2">
+              <i class="fas fa-check text-green-600 mt-1"></i>
+              <span>Fast and efficient searching</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Examples -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+              <i class="fas fa-lightbulb text-yellow-600"></i>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Examples</h2>
+          </div>
+          
+          <div class="space-y-3 text-xs">
+            <div>
+              <p class="word-break break-words text-gray-600 mb-1">Search names starting with "sa"</p>
+              <code class="overflow-x-auto block word-break break-words block bg-gray-50 px-3 py-2 rounded text-purple-600 border border-gray-200">?q=sa</code>
+            </div>
+            <div>
+              <p class="word-break break-words text-gray-600 mb-1">Search names starting with "muh"</p>
+              <code class="overflow-x-auto block word-break break-words block bg-gray-50 px-3 py-2 rounded text-purple-600 border border-gray-200">?q=muh</code>
+            </div>
+            <div>
+              <p class="word-break break-words text-gray-600 mb-1">Search names starting with "john"</p>
+              <code class="overflow-x-auto block word-break break-words block bg-gray-50 px-3 py-2 rounded text-purple-600 border border-gray-200">?q=john</code>
+            </div>
+            <div>
+              <p class="word-break break-words text-gray-600 mb-1">Search names starting with "krishna"</p>
+              <code class="overflow-x-auto block word-break break-words block bg-gray-50 px-3 py-2 rounded text-purple-600 border border-gray-200">?q=krishna</code>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Error Response -->
-      <div>
-        <div class="flex items-center space-x-2 mb-2">
-          <span class="bg-red-500 text-white px-3 py-1 rounded text-sm font-bold">400</span>
-          <span class="text-sm font-semibold text-gray-700">Bad Request</span>
-        </div>
-        <div class="code-block" style="background: #1e293b; border-radius: 8px; padding: 16px; overflow-x: auto;">
-<pre><code style="color: #10b981; font-family: 'Courier New', monospace; font-size: 14px;">{
-  "error": "Query parameter 'q' is required"
-}</code></pre>
+      <!-- RIGHT SIDE: TESTING -->
+      <div class="lg:col-span-3">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <i class="fas fa-flask text-green-600"></i>
+            </div>
+            <h2 class="text-lg font-bold text-gray-900">Test Search API</h2>
+          </div>
+
+          <!-- Request Section -->
+          <div class="mb-6">
+            <div class="flex items-center justify-between mb-2">
+              <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wide">Request URL</label>
+              <button
+                id="toggleUrlBtn"
+                class="px-3 py-1 bg-purple-50 text-purple-700 rounded-md text-xs font-semibold hover:bg-purple-100 transition-colors"
+                title="Toggle full URL visibility"
+              >
+                <i class="fas fa-eye mr-1"></i>Show Full URL
+              </button>
+            </div>
+            <div class="bg-gray-900 break-words word-break overflow-x-auto text-green-400 p-4 rounded-lg font-mono text-sm break-all" id="apiUrl">
+              /api/v1/search?q=sa&limit=5
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+              <i class="fas fa-info-circle mr-1"></i>
+              Need the full API URL? <a href="mailto:contact@example.com" class="text-purple-600 hover:underline font-semibold">Contact us</a> for access.
+            </p>
+          </div>
+
+          <!-- Form -->
+          <form id="testForm" class="mb-6">
+            
+            <div class="mb-4">
+              <label for="query" class="block text-xs font-semibold text-gray-700 mb-2">SEARCH QUERY</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input 
+                  type="text" 
+                  id="query" 
+                  name="query" 
+                  placeholder="Enter search term (e.g., sa, muh, john)" 
+                  value="sa"
+                  class="w-full pl-12 pr-4 py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                  required
+                  minlength="1"
+                >
+              </div>
+              <p class="word-break break-words text-xs text-gray-500 mt-2">
+                <i class="fas fa-info-circle mr-1"></i>
+                Type to search for names. Results update as you type.
+              </p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="limit" class="block text-xs font-semibold text-gray-700 mb-2">LIMIT</label>
+                <input
+                  type="number"
+                  id="limit"
+                  name="limit"
+                  value="5"
+                  min="1"
+                  max="100"
+                  class="w-full px-4 py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                >
+              </div>
+              <div>
+                <label for="religion" class="block text-xs font-semibold text-gray-700 mb-2">RELIGION (optional)</label>
+                <select 
+                  id="religion" 
+                  name="religion"
+                  class="w-full px-4 py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                >
+                  <option value="">All</option>
+                  <option value="islamic">Islamic</option>
+                  <option value="christian">Christian</option>
+                  <option value="hindu">Hindu</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Quick Search Buttons -->
+            <div class="mb-4">
+              <label class="block text-xs font-semibold text-gray-700 mb-2">QUICK SEARCH</label>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" class="quick-search px-4 py-2 bg-purple-50 text-purple-700 rounded-lg text-xs font-semibold hover:bg-purple-100 transition-colors" data-query="sa">
+                  <i class="fas fa-search mr-1"></i>sa
+                </button>
+                <button type="button" class="quick-search px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-xs font-semibold hover:bg-blue-100 transition-colors" data-query="muh">
+                  <i class="fas fa-search mr-1"></i>muh
+                </button>
+                <button type="button" class="quick-search px-4 py-2 bg-green-50 text-green-700 rounded-lg text-xs font-semibold hover:bg-green-100 transition-colors" data-query="john">
+                  <i class="fas fa-search mr-1"></i>john
+                </button>
+                <button type="button" class="quick-search px-4 py-2 bg-orange-50 text-orange-700 rounded-lg text-xs font-semibold hover:bg-orange-100 transition-colors" data-query="krishna">
+                  <i class="fas fa-search mr-1"></i>krishna
+                </button>
+                <button type="button" class="quick-search px-4 py-2 bg-pink-50 text-pink-700 rounded-lg text-xs font-semibold hover:bg-pink-100 transition-colors" data-query="mary">
+                  <i class="fas fa-search mr-1"></i>mary
+                </button>
+                <button type="button" class="quick-search px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-semibold hover:bg-indigo-100 transition-colors" data-query="ali">
+                  <i class="fas fa-search mr-1"></i>ali
+                </button>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              id="executeBtn"
+              class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              <i class="fas fa-paper-plane mr-2"></i>Search Names
+            </button>
+          </form>
+
+          <!-- Loading -->
+          <div id="loading" class="hidden text-center py-8">
+            <div class="inline-flex items-center space-x-3">
+              <svg class="animate-spin h-6 w-6 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="text-purple-600 font-semibold">Searching...</span>
+            </div>
+          </div>
+
+          <!-- Response Section -->
+          <div id="responseSection" class="hidden">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center space-x-3">
+                <i class="fas fa-reply text-gray-600"></i>
+                <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Response</h3>
+                <span id="resultCount" class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded font-semibold"></span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span id="statusBadge" class="px-3 py-1 rounded-md font-semibold text-xs"></span>
+                <button 
+                  id="copyBtn"
+                  class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-xs font-semibold transition-colors"
+                  title="Copy to clipboard"
+                >
+                  <i class="fas fa-copy mr-1"></i>Copy
+                </button>
+              </div>
+            </div>
+            <div class="bg-gray-900 break-words word-break overflow-x-auto rounded-lg overflow-hidden border border-gray-700">
+              <pre id="responseBody" class="text-gray-100 p-5 text-xs overflow-x-auto max-h-96 overflow-y-auto api-response leading-relaxed"></pre>
+            </div>
+          </div>
         </div>
       </div>
 
     </div>
-
   </div>
-</div>
+
+  <script>
+    const form = document.getElementById('testForm');
+    const queryInput = document.getElementById('query');
+    const apiUrlDisplay = document.getElementById('apiUrl');
+    const executeBtn = document.getElementById('executeBtn');
+    const responseSection = document.getElementById('responseSection');
+    const statusBadge = document.getElementById('statusBadge');
+    const responseBody = document.getElementById('responseBody');
+    const resultCount = document.getElementById('resultCount');
+    const loading = document.getElementById('loading');
+    const copyBtn = document.getElementById('copyBtn');
+    const quickSearchBtns = document.querySelectorAll('.quick-search');
+    const toggleUrlBtn = document.getElementById('toggleUrlBtn');
+
+    const BASE_URL = 'https://namverse-api.vercel.app/api/v1/search';
+    let showFullUrl = false;
+
+    function updateUrlDisplay() {
+      const query = queryInput.value.trim();
+      const limit = (document.getElementById('limit')?.value || '').trim();
+      const religion = (document.getElementById('religion')?.value || '').trim();
+      const params = new URLSearchParams();
+      params.append('q', query || '{query}');
+      if (limit) params.append('limit', limit);
+      if (religion) params.append('religion', religion);
+
+      const fullUrl = BASE_URL + '?' + params.toString();
+      const pathUrl = '/api/v1/search?' + params.toString();
+
+      apiUrlDisplay.textContent = showFullUrl ? fullUrl : pathUrl;
+    }
+
+    // Toggle URL display
+    toggleUrlBtn.addEventListener('click', () => {
+      showFullUrl = !showFullUrl;
+      if (showFullUrl) {
+        toggleUrlBtn.innerHTML = '<i class="fas fa-eye-slash mr-1"></i>Hide Full URL';
+      } else {
+        toggleUrlBtn.innerHTML = '<i class="fas fa-eye mr-1"></i>Show Full URL';
+      }
+      updateUrlDisplay();
+    });
+
+    queryInput.addEventListener('input', updateUrlDisplay);
+    document.getElementById('limit')?.addEventListener('input', updateUrlDisplay);
+    document.getElementById('religion')?.addEventListener('change', updateUrlDisplay);
+
+    // Initialize URL display
+    updateUrlDisplay();
+
+    // Quick search buttons
+    quickSearchBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        queryInput.value = btn.dataset.query;
+        updateUrlDisplay();
+        form.dispatchEvent(new Event('submit'));
+      });
+    });
+
+    // Copy to clipboard
+    copyBtn.addEventListener('click', async () => {
+      const text = responseBody.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        const originalHTML = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
+        copyBtn.classList.add('bg-green-100', 'text-green-700');
+        copyBtn.classList.remove('bg-gray-100', 'text-gray-700');
+        
+        setTimeout(() => {
+          copyBtn.innerHTML = originalHTML;
+          copyBtn.classList.remove('bg-green-100', 'text-green-700');
+          copyBtn.classList.add('bg-gray-100', 'text-gray-700');
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const query = queryInput.value.trim();
+      
+      if (!query) {
+        alert('Please enter a search query');
+        return;
+      }
+      
+      executeBtn.disabled = true;
+      loading.classList.remove('hidden');
+      responseSection.classList.add('hidden');
+
+      try {
+        const params = new URLSearchParams();
+        params.append('q', query);
+        const limitEl = document.getElementById('limit');
+        const religionEl = document.getElementById('religion');
+        if (limitEl && limitEl.value) params.append('limit', limitEl.value);
+        if (religionEl && religionEl.value) params.append('religion', religionEl.value);
+        const url = BASE_URL + '?' + params.toString();
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        statusBadge.textContent = response.status + ' ' + response.statusText;
+        statusBadge.className = response.ok 
+          ? 'px-3 py-1 rounded-md font-semibold text-xs bg-green-500 text-white' 
+          : 'px-3 py-1 rounded-md font-semibold text-xs bg-red-500 text-white';
+        
+        // Show result count
+        if (response.ok) {
+          if (Array.isArray(data)) {
+            resultCount.textContent = `${data.length} result${data.length !== 1 ? 's' : ''}`;
+          } else if (Array.isArray(data.names)) {
+            resultCount.textContent = `${data.names.length} result${data.names.length !== 1 ? 's' : ''}`;
+          } else if (data.data && Array.isArray(data.data)) {
+            resultCount.textContent = `${data.data.length} result${data.data.length !== 1 ? 's' : ''}`;
+          } else {
+            resultCount.textContent = '';
+          }
+        } else {
+          resultCount.textContent = '';
+        }
+        
+        responseBody.textContent = JSON.stringify(data, null, 2);
+        responseSection.classList.remove('hidden');
+        
+      } catch (error) {
+        statusBadge.textContent = 'Error';
+        statusBadge.className = 'px-3 py-1 rounded-md font-semibold text-xs bg-red-500 text-white';
+        responseBody.textContent = JSON.stringify({ error: error.message }, null, 2);
+        resultCount.textContent = '';
+        responseSection.classList.remove('hidden');
+      } finally {
+        executeBtn.disabled = false;
+        loading.classList.add('hidden');
+      }
+    });
+  </script>
+  <!-- Navigation Footer -->
+  <div class="mt-8 pt-6 border-t border-gray-200 text-center text-sm text-gray-600">
+    <a href="/" class="text-purple-600 hover:underline">Home</a> • 
+    <a href="/docs" class="text-purple-600 hover:underline">Documentation</a> • 
+    <a href="/health" class="text-purple-600 hover:underline">Status</a>
+  </div>
+</body>
+</html>
