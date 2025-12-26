@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Related Names API - Live Testing | NameVerse API</title>
+  <meta name="description" content="Test the Related Names API endpoint. Find names with same origin and gender from NameVerse API.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    pre { background: #1e293b; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; }
+    code { color: #10b981; font-family: 'Courier New', monospace; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="bg-white shadow-sm border-b sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <img src="/logo.svg" alt="NameVerse API" class="w-10 h-10 rounded-lg shadow">
+          <div>
+            <h1 class="text-xl font-bold gradient-text">Related Names</h1>
+            <p class="text-xs text-gray-500">Live API Testing</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <a href="/" class="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"><i class="fas fa-home mr-1"></i>Home</a>
+          <a href="/docs" class="px-3 py-2 text-sm bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200"><i class="fas fa-book mr-1"></i>Docs</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-6 py-8 max-w-4xl">
+    <nav class="text-sm mb-6">
+      <a href="/" class="text-gray-500 hover:text-purple-600">Home</a>
+      <span class="mx-2 text-gray-400">/</span>
+      <a href="/docs" class="text-gray-500 hover:text-purple-600">Docs</a>
+      <span class="mx-2 text-gray-400">/</span>
+      <span class="text-gray-900 font-medium">Related Names Testing</span>
+    </nav>
+
+    <div class="mb-8">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
+        <h1 class="text-3xl font-bold text-gray-900">Related Names</h1>
+      </div>
+      <p class="text-gray-600 text-lg">Get names with the same origin and gender as the specified name.</p>
+    </div>
+
+    <div class="bg-gray-900 rounded-lg p-4 mb-8">
+      <code class="text-green-400 text-lg">GET /api/v1/names/:religion/:slug/related</code>
+    </div>
+
+    <!-- Test Form -->
+    <div class="bg-white rounded-xl shadow-sm border p-6 mb-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-4"><i class="fas fa-flask text-green-600 mr-2"></i>Test API</h2>
+
+      <form id="testForm" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Religion</label>
+            <select id="religion" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-200 focus:border-purple-500">
+              <option value="islamic">Islamic</option>
+              <option value="christian">Christian</option>
+              <option value="hindu">Hindu</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Name Slug</label>
+            <input type="text" id="slug" value="muhammad" placeholder="e.g., muhammad" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-200 focus:border-purple-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Limit (optional)</label>
+          <input type="number" id="limit" value="10" min="1" max="50" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-200 focus:border-purple-500">
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <button type="button" onclick="setExample('islamic', 'muhammad')" class="px-3 py-2 bg-purple-50 text-purple-700 rounded-lg text-sm hover:bg-purple-100">Muhammad</button>
+          <button type="button" onclick="setExample('islamic', 'fatima')" class="px-3 py-2 bg-pink-50 text-pink-700 rounded-lg text-sm hover:bg-pink-100">Fatima</button>
+          <button type="button" onclick="setExample('christian', 'john')" class="px-3 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm hover:bg-blue-100">John</button>
+          <button type="button" onclick="setExample('hindu', 'arjun')" class="px-3 py-2 bg-green-50 text-green-700 rounded-lg text-sm hover:bg-green-100">Arjun</button>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:shadow-lg transition-all">
+          <i class="fas fa-paper-plane mr-2"></i>Send Request
+        </button>
+      </form>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="hidden text-center py-8">
+      <div class="inline-flex items-center space-x-3">
+        <svg class="animate-spin h-6 w-6 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span class="text-purple-600 font-semibold">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Response -->
+    <div id="responseSection" class="hidden">
+      <div class="bg-white rounded-xl shadow-sm border p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold text-gray-900"><i class="fas fa-reply text-green-600 mr-2"></i>Response</h2>
+          <div class="flex items-center space-x-2">
+            <span id="statusBadge" class="px-3 py-1 rounded-md font-semibold text-xs"></span>
+            <button id="copyBtn" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-xs font-semibold">
+              <i class="fas fa-copy mr-1"></i>Copy
+            </button>
+          </div>
+        </div>
+        <pre id="responseBody" class="text-gray-100 text-sm overflow-x-auto max-h-96"></pre>
+      </div>
+    </div>
+
+    <!-- Related Endpoints -->
+    <div class="bg-purple-50 rounded-xl border border-purple-200 p-6 mt-6">
+      <h2 class="text-xl font-bold text-gray-900 mb-4"><i class="fas fa-link text-purple-600 mr-2"></i>Related</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <a href="/docs/RelatedNames.html" class="flex items-center p-3 bg-white rounded-lg hover:shadow-md transition"><i class="fas fa-book text-purple-600 mr-3"></i><span>View Documentation</span></a>
+        <a href="/src/similarnames.html" class="flex items-center p-3 bg-white rounded-lg hover:shadow-md transition"><i class="fas fa-clone text-pink-600 mr-3"></i><span>Similar Names</span></a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-gray-900 text-white py-8 mt-12">
+    <div class="container mx-auto px-6 text-center">
+      <p class="text-gray-400">&copy; 2024 NameVerse API. All rights reserved.</p>
+      <div class="flex justify-center space-x-6 mt-4">
+        <a href="/" class="text-gray-400 hover:text-white">Home</a>
+        <a href="/docs" class="text-gray-400 hover:text-white">Documentation</a>
+        <a href="/health" class="text-gray-400 hover:text-white">Health</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const API_BASE = 'https://namverse-api.vercel.app/api/v1';
+
+    function setExample(religion, slug) {
+      document.getElementById('religion').value = religion;
+      document.getElementById('slug').value = slug;
+    }
+
+    document.getElementById('testForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const religion = document.getElementById('religion').value;
+      const slug = document.getElementById('slug').value.trim().toLowerCase();
+      const limit = document.getElementById('limit').value;
+
+      if (!slug) {
+        alert('Please enter a name slug');
+        return;
+      }
+
+      const loading = document.getElementById('loading');
+      const responseSection = document.getElementById('responseSection');
+      const statusBadge = document.getElementById('statusBadge');
+      const responseBody = document.getElementById('responseBody');
+
+      loading.classList.remove('hidden');
+      responseSection.classList.add('hidden');
+
+      try {
+        let url = `${API_BASE}/names/${religion}/${slug}/related`;
+        if (limit) url += `?limit=${limit}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        loading.classList.add('hidden');
+        responseSection.classList.remove('hidden');
+
+        if (response.ok) {
+          statusBadge.textContent = `${response.status} OK`;
+          statusBadge.className = 'px-3 py-1 rounded-md font-semibold text-xs bg-green-100 text-green-700';
+        } else {
+          statusBadge.textContent = `${response.status} Error`;
+          statusBadge.className = 'px-3 py-1 rounded-md font-semibold text-xs bg-red-100 text-red-700';
+        }
+
+        responseBody.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        loading.classList.add('hidden');
+        responseSection.classList.remove('hidden');
+        statusBadge.textContent = 'Error';
+        statusBadge.className = 'px-3 py-1 rounded-md font-semibold text-xs bg-red-100 text-red-700';
+        responseBody.textContent = JSON.stringify({ error: error.message }, null, 2);
+      }
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      const text = document.getElementById('responseBody').textContent;
+      await navigator.clipboard.writeText(text);
+      const btn = document.getElementById('copyBtn');
+      btn.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
+      setTimeout(() => btn.innerHTML = '<i class="fas fa-copy mr-1"></i>Copy', 2000);
+    });
+  </script>
+</body>
+</html>
