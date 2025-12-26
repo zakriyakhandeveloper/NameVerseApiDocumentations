@@ -1,0 +1,359 @@
+================================================================================
+                    NAMEVERSE API - ALL AVAILABLE ROUTES
+================================================================================
+Base URL: http://localhost:5000 (Development)
+Base URL: https://namverse-api.vercel.app (Production)
+
+Timeout: 30 seconds
+API Version: v1
+Authentication: None required (Public API)
+Rate Limit: 100 requests/day per IP (unlimited for nameverse.vercel.app)
+
+================================================================================
+                          ROOT & HEALTH ENDPOINTS
+================================================================================
+
+1. GET /
+   Description: Get API information and available endpoints
+   Response: API metadata, version, endpoints list
+   Example: curl http://localhost:5000/
+
+2. GET /api/v1
+   Description: Get API v1 documentation
+   Response: API v1 endpoints documentation
+   Example: curl http://localhost:5000/api/v1
+
+3. GET /health
+   Description: Check API and database health (Legacy endpoint)
+   Response: { status, database, timestamp }
+   Example: curl http://localhost:5000/health
+
+4. GET /api/v1/health
+   Description: Check API v1 health status
+   Response: { status, database, timestamp, version }
+   Example: curl http://localhost:5000/api/v1/health
+
+5. GET /warmup
+   Description: Warm up serverless function (for cold starts)
+   Response: { status, totalMs, timestamp }
+   Example: curl http://localhost:5000/warmup
+
+================================================================================
+                            NAMES ENDPOINTS
+================================================================================
+
+6. GET /api/v1/names
+   Description: Get paginated list of names with optional filters
+   Query Parameters:
+     - religion: islamic|christian|hindu (default: islamic)
+     - page: Page number (default: 1)
+     - limit: Items per page (default: 50, max: 100)
+     - gender: male|female
+     - origin: Filter by origin
+     - startsWith: Filter names starting with letter
+     - search: Search query
+     - sort: asc|desc (default: asc)
+   Response: { success, religion, data[], pagination }
+   Examples:
+     curl "http://localhost:5000/api/v1/names"
+     curl "http://localhost:5000/api/v1/names?religion=islamic&page=1&limit=10"
+     curl "http://localhost:5000/api/v1/names?religion=christian&gender=female&limit=20"
+     curl "http://localhost:5000/api/v1/names?religion=hindu&startsWith=A&limit=15"
+
+7. GET /api/v1/names/search
+   Description: Search names across all or specific religion
+   Query Parameters:
+     - q: Search query (required, min: 2 characters)
+     - religion: islamic|christian|hindu (optional)
+     - limit: Number of results (default: 20, max: 50)
+   Response: { success, religion, data[], pagination }
+   Examples:
+     curl "http://localhost:5000/api/v1/names/search?q=ali&limit=10"
+     curl "http://localhost:5000/api/v1/names/search?q=maria&religion=christian"
+     curl "http://localhost:5000/api/v1/names/search?q=krishna&religion=hindu&limit=5"
+
+8. GET /api/v1/names/:religion/filters
+   Description: Get available filters for a religion (genders, origins, letters)
+   Path Parameters:
+     - religion: islamic|christian|hindu
+   Response: { success, religion, filters: { genders[], letters[] } }
+   Examples:
+     curl "http://localhost:5000/api/v1/names/islamic/filters"
+     curl "http://localhost:5000/api/v1/names/christian/filters"
+     curl "http://localhost:5000/api/v1/names/hindu/filters"
+
+9. GET /api/v1/names/:religion/letter/:letter
+   Description: Get names starting with a specific letter
+   Path Parameters:
+     - religion: islamic|christian|hindu
+     - letter: Starting letter (A-Z)
+   Query Parameters:
+     - limit: Number of results (default: 100, max: 150)
+   Response: { success, religion, letter, data[], count }
+   Examples:
+     curl "http://localhost:5000/api/v1/names/islamic/letter/A"
+     curl "http://localhost:5000/api/v1/names/christian/letter/M?limit=50"
+     curl "http://localhost:5000/api/v1/names/hindu/letter/K?limit=20"
+
+10. GET /api/v1/names/:religion/:slug
+    Description: Get single name by religion and slug
+    Path Parameters:
+      - religion: islamic|christian|hindu
+      - slug: Name slug (lowercase, hyphenated)
+    Response: { success, religion, data: {...} }
+    Examples:
+      curl "http://localhost:5000/api/v1/names/islamic/ali"
+      curl "http://localhost:5000/api/v1/names/christian/mary"
+      curl "http://localhost:5000/api/v1/names/hindu/arjun"
+
+11. GET /api/v1/names/:religion/:slug/related
+    Description: Get related names based on origin and gender
+    Path Parameters:
+      - religion: islamic|christian|hindu
+      - slug: Name slug
+    Query Parameters:
+      - limit: Number of results (default: 10, max: 20)
+    Response: { success, religion, originalName, data[], count }
+    Examples:
+      curl "http://localhost:5000/api/v1/names/islamic/ali/related?limit=5"
+      curl "http://localhost:5000/api/v1/names/christian/john/related?limit=10"
+      curl "http://localhost:5000/api/v1/names/hindu/rama/related"
+
+12. GET /api/v1/names/:religion/:slug/similar
+    Description: Get similar names based on name pattern
+    Path Parameters:
+      - religion: islamic|christian|hindu
+      - slug: Name slug
+    Query Parameters:
+      - limit: Number of results (default: 8, max: 20)
+    Response: { success, religion, originalName, data[], count }
+    Examples:
+      curl "http://localhost:5000/api/v1/names/islamic/ali/similar?limit=5"
+      curl "http://localhost:5000/api/v1/names/christian/sarah/similar"
+      curl "http://localhost:5000/api/v1/names/hindu/krishna/similar?limit=10"
+
+================================================================================
+                          ARTICLES ENDPOINTS
+================================================================================
+
+13. GET /api/v1/articles
+    Description: Get paginated list of articles with optional filters
+    Query Parameters:
+      - page: Page number (default: 1)
+      - limit: Items per page (default: 10, max: 50)
+      - category: Filter by category
+      - status: published|draft (default: published)
+      - sort: recent|oldest|views|likes (default: recent)
+    Response: { success, data[], pagination }
+    Examples:
+      curl "http://localhost:5000/api/v1/articles"
+      curl "http://localhost:5000/api/v1/articles?page=1&limit=5"
+      curl "http://localhost:5000/api/v1/articles?category=Baby%20Naming%20Trends&limit=10"
+      curl "http://localhost:5000/api/v1/articles?sort=views&limit=5"
+
+14. GET /api/v1/articles/latest
+    Description: Get latest published articles
+    Query Parameters:
+      - limit: Number of articles (default: 10, max: 50)
+    Response: { success, count, data[] }
+    Examples:
+      curl "http://localhost:5000/api/v1/articles/latest"
+      curl "http://localhost:5000/api/v1/articles/latest?limit=5"
+      curl "http://localhost:5000/api/v1/articles/latest?limit=20"
+
+15. GET /api/v1/articles/categories
+    Description: Get all article categories with counts
+    Response: { success, count, data[] }
+    Example:
+      curl "http://localhost:5000/api/v1/articles/categories"
+
+16. GET /api/v1/articles/search
+    Description: Search articles by query
+    Query Parameters:
+      - q: Search query (required, min: 2 characters)
+      - page: Page number (default: 1)
+      - limit: Items per page (default: 10, max: 50)
+    Response: { success, query, data[], pagination }
+    Examples:
+      curl "http://localhost:5000/api/v1/articles/search?q=name&limit=5"
+      curl "http://localhost:5000/api/v1/articles/search?q=islamic&page=1&limit=10"
+      curl "http://localhost:5000/api/v1/articles/search?q=meaning"
+
+17. GET /api/v1/articles/:slug
+    Description: Get single article by slug
+    Path Parameters:
+      - slug: Article slug (lowercase, hyphenated)
+    Response: { success, data: {...} }
+    Examples:
+      curl "http://localhost:5000/api/v1/articles/modern-noahkwvrin"
+      curl "http://localhost:5000/api/v1/articles/cultural-noramp7l47"
+
+================================================================================
+                         ERROR RESPONSES
+================================================================================
+
+All endpoints return consistent error responses:
+
+400 Bad Request:
+{
+  "success": false,
+  "error": "Error message describing what went wrong"
+}
+
+404 Not Found:
+{
+  "success": false,
+  "error": "Endpoint not found",
+  "path": "/requested/path",
+  "message": "The requested endpoint does not exist",
+  "availableEndpoints": {...},
+  "timestamp": "2025-12-16T..."
+}
+
+429 Too Many Requests:
+{
+  "success": false,
+  "error": "Too many requests. Rate limit exceeded.",
+  "retryAfter": "24 hours"
+}
+
+500 Internal Server Error:
+{
+  "success": false,
+  "error": "Internal server error",
+  "timestamp": "2025-12-16T..."
+}
+
+================================================================================
+                         RESPONSE FORMATS
+================================================================================
+
+Names List Response:
+{
+  "success": true,
+  "religion": "islamic",
+  "data": [
+    {
+      "_id": "...",
+      "name": "Ali",
+      "slug": "ali",
+      "gender": "Male",
+      "origin": "Arabic",
+      "religion": "Islam",
+      "short_meaning": "Noble, Exalted",
+      "long_meaning": "...",
+      "in_arabic": {...},
+      "in_urdu": {...},
+      "pronunciation": {...},
+      ...
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 50,
+    "total": 22720,
+    "totalPages": 455,
+    "hasMore": true
+  }
+}
+
+Single Name Response:
+{
+  "success": true,
+  "religion": "islamic",
+  "data": {
+    "_id": "...",
+    "name": "Ali",
+    "slug": "ali",
+    // ... full name details
+  }
+}
+
+Articles List Response:
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "...",
+      "slug": "modern-noahkwvrin",
+      "title": "Noah in the 21st Century",
+      "subtitle": "Why Noah remains a top choice",
+      "author": "NameVerse Team",
+      "category": "Baby Naming Trends",
+      "tags": ["Modern Names", "Popular Names"],
+      "excerpt": "...",
+      "cover_image_url": "...",
+      "read_time_minutes": 5,
+      "views": 131,
+      "likes": 67,
+      "publishedAt": "2024-12-29T19:00:00.000Z",
+      ...
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 468,
+    "totalPages": 47,
+    "hasMore": true
+  }
+}
+
+Single Article Response:
+{
+  "success": true,
+  "data": {
+    "_id": "...",
+    "slug": "modern-noahkwvrin",
+    "title": "...",
+    "content": "...", // Full article content
+    // ... full article details
+  }
+}
+
+================================================================================
+                         TESTING NOTES
+================================================================================
+
+1. All endpoints support CORS for cross-origin requests
+2. Rate limiting is disabled in development (NODE_ENV !== 'production')
+3. Database connection is handled automatically with graceful fallbacks
+4. All responses include timestamps
+5. Pagination is consistent across list endpoints
+6. Search queries require minimum 2 characters
+7. Invalid parameters are handled gracefully with appropriate error messages
+
+================================================================================
+                         QUICK TEST COMMANDS
+================================================================================
+
+# Test root endpoint
+curl http://localhost:5000/
+
+# Test health
+curl http://localhost:5000/api/v1/health
+
+# Get Islamic names
+curl "http://localhost:5000/api/v1/names?religion=islamic&limit=5"
+
+# Search for a name
+curl "http://localhost:5000/api/v1/names/search?q=ali"
+
+# Get specific name
+curl "http://localhost:5000/api/v1/names/islamic/ali"
+
+# Get articles
+curl "http://localhost:5000/api/v1/articles?limit=3"
+
+# Search articles
+curl "http://localhost:5000/api/v1/articles/search?q=name"
+
+# Get article categories
+curl "http://localhost:5000/api/v1/articles/categories"
+
+================================================================================
+                         END OF DOCUMENTATION
+================================================================================
+Last Updated: 2025-12-16
+API Version: 1.0.0
+Documentation Version: 1.0

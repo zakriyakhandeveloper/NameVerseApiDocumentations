@@ -3,49 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Primary Meta Tags -->
   <title>NameVerse API Documentation - Complete API Reference</title>
-  <meta name="description" content="Complete documentation for NameVerse API. Access 70,000+ names across Islamic, Hindu, and Christian traditions. Comprehensive endpoint reference and examples.">
-  <meta name="keywords" content="NameVerse API, API documentation, names API, REST API, Islamic names, Hindu names, Christian names">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://nameversedocumentations.vercel.app/docs">
-
-  <!-- Favicon -->
+  <meta name="description" content="Complete documentation for NameVerse API. Access 70,000+ names across Islamic, Hindu, and Christian traditions.">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-
-  <!-- Stylesheets -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .endpoint-card {
-      transition: all 0.3s ease;
-    }
-
-    .endpoint-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .endpoint-card { transition: all 0.3s ease; }
+    .endpoint-card:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
   </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
-
+<body class="bg-gray-50 min-h-screen">
   <!-- Header -->
-  <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+  <header class="bg-white shadow-sm border-b sticky top-0 z-50">
     <div class="container mx-auto px-6 py-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
@@ -56,29 +29,21 @@
           </div>
         </div>
         <div class="flex items-center space-x-3">
-          <a href="/" class="px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors font-semibold">
-            <i class="fas fa-home mr-2"></i>Home
-          </a>
-          <a href="/health" class="px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors font-semibold">
-            <i class="fas fa-heartbeat mr-2"></i>Health
-          </a>
+          <a href="/" class="px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 font-semibold"><i class="fas fa-home mr-2"></i>Home</a>
+          <a href="/health" class="px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 font-semibold"><i class="fas fa-heartbeat mr-2"></i>Health</a>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
   <div class="container mx-auto px-6 py-8">
-
-    <!-- Page Title -->
+    <!-- Title -->
     <div class="text-center mb-12">
       <h2 class="text-4xl font-bold text-gray-900 mb-4">API Documentation</h2>
-      <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-        Explore our comprehensive API endpoints for accessing 70,000+ names with meanings, origins, and cultural information.
-      </p>
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto">Explore all API endpoints for accessing 70,000+ names with meanings, origins, and cultural information.</p>
     </div>
 
-    <!-- API Base URL -->
+    <!-- Base URL -->
     <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6 mb-12 border border-purple-200">
       <div class="flex items-center space-x-3 mb-3">
         <i class="fas fa-server text-purple-600 text-2xl"></i>
@@ -87,248 +52,237 @@
       <div class="bg-gray-900 rounded-lg p-4">
         <code class="text-green-400 text-lg font-mono">https://namverse-api.vercel.app/api/v1</code>
       </div>
+      <p class="text-sm text-gray-600 mt-3"><i class="fas fa-info-circle mr-1"></i>Rate Limit: 100 requests/day per IP | Authentication: None required</p>
     </div>
 
-    <!-- Names API Endpoints -->
+    <!-- Health & Root -->
     <div class="mb-12">
       <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-        <i class="fas fa-user-circle text-blue-600 mr-3"></i>
-        Names API Endpoints
+        <i class="fas fa-heartbeat text-green-600 mr-3"></i>Health & Status
       </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="/docs/Health.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
+            <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
+            <i class="fas fa-heartbeat text-green-600 text-xl"></i>
+          </div>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Health Check</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/health</code>
+          <p class="text-sm text-gray-600 mt-2">Check API and database health status</p>
+        </a>
+      </div>
+    </div>
 
+    <!-- Names Endpoints -->
+    <div class="mb-12">
+      <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+        <i class="fas fa-user-circle text-blue-600 mr-3"></i>Names API Endpoints
+      </h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <!-- 1. Get All Names -->
-        <a href="/docs/GetNames.html" class="endpoint-card bg-white rounded-xl shadow-md border border-gray-200 p-6 block">
-          <div class="flex items-center justify-between mb-4">
+        <a href="/docs/Names.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
             <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-            <i class="fas fa-list text-blue-600 text-2xl"></i>
+            <i class="fas fa-list text-blue-600 text-xl"></i>
           </div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Get All Names</h4>
-          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded block mb-4 break-all">
-            /api/v1/names
-          </code>
-          <p class="text-sm text-gray-600">
-            Retrieve paginated list of names with filtering options by religion, gender, alphabet, and more.
-          </p>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Get Names</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/names</code>
+          <p class="text-sm text-gray-600 mt-2">Get paginated list with filters</p>
         </a>
 
-        <!-- 2. Search Names -->
-        <a href="/docs/GetNamesBySearch.html" class="endpoint-card bg-white rounded-xl shadow-md border border-gray-200 p-6 block">
-          <div class="flex items-center justify-between mb-4">
+        <a href="/docs/NamesSearch.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
             <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-            <i class="fas fa-magnifying-glass text-green-600 text-2xl"></i>
+            <i class="fas fa-search text-green-600 text-xl"></i>
           </div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Search Names</h4>
-          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded block mb-4 break-all">
-            /api/v1/search?query=
-          </code>
-          <p class="text-sm text-gray-600">
-            Search through names using keywords. Supports partial matching and returns relevant results.
-          </p>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Search Names</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/names/search</code>
+          <p class="text-sm text-gray-600 mt-2">Search names across religions</p>
         </a>
 
-        <!-- 3. Get Name by Slug -->
-        <a href="/docs/GetNamesBySlug.html" class="endpoint-card bg-white rounded-xl shadow-md border border-gray-200 p-6 block">
-          <div class="flex items-center justify-between mb-4">
+        <a href="/docs/NamesFilters.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
             <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-            <i class="fas fa-link text-purple-600 text-2xl"></i>
+            <i class="fas fa-filter text-teal-600 text-xl"></i>
           </div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Get by Slug</h4>
-          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded block mb-4 break-all">
-            /api/v1/names/{religion}/{slug}
-          </code>
-          <p class="text-sm text-gray-600">
-            Get detailed information about a specific name by its slug identifier and religion category.
-          </p>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Get Filters</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/names/:religion/filters</code>
+          <p class="text-sm text-gray-600 mt-2">Get available filter options</p>
         </a>
 
-        <!-- 4. Get by Letter -->
-        <a href="/docs/GetNamesByLetter.html" class="endpoint-card bg-white rounded-xl shadow-md border border-gray-200 p-6 block">
-          <div class="flex items-center justify-between mb-4">
+        <a href="/docs/NamesByLetter.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
             <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-            <i class="fas fa-font text-amber-600 text-2xl"></i>
+            <i class="fas fa-font text-amber-600 text-xl"></i>
           </div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Get by Letter</h4>
-          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded block mb-4 break-all">
-            /api/v1/names?alphabet=
-          </code>
-          <p class="text-sm text-gray-600">
-            Filter names by starting letter (A-Z). Returns all names beginning with specified alphabet.
-          </p>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Get by Letter</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/names/:religion/letter/:letter</code>
+          <p class="text-sm text-gray-600 mt-2">Names starting with a letter</p>
         </a>
 
-        <!-- 5. Get by Religion -->
-        <a href="/docs/GetNamesByReligion.html" class="endpoint-card bg-white rounded-xl shadow-md border border-gray-200 p-6 block">
-          <div class="flex items-center justify-between mb-4">
+        <a href="/docs/NameBySlug.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
             <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-            <i class="fas fa-book-open text-indigo-600 text-2xl"></i>
+            <i class="fas fa-user text-purple-600 text-xl"></i>
           </div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Get by Religion</h4>
-          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded block mb-4 break-all">
-            /api/v1/names?religion=
-          </code>
-          <p class="text-sm text-gray-600">
-            Filter names by religious tradition: Islamic, Hindu, or Christian categories.
-          </p>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Get Name by Slug</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/names/:religion/:slug</code>
+          <p class="text-sm text-gray-600 mt-2">Get single name details</p>
         </a>
 
-        <!-- 6. Get Filter Options -->
-        <a href="/docs/Getfilters.html" class="endpoint-card bg-white rounded-xl shadow-md border border-gray-200 p-6 block">
-          <div class="flex items-center justify-between mb-4">
+        <a href="/docs/RelatedNames.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
             <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-            <i class="fas fa-filter text-teal-600 text-2xl"></i>
+            <i class="fas fa-users text-indigo-600 text-xl"></i>
           </div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Get Filters</h4>
-          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded block mb-4 break-all">
-            /api/v1/filters
-          </code>
-          <p class="text-sm text-gray-600">
-            Get available filter options including religions, genders, origins, and other metadata.
-          </p>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Related Names</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/names/:religion/:slug/related</code>
+          <p class="text-sm text-gray-600 mt-2">Names with same origin/gender</p>
+        </a>
+
+        <a href="/docs/SimilarNames.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
+            <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
+            <i class="fas fa-clone text-pink-600 text-xl"></i>
+          </div>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Similar Names</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/names/:religion/:slug/similar</code>
+          <p class="text-sm text-gray-600 mt-2">Phonetically similar names</p>
         </a>
 
       </div>
     </div>
 
-    <!-- Articles API Endpoints -->
+    <!-- Articles Endpoints -->
     <div class="mb-12">
       <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-        <i class="fas fa-newspaper text-rose-600 mr-3"></i>
-        Articles API Endpoints
+        <i class="fas fa-newspaper text-rose-600 mr-3"></i>Articles API Endpoints
       </h3>
-
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <!-- 7. Get All Articles -->
-        <a href="/docs/GetArticles.html" class="endpoint-card bg-white rounded-xl shadow-md border border-gray-200 p-6 block">
-          <div class="flex items-center justify-between mb-4">
+        <a href="/docs/Articles.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
             <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-            <i class="fas fa-newspaper text-rose-600 text-2xl"></i>
+            <i class="fas fa-newspaper text-rose-600 text-xl"></i>
           </div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Get Articles</h4>
-          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded block mb-4 break-all">
-            /api/v1/articles
-          </code>
-          <p class="text-sm text-gray-600">
-            Retrieve paginated list of articles about names, meanings, and cultural traditions.
-          </p>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Get Articles</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/articles</code>
+          <p class="text-sm text-gray-600 mt-2">Get paginated articles list</p>
         </a>
 
-        <!-- 8. Articles Categories -->
-        <a href="/docs/GetArticlesCategories.html" class="endpoint-card bg-white rounded-xl shadow-md border border-gray-200 p-6 block">
-          <div class="flex items-center justify-between mb-4">
+        <a href="/docs/ArticlesLatest.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
             <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-            <i class="fas fa-layer-group text-green-600 text-2xl"></i>
+            <i class="fas fa-clock text-blue-600 text-xl"></i>
           </div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Categories</h4>
-          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded block mb-4 break-all">
-            /api/v1/articles/categories
-          </code>
-          <p class="text-sm text-gray-600">
-            Get all article categories with article counts. Browse articles by topic and tradition.
-          </p>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Latest Articles</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/articles/latest</code>
+          <p class="text-sm text-gray-600 mt-2">Get most recent articles</p>
         </a>
 
-        <!-- 9. Search Articles -->
-        <a href="/docs/GetArticlesSearch.html" class="endpoint-card bg-white rounded-xl shadow-md border border-gray-200 p-6 block">
-          <div class="flex items-center justify-between mb-4">
+        <a href="/docs/ArticlesCategories.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
             <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-            <i class="fas fa-search text-amber-600 text-2xl"></i>
+            <i class="fas fa-layer-group text-green-600 text-xl"></i>
           </div>
-          <h4 class="text-lg font-bold text-gray-900 mb-2">Search Articles</h4>
-          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded block mb-4 break-all">
-            /api/v1/articles/search?q=
-          </code>
-          <p class="text-sm text-gray-600">
-            Search articles by keyword with full-text search. Find articles about specific topics.
-          </p>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Categories</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/articles/categories</code>
+          <p class="text-sm text-gray-600 mt-2">Get all article categories</p>
+        </a>
+
+        <a href="/docs/ArticlesSearch.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
+            <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
+            <i class="fas fa-search text-amber-600 text-xl"></i>
+          </div>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Search Articles</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/articles/search</code>
+          <p class="text-sm text-gray-600 mt-2">Search articles by keyword</p>
+        </a>
+
+        <a href="/docs/ArticleBySlug.html" class="endpoint-card bg-white rounded-xl shadow-sm border p-6 block">
+          <div class="flex items-center justify-between mb-3">
+            <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
+            <i class="fas fa-file-alt text-purple-600 text-xl"></i>
+          </div>
+          <h4 class="text-lg font-bold text-gray-900 mb-1">Get Article by Slug</h4>
+          <code class="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded">/api/v1/articles/:slug</code>
+          <p class="text-sm text-gray-600 mt-2">Get single article details</p>
         </a>
 
       </div>
     </div>
 
     <!-- API Features -->
-    <div class="bg-white rounded-xl shadow-md border border-gray-200 p-8 mb-12">
+    <div class="bg-white rounded-xl shadow-sm border p-8 mb-12">
       <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-        <i class="fas fa-star text-yellow-500 mr-3"></i>
-        API Features
+        <i class="fas fa-star text-yellow-500 mr-3"></i>API Features
       </h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
         <div class="text-center">
-          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-database text-blue-600 text-2xl"></i>
+          <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-database text-blue-600 text-xl"></i>
           </div>
-          <h4 class="font-bold text-gray-900 mb-2">70,000+ Names</h4>
-          <p class="text-sm text-gray-600">Comprehensive database</p>
+          <h4 class="font-bold text-gray-900">70,000+ Names</h4>
+          <p class="text-xs text-gray-600">Comprehensive database</p>
         </div>
         <div class="text-center">
-          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-bolt text-green-600 text-2xl"></i>
+          <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-bolt text-green-600 text-xl"></i>
           </div>
-          <h4 class="font-bold text-gray-900 mb-2">Fast Response</h4>
-          <p class="text-sm text-gray-600">Lightning-fast API</p>
+          <h4 class="font-bold text-gray-900">Fast Response</h4>
+          <p class="text-xs text-gray-600">Lightning-fast API</p>
         </div>
         <div class="text-center">
-          <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-shield-alt text-purple-600 text-2xl"></i>
+          <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-shield-alt text-purple-600 text-xl"></i>
           </div>
-          <h4 class="font-bold text-gray-900 mb-2">Secure</h4>
-          <p class="text-sm text-gray-600">Rate-limited & protected</p>
+          <h4 class="font-bold text-gray-900">Secure</h4>
+          <p class="text-xs text-gray-600">Rate-limited & protected</p>
         </div>
         <div class="text-center">
-          <div class="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-code text-rose-600 text-2xl"></i>
+          <div class="w-14 h-14 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-code text-rose-600 text-xl"></i>
           </div>
-          <h4 class="font-bold text-gray-900 mb-2">RESTful</h4>
-          <p class="text-sm text-gray-600">Standard REST API</p>
+          <h4 class="font-bold text-gray-900">RESTful</h4>
+          <p class="text-xs text-gray-600">Standard REST API</p>
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- Footer -->
   <footer class="bg-gray-900 text-white py-12">
     <div class="container mx-auto px-6">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-        <!-- Brand -->
         <div class="col-span-1 md:col-span-2">
           <div class="flex items-center space-x-3 mb-4">
             <img src="/logo.svg" alt="NameVerse API" class="w-10 h-10 rounded-lg">
             <span class="text-xl font-bold">NameVerse API</span>
           </div>
-          <p class="text-gray-400 mb-4">
-            Access 70,000+ names across Islamic, Hindu, and Christian traditions with our comprehensive REST API.
-          </p>
+          <p class="text-gray-400 mb-4">Access 70,000+ names across Islamic, Hindu, and Christian traditions.</p>
         </div>
-
-        <!-- Quick Links -->
         <div>
           <h4 class="font-bold text-lg mb-4">Quick Links</h4>
           <ul class="space-y-2">
-            <li><a href="/" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
-            <li><a href="/docs" class="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
-            <li><a href="/health" class="text-gray-400 hover:text-white transition-colors">Health Check</a></li>
+            <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+            <li><a href="/docs" class="text-gray-400 hover:text-white">Documentation</a></li>
+            <li><a href="/health" class="text-gray-400 hover:text-white">Health Check</a></li>
           </ul>
         </div>
-
-        <!-- API Endpoints -->
         <div>
-          <h4 class="font-bold text-lg mb-4">API Endpoints</h4>
+          <h4 class="font-bold text-lg mb-4">Names API</h4>
           <ul class="space-y-2">
-            <li><a href="/docs/GetNames.html" class="text-gray-400 hover:text-white transition-colors">Get Names</a></li>
-            <li><a href="/docs/GetArticles.html" class="text-gray-400 hover:text-white transition-colors">Get Articles</a></li>
-            <li><a href="/docs/Getfilters.html" class="text-gray-400 hover:text-white transition-colors">Get Filters</a></li>
+            <li><a href="/docs/Names.html" class="text-gray-400 hover:text-white">Get Names</a></li>
+            <li><a href="/docs/NamesSearch.html" class="text-gray-400 hover:text-white">Search Names</a></li>
+            <li><a href="/docs/Articles.html" class="text-gray-400 hover:text-white">Get Articles</a></li>
           </ul>
         </div>
       </div>
-
       <div class="border-t border-gray-800 pt-8 text-center">
         <p class="text-gray-400">&copy; 2024 NameVerse API. All rights reserved.</p>
       </div>
     </div>
   </footer>
-
 </body>
 </html>
