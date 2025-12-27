@@ -11,7 +11,7 @@ import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
-import path from "path";
+import path from "path"; 
 import { fileURLToPath } from "url";
 import config from "./config.js";
 
@@ -120,6 +120,30 @@ app.get("/getarticlessearch", (req, res) => {
 
 app.get("/getarticlescategories", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "getarticlescategories.html"));
+});
+
+app.get("/relatednames", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "relatednames.html"));
+});
+
+app.get("/similarnames", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "similarnames.html"));
+});
+
+app.get("/articleslatest", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "articleslatest.html"));
+});
+
+app.get("/articlebyslug", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "articlebyslug.html"));
+});
+
+app.get("/healthcheck", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "health.html"));
+});
+
+app.get("/namebyslug", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "getnamesbyslug.html"));
 });
 
 /**

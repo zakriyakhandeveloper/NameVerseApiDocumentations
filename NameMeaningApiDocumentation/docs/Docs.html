@@ -9,12 +9,20 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
     body { font-family: 'Inter', sans-serif; }
+    code, pre { font-family: 'Fira Code', monospace; }
     .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    pre { background: #1e293b; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; }
-    code { color: #10b981; font-family: 'Courier New', monospace; }
+    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    pre { background: #0f172a; border-radius: 0.75rem; overflow-x: auto; }
     .endpoint-section { scroll-margin-top: 100px; }
+    .sidebar { position: sticky; top: 100px; }
+    .nav-link { transition: all 0.2s; border-left: 3px solid transparent; }
+    .nav-link:hover, .nav-link.active { border-left-color: #764ba2; background: rgba(102, 126, 234, 0.1); }
+    .response-tab { cursor: pointer; transition: all 0.2s; }
+    .response-tab.active { background: #0f172a; color: #10b981; }
+    .copy-btn { opacity: 0; transition: opacity 0.2s; }
+    pre:hover .copy-btn { opacity: 1; }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -26,428 +34,878 @@
           <img src="/logo.svg" alt="NameVerse API" class="w-12 h-12 rounded-xl shadow-lg">
           <div>
             <h1 class="text-2xl font-bold gradient-text">NameVerse API</h1>
-            <p class="text-sm text-gray-600">Complete API Documentation</p>
+            <p class="text-sm text-gray-500">v1.0.0 Documentation</p>
           </div>
         </div>
         <div class="flex items-center space-x-3">
-          <a href="/" class="px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 font-semibold"><i class="fas fa-home mr-2"></i>Home</a>
-          <a href="/health" class="px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 font-semibold"><i class="fas fa-heartbeat mr-2"></i>Health</a>
+          <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium"><i class="fas fa-circle text-xs mr-1"></i>API Online</span>
+          <a href="/" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium"><i class="fas fa-home mr-2"></i>Home</a>
         </div>
       </div>
     </div>
   </header>
 
-  <div class="container mx-auto px-6 py-8 max-w-5xl">
-    <!-- Title -->
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold text-gray-900 mb-4">API Documentation</h2>
-      <p class="text-lg text-gray-600 max-w-3xl mx-auto">Complete reference for all API endpoints. Access 70,000+ names with meanings, origins, and cultural information.</p>
-    </div>
+  <div class="container mx-auto px-6 py-8">
+    <div class="flex gap-8">
 
-    <!-- Base URL -->
-    <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6 mb-12 border border-purple-200">
-      <div class="flex items-center space-x-3 mb-3">
-        <i class="fas fa-server text-purple-600 text-2xl"></i>
-        <h3 class="text-xl font-bold text-gray-900">Base URL</h3>
-      </div>
-      <div class="bg-gray-900 rounded-lg p-4">
-        <code class="text-green-400 text-lg font-mono">https://namverse-api.vercel.app/api/v1</code>
-      </div>
-      <p class="text-sm text-gray-600 mt-3"><i class="fas fa-info-circle mr-1"></i>Rate Limit: 100 requests/day per IP | Authentication: None required</p>
-    </div>
+      <!-- Sidebar Navigation -->
+      <aside class="hidden lg:block w-64 flex-shrink-0">
+        <nav class="sidebar bg-white rounded-xl shadow-sm border p-4">
+          <h3 class="font-bold text-gray-900 mb-4 px-3">API Reference</h3>
 
-    <!-- Table of Contents -->
-    <div class="bg-white rounded-xl shadow-sm border p-6 mb-12">
-      <h3 class="text-xl font-bold text-gray-900 mb-4"><i class="fas fa-list text-purple-600 mr-2"></i>Endpoints</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <div>
-          <h4 class="font-bold text-gray-700 mb-2">Health</h4>
-          <ul class="space-y-1 text-gray-600">
-            <li><a href="#health" class="hover:text-purple-600">GET /api/v1/health</a></li>
-          </ul>
-          <h4 class="font-bold text-gray-700 mb-2 mt-4">Names API</h4>
-          <ul class="space-y-1 text-gray-600">
-            <li><a href="#get-names" class="hover:text-purple-600">GET /api/v1/names</a></li>
-            <li><a href="#search-names" class="hover:text-purple-600">GET /api/v1/names/search</a></li>
-            <li><a href="#get-filters" class="hover:text-purple-600">GET /api/v1/names/:religion/filters</a></li>
-            <li><a href="#names-by-letter" class="hover:text-purple-600">GET /api/v1/names/:religion/letter/:letter</a></li>
-            <li><a href="#name-by-slug" class="hover:text-purple-600">GET /api/v1/names/:religion/:slug</a></li>
-            <li><a href="#related-names" class="hover:text-purple-600">GET /api/v1/names/:religion/:slug/related</a></li>
-            <li><a href="#similar-names" class="hover:text-purple-600">GET /api/v1/names/:religion/:slug/similar</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-bold text-gray-700 mb-2">Articles API</h4>
-          <ul class="space-y-1 text-gray-600">
-            <li><a href="#get-articles" class="hover:text-purple-600">GET /api/v1/articles</a></li>
-            <li><a href="#latest-articles" class="hover:text-purple-600">GET /api/v1/articles/latest</a></li>
-            <li><a href="#article-categories" class="hover:text-purple-600">GET /api/v1/articles/categories</a></li>
-            <li><a href="#search-articles" class="hover:text-purple-600">GET /api/v1/articles/search</a></li>
-            <li><a href="#article-by-slug" class="hover:text-purple-600">GET /api/v1/articles/:slug</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+          <div class="mb-4">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-2">Getting Started</p>
+            <a href="#introduction" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Introduction</a>
+            <a href="#authentication" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Authentication</a>
+            <a href="#rate-limits" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Rate Limits</a>
+            <a href="#errors" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Errors</a>
+          </div>
 
-    <!-- ==================== HEALTH ==================== -->
-    <div id="health" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Health Check</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Check API and database health status. No parameters required.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/health</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example Response</h4>
-        <pre><code>{ "status": "ok", "database": "connected", "timestamp": "2024-12-26T10:30:00.000Z", "version": "1.0.0" }</code></pre>
-      </div>
-    </div>
+          <div class="mb-4">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-2">Health</p>
+            <a href="#health-check" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Health Check</a>
+          </div>
 
-    <!-- ==================== GET NAMES ==================== -->
-    <div id="get-names" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Names</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get paginated list of names with optional filters by religion, gender, origin, and more.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/names</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Query Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Default</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody class="divide-y">
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">religion</code></td><td class="p-2">string</td><td class="p-2">islamic</td><td class="p-2">islamic | christian | hindu</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">page</code></td><td class="p-2">number</td><td class="p-2">1</td><td class="p-2">Page number</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">limit</code></td><td class="p-2">number</td><td class="p-2">50</td><td class="p-2">Items per page (max: 100)</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">gender</code></td><td class="p-2">string</td><td class="p-2">-</td><td class="p-2">male | female</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">origin</code></td><td class="p-2">string</td><td class="p-2">-</td><td class="p-2">Filter by origin</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">startsWith</code></td><td class="p-2">string</td><td class="p-2">-</td><td class="p-2">Filter by starting letter</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">sort</code></td><td class="p-2">string</td><td class="p-2">asc</td><td class="p-2">asc | desc</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/names?religion=islamic&gender=male&limit=10"</code></pre>
-      </div>
-    </div>
+          <div class="mb-4">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-2">Names API</p>
+            <a href="#get-names" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Get Names</a>
+            <a href="#search-names" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Search Names</a>
+            <a href="#get-filters" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Get Filters</a>
+            <a href="#names-by-letter" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Names by Letter</a>
+            <a href="#name-by-slug" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Name by Slug</a>
+            <a href="#related-names" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Related Names</a>
+            <a href="#similar-names" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Similar Names</a>
+          </div>
 
-    <!-- ==================== SEARCH NAMES ==================== -->
-    <div id="search-names" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Search Names</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Search names across all religions or filter by specific religion. Minimum 2 characters required.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/names/search</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Query Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Required</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody class="divide-y">
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">q</code></td><td class="p-2">string</td><td class="p-2 text-red-600 font-semibold">Yes</td><td class="p-2">Search query (min: 2 chars)</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">religion</code></td><td class="p-2">string</td><td class="p-2">No</td><td class="p-2">islamic | christian | hindu</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">limit</code></td><td class="p-2">number</td><td class="p-2">No</td><td class="p-2">Results limit (default: 20, max: 50)</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/names/search?q=ali&limit=10"</code></pre>
-      </div>
-    </div>
+          <div>
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-2">Articles API</p>
+            <a href="#get-articles" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Get Articles</a>
+            <a href="#latest-articles" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Latest Articles</a>
+            <a href="#article-categories" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Categories</a>
+            <a href="#search-articles" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Search Articles</a>
+            <a href="#article-by-slug" class="nav-link block px-3 py-2 text-sm text-gray-600 rounded-r-lg">Article by Slug</a>
+          </div>
+        </nav>
+      </aside>
 
-    <!-- ==================== GET FILTERS ==================== -->
-    <div id="get-filters" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Filters</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get available filter options for a religion including genders and available letters.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/names/:religion/filters</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Path Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody>
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">religion</code></td><td class="p-2">string</td><td class="p-2">islamic | christian | hindu</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/names/islamic/filters"</code></pre>
-      </div>
-    </div>
+      <!-- Main Content -->
+      <main class="flex-1 max-w-4xl">
 
-    <!-- ==================== NAMES BY LETTER ==================== -->
-    <div id="names-by-letter" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Names by Letter</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get names starting with a specific letter for a religion.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/names/:religion/letter/:letter</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Path Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody class="divide-y">
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">religion</code></td><td class="p-2">string</td><td class="p-2">islamic | christian | hindu</td></tr>
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">letter</code></td><td class="p-2">string</td><td class="p-2">Starting letter (A-Z)</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/names/islamic/letter/A?limit=20"</code></pre>
-      </div>
-    </div>
+        <!-- Introduction -->
+        <section id="introduction" class="endpoint-section mb-16">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Introduction</h2>
+          <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+            The NameVerse API provides access to a comprehensive database of <strong>70,000+ names</strong> across Islamic, Hindu, and Christian traditions.
+            Each name includes meanings, origins, gender, and cultural information.
+          </p>
 
-    <!-- ==================== NAME BY SLUG ==================== -->
-    <div id="name-by-slug" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Name by Slug</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get detailed information about a specific name including meaning, origin, lucky day, personality traits, and more.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/names/:religion/:slug</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Path Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody class="divide-y">
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">religion</code></td><td class="p-2">string</td><td class="p-2">islamic | christian | hindu</td></tr>
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">slug</code></td><td class="p-2">string</td><td class="p-2">Name slug (lowercase, e.g., "muhammad")</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/names/islamic/muhammad"</code></pre>
-      </div>
-    </div>
+          <div class="bg-white rounded-xl border p-6 mb-6">
+            <h3 class="font-bold text-gray-900 mb-3"><i class="fas fa-server text-purple-600 mr-2"></i>Base URL</h3>
+            <div class="bg-gray-900 rounded-lg p-4">
+              <code class="text-green-400 text-lg">https://namverse-api.vercel.app/api/v1</code>
+            </div>
+          </div>
 
-    <!-- ==================== RELATED NAMES ==================== -->
-    <div id="related-names" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Related Names</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get names with the same origin and gender as the specified name.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/names/:religion/:slug/related</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Path Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody class="divide-y">
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">religion</code></td><td class="p-2">string</td><td class="p-2">islamic | christian | hindu</td></tr>
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">slug</code></td><td class="p-2">string</td><td class="p-2">Name slug</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/names/islamic/muhammad/related?limit=10"</code></pre>
-      </div>
-    </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-white rounded-xl border p-5 text-center">
+              <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-database text-blue-600 text-xl"></i>
+              </div>
+              <h4 class="font-bold text-gray-900">70,000+ Names</h4>
+              <p class="text-sm text-gray-500">Comprehensive database</p>
+            </div>
+            <div class="bg-white rounded-xl border p-5 text-center">
+              <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-bolt text-green-600 text-xl"></i>
+              </div>
+              <h4 class="font-bold text-gray-900">~100ms Response</h4>
+              <p class="text-sm text-gray-500">Lightning fast</p>
+            </div>
+            <div class="bg-white rounded-xl border p-5 text-center">
+              <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-globe text-purple-600 text-xl"></i>
+              </div>
+              <h4 class="font-bold text-gray-900">3 Religions</h4>
+              <p class="text-sm text-gray-500">Islamic, Hindu, Christian</p>
+            </div>
+          </div>
+        </section>
 
-    <!-- ==================== SIMILAR NAMES ==================== -->
-    <div id="similar-names" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Similar Names</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get phonetically similar names based on sound patterns.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/names/:religion/:slug/similar</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Path Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody class="divide-y">
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">religion</code></td><td class="p-2">string</td><td class="p-2">islamic | christian | hindu</td></tr>
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">slug</code></td><td class="p-2">string</td><td class="p-2">Name slug</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/names/islamic/ahmad/similar?limit=10"</code></pre>
-      </div>
-    </div>
+        <!-- Authentication -->
+        <section id="authentication" class="endpoint-section mb-16">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Authentication</h2>
+          <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+            <div class="flex items-start space-x-3">
+              <i class="fas fa-unlock text-green-600 text-xl mt-1"></i>
+              <div>
+                <h3 class="font-bold text-green-800 mb-2">No Authentication Required</h3>
+                <p class="text-green-700">
+                  The NameVerse API is completely free and open. No API keys, tokens, or registration required.
+                  Simply make HTTP requests to the endpoints.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-    <!-- ==================== GET ARTICLES ==================== -->
-    <div id="get-articles" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Articles</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get paginated list of articles with optional filters by category and status.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/articles</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Query Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Default</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody class="divide-y">
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">page</code></td><td class="p-2">number</td><td class="p-2">1</td><td class="p-2">Page number</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">limit</code></td><td class="p-2">number</td><td class="p-2">10</td><td class="p-2">Items per page (max: 50)</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">category</code></td><td class="p-2">string</td><td class="p-2">-</td><td class="p-2">Filter by category</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">sort</code></td><td class="p-2">string</td><td class="p-2">newest</td><td class="p-2">newest | oldest | popular</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/articles?page=1&limit=10"</code></pre>
-      </div>
-    </div>
+        <!-- Rate Limits -->
+        <section id="rate-limits" class="endpoint-section mb-16">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Rate Limits</h2>
+          <div class="bg-white rounded-xl border p-6 mb-6">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b">
+                  <th class="text-left py-3 font-semibold text-gray-900">Limit Type</th>
+                  <th class="text-left py-3 font-semibold text-gray-900">Value</th>
+                  <th class="text-left py-3 font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-600">
+                <tr class="border-b">
+                  <td class="py-3"><code class="bg-amber-100 text-amber-700 px-2 py-1 rounded">Daily Limit</code></td>
+                  <td class="py-3 font-mono">100 requests</td>
+                  <td class="py-3">Per IP address, resets at midnight UTC</td>
+                </tr>
+                <tr class="border-b">
+                  <td class="py-3"><code class="bg-blue-100 text-blue-700 px-2 py-1 rounded">Burst Limit</code></td>
+                  <td class="py-3 font-mono">10 requests/sec</td>
+                  <td class="py-3">Maximum concurrent requests</td>
+                </tr>
+                <tr>
+                  <td class="py-3"><code class="bg-purple-100 text-purple-700 px-2 py-1 rounded">Response Time</code></td>
+                  <td class="py-3 font-mono">~100ms avg</td>
+                  <td class="py-3">Typical API response time</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <p class="text-amber-800 text-sm">
+              <i class="fas fa-info-circle mr-2"></i>
+              When rate limit is exceeded, API returns <code class="bg-amber-200 px-1 rounded">429 Too Many Requests</code>.
+              Wait until the limit resets or reduce request frequency.
+            </p>
+          </div>
+        </section>
 
-    <!-- ==================== LATEST ARTICLES ==================== -->
-    <div id="latest-articles" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Latest Articles</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get the most recently published articles.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/articles/latest</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Query Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Default</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">limit</code></td><td class="p-2">number</td><td class="p-2">10</td><td class="p-2">Number of articles (max: 50)</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/articles/latest?limit=5"</code></pre>
-      </div>
-    </div>
+        <!-- Errors -->
+        <section id="errors" class="endpoint-section mb-16">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">Error Handling</h2>
+          <p class="text-gray-600 mb-6">The API uses standard HTTP status codes. All error responses include a JSON body with details.</p>
 
-    <!-- ==================== ARTICLE CATEGORIES ==================== -->
-    <div id="article-categories" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Article Categories</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get all article categories with the count of articles in each category. No parameters required.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/articles/categories</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/articles/categories"</code></pre>
-      </div>
-    </div>
+          <div class="bg-white rounded-xl border overflow-hidden">
+            <table class="w-full">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="text-left p-4 font-semibold text-gray-900">Status Code</th>
+                  <th class="text-left p-4 font-semibold text-gray-900">Meaning</th>
+                  <th class="text-left p-4 font-semibold text-gray-900">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                <tr>
+                  <td class="p-4"><span class="bg-green-500 text-white px-2 py-1 rounded font-mono text-sm">200</span></td>
+                  <td class="p-4 font-medium text-gray-900">OK</td>
+                  <td class="p-4 text-gray-600">Request successful</td>
+                </tr>
+                <tr>
+                  <td class="p-4"><span class="bg-red-400 text-white px-2 py-1 rounded font-mono text-sm">400</span></td>
+                  <td class="p-4 font-medium text-gray-900">Bad Request</td>
+                  <td class="p-4 text-gray-600">Invalid parameters or missing required fields</td>
+                </tr>
+                <tr>
+                  <td class="p-4"><span class="bg-red-500 text-white px-2 py-1 rounded font-mono text-sm">404</span></td>
+                  <td class="p-4 font-medium text-gray-900">Not Found</td>
+                  <td class="p-4 text-gray-600">Resource not found (name, article, etc.)</td>
+                </tr>
+                <tr>
+                  <td class="p-4"><span class="bg-amber-500 text-white px-2 py-1 rounded font-mono text-sm">429</span></td>
+                  <td class="p-4 font-medium text-gray-900">Too Many Requests</td>
+                  <td class="p-4 text-gray-600">Rate limit exceeded</td>
+                </tr>
+                <tr>
+                  <td class="p-4"><span class="bg-red-600 text-white px-2 py-1 rounded font-mono text-sm">500</span></td>
+                  <td class="p-4 font-medium text-gray-900">Server Error</td>
+                  <td class="p-4 text-gray-600">Internal server error</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-    <!-- ==================== SEARCH ARTICLES ==================== -->
-    <div id="search-articles" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Search Articles</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Search articles by keyword with full-text search. Minimum 2 characters required.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/articles/search</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Query Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Required</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody class="divide-y">
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">q</code></td><td class="p-2">string</td><td class="p-2 text-red-600 font-semibold">Yes</td><td class="p-2">Search query (min: 2 chars)</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">page</code></td><td class="p-2">number</td><td class="p-2">No</td><td class="p-2">Page number (default: 1)</td></tr>
-            <tr><td class="p-2"><code class="bg-gray-100 px-1 rounded">limit</code></td><td class="p-2">number</td><td class="p-2">No</td><td class="p-2">Results per page (default: 10)</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/articles/search?q=baby+names&limit=10"</code></pre>
-      </div>
-    </div>
+          <div class="mt-6">
+            <h4 class="font-bold text-gray-900 mb-3">Error Response Format</h4>
+            <pre class="p-4 text-sm"><code class="text-gray-300">{
+  <span class="text-purple-400">"success"</span>: <span class="text-red-400">false</span>,
+  <span class="text-purple-400">"error"</span>: <span class="text-green-400">"Name not found"</span>,
+  <span class="text-purple-400">"message"</span>: <span class="text-green-400">"The requested name 'xyz' does not exist in our database"</span>,
+  <span class="text-purple-400">"statusCode"</span>: <span class="text-amber-400">404</span>
+}</code></pre>
+          </div>
+        </section>
 
-    <!-- ==================== ARTICLE BY SLUG ==================== -->
-    <div id="article-by-slug" class="endpoint-section mb-12">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="bg-green-500 text-white px-3 py-1 rounded-md font-bold text-sm">GET</span>
-        <h3 class="text-2xl font-bold text-gray-900">Get Article by Slug</h3>
-      </div>
-      <p class="text-gray-600 mb-4">Get a single article with full content by its slug identifier.</p>
-      <div class="bg-gray-900 rounded-lg p-4 mb-4">
-        <code class="text-green-400">GET /api/v1/articles/:slug</code>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4 mb-4">
-        <h4 class="font-bold text-gray-900 mb-2">Path Parameters</h4>
-        <table class="w-full text-sm">
-          <thead class="bg-gray-50"><tr><th class="text-left p-2">Parameter</th><th class="text-left p-2">Type</th><th class="text-left p-2">Description</th></tr></thead>
-          <tbody>
-            <tr><td class="p-2"><code class="bg-red-100 text-red-700 px-1 rounded">slug</code></td><td class="p-2">string</td><td class="p-2">Article slug (lowercase, hyphenated)</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm border p-4">
-        <h4 class="font-bold text-gray-900 mb-2">Example</h4>
-        <pre><code>curl "https://namverse-api.vercel.app/api/v1/articles/modern-noahkwvrin"</code></pre>
-      </div>
-    </div>
+        <!-- ==================== HEALTH CHECK ==================== -->
+        <section id="health-check" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Health Check</h2>
+            </div>
+            <a href="/healthcheck" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Check API and database connectivity status. Use this endpoint to verify the API is operational.</p>
 
-    <!-- Error Responses -->
-    <div class="bg-red-50 rounded-xl border border-red-200 p-6 mb-12">
-      <h3 class="text-xl font-bold text-gray-900 mb-4"><i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>Error Responses</h3>
-      <div class="space-y-3 text-sm">
-        <div class="flex items-start space-x-3">
-          <span class="bg-red-500 text-white px-2 py-1 rounded font-bold">400</span>
-          <div><strong>Bad Request</strong> - Invalid parameters or missing required fields</div>
-        </div>
-        <div class="flex items-start space-x-3">
-          <span class="bg-red-500 text-white px-2 py-1 rounded font-bold">404</span>
-          <div><strong>Not Found</strong> - Resource not found (name, article, etc.)</div>
-        </div>
-        <div class="flex items-start space-x-3">
-          <span class="bg-red-500 text-white px-2 py-1 rounded font-bold">429</span>
-          <div><strong>Too Many Requests</strong> - Rate limit exceeded (100 requests/day)</div>
-        </div>
-        <div class="flex items-start space-x-3">
-          <span class="bg-red-500 text-white px-2 py-1 rounded font-bold">500</span>
-          <div><strong>Server Error</strong> - Internal server error</div>
-        </div>
-      </div>
-    </div>
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/health</code>
+          </div>
 
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-bold text-gray-900 mb-3">Response Fields</h4>
+              <div class="bg-white rounded-xl border p-4 space-y-3">
+                <div class="flex justify-between items-start border-b pb-3">
+                  <div>
+                    <code class="text-purple-600 font-medium">status</code>
+                    <span class="text-gray-400 text-sm ml-2">string</span>
+                  </div>
+                  <span class="text-gray-600 text-sm">API status ("ok" or "error")</span>
+                </div>
+                <div class="flex justify-between items-start border-b pb-3">
+                  <div>
+                    <code class="text-purple-600 font-medium">database</code>
+                    <span class="text-gray-400 text-sm ml-2">string</span>
+                  </div>
+                  <span class="text-gray-600 text-sm">Database connection status</span>
+                </div>
+                <div class="flex justify-between items-start border-b pb-3">
+                  <div>
+                    <code class="text-purple-600 font-medium">timestamp</code>
+                    <span class="text-gray-400 text-sm ml-2">string</span>
+                  </div>
+                  <span class="text-gray-600 text-sm">ISO 8601 timestamp</span>
+                </div>
+                <div class="flex justify-between items-start">
+                  <div>
+                    <code class="text-purple-600 font-medium">version</code>
+                    <span class="text-gray-400 text-sm ml-2">string</span>
+                  </div>
+                  <span class="text-gray-600 text-sm">API version number</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900 mb-3">Example Response</h4>
+              <pre class="p-4 text-sm"><code class="text-gray-300">{
+  <span class="text-purple-400">"status"</span>: <span class="text-green-400">"ok"</span>,
+  <span class="text-purple-400">"database"</span>: <span class="text-green-400">"connected"</span>,
+  <span class="text-purple-400">"timestamp"</span>: <span class="text-green-400">"2024-12-26T10:30:00.000Z"</span>,
+  <span class="text-purple-400">"version"</span>: <span class="text-green-400">"1.0.0"</span>
+}</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== GET NAMES ==================== -->
+        <section id="get-names" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Names</h2>
+            </div>
+            <a href="/getnames" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Retrieve a paginated list of names with optional filters. Supports filtering by religion, gender, origin, and starting letter.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/names</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Query Parameters</h4>
+          <div class="bg-white rounded-xl border overflow-hidden mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="text-left p-3 font-semibold">Parameter</th>
+                  <th class="text-left p-3 font-semibold">Type</th>
+                  <th class="text-left p-3 font-semibold">Default</th>
+                  <th class="text-left p-3 font-semibold">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">religion</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3"><code class="text-purple-600">islamic</code></td>
+                  <td class="p-3 text-gray-600">Filter by religion: <code>islamic</code>, <code>christian</code>, <code>hindu</code></td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">page</code></td>
+                  <td class="p-3 text-gray-600">integer</td>
+                  <td class="p-3"><code class="text-purple-600">1</code></td>
+                  <td class="p-3 text-gray-600">Page number for pagination</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">limit</code></td>
+                  <td class="p-3 text-gray-600">integer</td>
+                  <td class="p-3"><code class="text-purple-600">50</code></td>
+                  <td class="p-3 text-gray-600">Results per page (max: 100)</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">gender</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3"><code class="text-gray-400">-</code></td>
+                  <td class="p-3 text-gray-600">Filter by gender: <code>male</code>, <code>female</code></td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">origin</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3"><code class="text-gray-400">-</code></td>
+                  <td class="p-3 text-gray-600">Filter by origin (e.g., Arabic, Hebrew)</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">startsWith</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3"><code class="text-gray-400">-</code></td>
+                  <td class="p-3 text-gray-600">Filter names starting with letter</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">sort</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3"><code class="text-purple-600">asc</code></td>
+                  <td class="p-3 text-gray-600">Sort order: <code>asc</code>, <code>desc</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-bold text-gray-900 mb-3">Example Request</h4>
+              <pre class="p-4 text-sm"><code class="text-gray-300"><span class="text-gray-500"># Get Islamic male names</span>
+curl -X GET \
+  "<span class="text-green-400">https://namverse-api.vercel.app/api/v1/names</span>" \
+  -d "religion=islamic" \
+  -d "gender=male" \
+  -d "limit=10"</code></pre>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900 mb-3">Response Structure</h4>
+              <pre class="p-4 text-sm"><code class="text-gray-300">{
+  <span class="text-purple-400">"success"</span>: <span class="text-amber-400">true</span>,
+  <span class="text-purple-400">"religion"</span>: <span class="text-green-400">"islamic"</span>,
+  <span class="text-purple-400">"data"</span>: [
+    {
+      <span class="text-purple-400">"_id"</span>: <span class="text-green-400">"..."</span>,
+      <span class="text-purple-400">"name"</span>: <span class="text-green-400">"Muhammad"</span>,
+      <span class="text-purple-400">"slug"</span>: <span class="text-green-400">"muhammad"</span>,
+      <span class="text-purple-400">"gender"</span>: <span class="text-green-400">"Male"</span>,
+      <span class="text-purple-400">"origin"</span>: <span class="text-green-400">"Arabic"</span>,
+      <span class="text-purple-400">"short_meaning"</span>: <span class="text-green-400">"Praised"</span>
+    }
+  ],
+  <span class="text-purple-400">"pagination"</span>: {
+    <span class="text-purple-400">"page"</span>: <span class="text-amber-400">1</span>,
+    <span class="text-purple-400">"limit"</span>: <span class="text-amber-400">10</span>,
+    <span class="text-purple-400">"total"</span>: <span class="text-amber-400">22720</span>,
+    <span class="text-purple-400">"totalPages"</span>: <span class="text-amber-400">2272</span>,
+    <span class="text-purple-400">"hasMore"</span>: <span class="text-amber-400">true</span>
+  }
+}</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== SEARCH NAMES ==================== -->
+        <section id="search-names" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Search Names</h2>
+            </div>
+            <a href="/getnamesbysearch" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Full-text search across all names. Search by name or meaning. Minimum 2 characters required.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/names/search</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Query Parameters</h4>
+          <div class="bg-white rounded-xl border overflow-hidden mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="text-left p-3 font-semibold">Parameter</th>
+                  <th class="text-left p-3 font-semibold">Type</th>
+                  <th class="text-left p-3 font-semibold">Required</th>
+                  <th class="text-left p-3 font-semibold">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                <tr>
+                  <td class="p-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">q</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3"><span class="text-red-600 font-semibold">Yes</span></td>
+                  <td class="p-3 text-gray-600">Search query (min: 2 characters)</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">religion</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3 text-gray-400">No</td>
+                  <td class="p-3 text-gray-600">Filter by religion</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">limit</code></td>
+                  <td class="p-3 text-gray-600">integer</td>
+                  <td class="p-3 text-gray-400">No</td>
+                  <td class="p-3 text-gray-600">Results limit (default: 20, max: 50)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Example</h4>
+          <pre class="p-4 text-sm mb-4"><code class="text-gray-300">curl "<span class="text-green-400">https://namverse-api.vercel.app/api/v1/names/search?q=ali&religion=islamic&limit=10</span>"</code></pre>
+        </section>
+
+        <!-- ==================== GET FILTERS ==================== -->
+        <section id="get-filters" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Filters</h2>
+            </div>
+            <a href="/getfilteroptions" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Get available filter options for a religion, including genders and available starting letters.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/names/:religion/filters</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Path Parameters</h4>
+          <div class="bg-white rounded-xl border overflow-hidden mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="text-left p-3 font-semibold">Parameter</th>
+                  <th class="text-left p-3 font-semibold">Type</th>
+                  <th class="text-left p-3 font-semibold">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="p-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">religion</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3 text-gray-600">Religion: <code>islamic</code>, <code>christian</code>, <code>hindu</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Example Response</h4>
+          <pre class="p-4 text-sm"><code class="text-gray-300">{
+  <span class="text-purple-400">"success"</span>: <span class="text-amber-400">true</span>,
+  <span class="text-purple-400">"religion"</span>: <span class="text-green-400">"islamic"</span>,
+  <span class="text-purple-400">"filters"</span>: {
+    <span class="text-purple-400">"genders"</span>: [<span class="text-green-400">"Male"</span>, <span class="text-green-400">"Female"</span>],
+    <span class="text-purple-400">"letters"</span>: [<span class="text-green-400">"A"</span>, <span class="text-green-400">"B"</span>, <span class="text-green-400">"C"</span>, <span class="text-gray-500">...</span>, <span class="text-green-400">"Z"</span>]
+  }
+}</code></pre>
+        </section>
+
+        <!-- ==================== NAMES BY LETTER ==================== -->
+        <section id="names-by-letter" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Names by Letter</h2>
+            </div>
+            <a href="/getnamesbyletter" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Get all names starting with a specific letter for a given religion.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/names/:religion/letter/:letter</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Path Parameters</h4>
+          <div class="bg-white rounded-xl border overflow-hidden mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="text-left p-3 font-semibold">Parameter</th>
+                  <th class="text-left p-3 font-semibold">Type</th>
+                  <th class="text-left p-3 font-semibold">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                <tr>
+                  <td class="p-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">religion</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3 text-gray-600">Religion: <code>islamic</code>, <code>christian</code>, <code>hindu</code></td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">letter</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3 text-gray-600">Starting letter (A-Z, case insensitive)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Example</h4>
+          <pre class="p-4 text-sm"><code class="text-gray-300">curl "<span class="text-green-400">https://namverse-api.vercel.app/api/v1/names/islamic/letter/M?limit=20</span>"</code></pre>
+        </section>
+
+        <!-- ==================== NAME BY SLUG ==================== -->
+        <section id="name-by-slug" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Name by Slug</h2>
+            </div>
+            <a href="/namebyslug" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Get complete details for a specific name including meaning, origin, lucky number, personality traits, and famous people with this name.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/names/:religion/:slug</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Path Parameters</h4>
+          <div class="bg-white rounded-xl border overflow-hidden mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="text-left p-3 font-semibold">Parameter</th>
+                  <th class="text-left p-3 font-semibold">Type</th>
+                  <th class="text-left p-3 font-semibold">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                <tr>
+                  <td class="p-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">religion</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3 text-gray-600">Religion: <code>islamic</code>, <code>christian</code>, <code>hindu</code></td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">slug</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3 text-gray-600">Name slug (lowercase, e.g., "muhammad", "john")</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Response Fields</h4>
+          <div class="bg-white rounded-xl border p-4 mb-6 grid grid-cols-2 gap-4 text-sm">
+            <div><code class="text-purple-600">name</code> - Full name</div>
+            <div><code class="text-purple-600">meaning</code> - Name meaning</div>
+            <div><code class="text-purple-600">gender</code> - Male/Female</div>
+            <div><code class="text-purple-600">origin</code> - Name origin</div>
+            <div><code class="text-purple-600">lucky_number</code> - Lucky number</div>
+            <div><code class="text-purple-600">lucky_day</code> - Lucky day</div>
+            <div><code class="text-purple-600">personality</code> - Personality traits</div>
+            <div><code class="text-purple-600">famous_people</code> - Famous people</div>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Example</h4>
+          <pre class="p-4 text-sm"><code class="text-gray-300">curl "<span class="text-green-400">https://namverse-api.vercel.app/api/v1/names/islamic/muhammad</span>"</code></pre>
+        </section>
+
+        <!-- ==================== RELATED NAMES ==================== -->
+        <section id="related-names" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Related Names</h2>
+            </div>
+            <a href="/relatednames" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Find names with the same origin and gender as the specified name. Useful for suggesting alternatives.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/names/:religion/:slug/related</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Example</h4>
+          <pre class="p-4 text-sm"><code class="text-gray-300">curl "<span class="text-green-400">https://namverse-api.vercel.app/api/v1/names/islamic/fatima/related?limit=10</span>"</code></pre>
+        </section>
+
+        <!-- ==================== SIMILAR NAMES ==================== -->
+        <section id="similar-names" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Similar Names</h2>
+            </div>
+            <a href="/similarnames" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Find phonetically similar names based on sound patterns. Great for finding variations of a name.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/names/:religion/:slug/similar</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Example</h4>
+          <pre class="p-4 text-sm"><code class="text-gray-300">curl "<span class="text-green-400">https://namverse-api.vercel.app/api/v1/names/islamic/ahmad/similar?limit=10</span>"</code></pre>
+        </section>
+
+        <!-- ==================== GET ARTICLES ==================== -->
+        <section id="get-articles" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Articles</h2>
+            </div>
+            <a href="/getarticles" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Retrieve paginated list of articles about baby names, naming traditions, and cultural insights.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/articles</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Query Parameters</h4>
+          <div class="bg-white rounded-xl border overflow-hidden mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="text-left p-3 font-semibold">Parameter</th>
+                  <th class="text-left p-3 font-semibold">Type</th>
+                  <th class="text-left p-3 font-semibold">Default</th>
+                  <th class="text-left p-3 font-semibold">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">page</code></td>
+                  <td class="p-3 text-gray-600">integer</td>
+                  <td class="p-3"><code class="text-purple-600">1</code></td>
+                  <td class="p-3 text-gray-600">Page number</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">limit</code></td>
+                  <td class="p-3 text-gray-600">integer</td>
+                  <td class="p-3"><code class="text-purple-600">10</code></td>
+                  <td class="p-3 text-gray-600">Articles per page (max: 50)</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">category</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3"><code class="text-gray-400">-</code></td>
+                  <td class="p-3 text-gray-600">Filter by category</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">sort</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3"><code class="text-purple-600">newest</code></td>
+                  <td class="p-3 text-gray-600"><code>newest</code>, <code>oldest</code>, <code>popular</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== LATEST ARTICLES ==================== -->
+        <section id="latest-articles" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Latest Articles</h2>
+            </div>
+            <a href="/articleslatest" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Get the most recently published articles.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/articles/latest?limit=5</code>
+          </div>
+        </section>
+
+        <!-- ==================== ARTICLE CATEGORIES ==================== -->
+        <section id="article-categories" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Article Categories</h2>
+            </div>
+            <a href="/getarticlescategories" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Get all available article categories with article count in each.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/articles/categories</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Example Response</h4>
+          <pre class="p-4 text-sm"><code class="text-gray-300">{
+  <span class="text-purple-400">"success"</span>: <span class="text-amber-400">true</span>,
+  <span class="text-purple-400">"categories"</span>: [
+    { <span class="text-purple-400">"name"</span>: <span class="text-green-400">"Baby Naming Trends"</span>, <span class="text-purple-400">"count"</span>: <span class="text-amber-400">15</span> },
+    { <span class="text-purple-400">"name"</span>: <span class="text-green-400">"Cultural Traditions"</span>, <span class="text-purple-400">"count"</span>: <span class="text-amber-400">12</span> },
+    { <span class="text-purple-400">"name"</span>: <span class="text-green-400">"Name Meanings"</span>, <span class="text-purple-400">"count"</span>: <span class="text-amber-400">20</span> }
+  ]
+}</code></pre>
+        </section>
+
+        <!-- ==================== SEARCH ARTICLES ==================== -->
+        <section id="search-articles" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Search Articles</h2>
+            </div>
+            <a href="/getarticlessearch" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Full-text search across all articles by title and content.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/articles/search?q=baby+names</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Query Parameters</h4>
+          <div class="bg-white rounded-xl border overflow-hidden mb-6">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="text-left p-3 font-semibold">Parameter</th>
+                  <th class="text-left p-3 font-semibold">Type</th>
+                  <th class="text-left p-3 font-semibold">Required</th>
+                  <th class="text-left p-3 font-semibold">Description</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                <tr>
+                  <td class="p-3"><code class="bg-red-100 text-red-700 px-2 py-1 rounded">q</code></td>
+                  <td class="p-3 text-gray-600">string</td>
+                  <td class="p-3"><span class="text-red-600 font-semibold">Yes</span></td>
+                  <td class="p-3 text-gray-600">Search query (min: 2 characters)</td>
+                </tr>
+                <tr>
+                  <td class="p-3"><code class="bg-gray-100 px-2 py-1 rounded">limit</code></td>
+                  <td class="p-3 text-gray-600">integer</td>
+                  <td class="p-3 text-gray-400">No</td>
+                  <td class="p-3 text-gray-600">Results limit (default: 10)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==================== ARTICLE BY SLUG ==================== -->
+        <section id="article-by-slug" class="endpoint-section mb-16">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="bg-green-500 text-white px-3 py-1 rounded-lg font-bold text-sm">GET</span>
+              <h2 class="text-2xl font-bold text-gray-900">Get Article by Slug</h2>
+            </div>
+            <a href="/articlebyslug" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg">
+              <i class="fas fa-play"></i>Live Test
+            </a>
+          </div>
+          <p class="text-gray-600 mb-6">Get full article content by its unique slug identifier.</p>
+
+          <div class="bg-gray-900 rounded-xl p-4 mb-6">
+            <code class="text-green-400 text-lg">GET /api/v1/articles/:slug</code>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Response Fields</h4>
+          <div class="bg-white rounded-xl border p-4 mb-6 grid grid-cols-2 gap-4 text-sm">
+            <div><code class="text-purple-600">title</code> - Article title</div>
+            <div><code class="text-purple-600">subtitle</code> - Subtitle</div>
+            <div><code class="text-purple-600">content</code> - Full content (HTML)</div>
+            <div><code class="text-purple-600">author</code> - Author name</div>
+            <div><code class="text-purple-600">category</code> - Category</div>
+            <div><code class="text-purple-600">tags</code> - Array of tags</div>
+            <div><code class="text-purple-600">read_time_minutes</code> - Read time</div>
+            <div><code class="text-purple-600">publishedAt</code> - Publish date</div>
+          </div>
+
+          <h4 class="font-bold text-gray-900 mb-3">Example</h4>
+          <pre class="p-4 text-sm"><code class="text-gray-300">curl "<span class="text-green-400">https://namverse-api.vercel.app/api/v1/articles/modern-baby-naming-trends</span>"</code></pre>
+        </section>
+
+      </main>
+    </div>
   </div>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-8">
-    <div class="container mx-auto px-6 text-center">
-      <p class="text-gray-400">&copy; 2024 NameVerse API. All rights reserved.</p>
-      <div class="flex justify-center space-x-6 mt-4">
-        <a href="/" class="text-gray-400 hover:text-white">Home</a>
-        <a href="/docs" class="text-gray-400 hover:text-white">Documentation</a>
-        <a href="/health" class="text-gray-400 hover:text-white">Health</a>
+  <footer class="bg-gray-900 text-white py-12 mt-16">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center space-x-3 mb-4 md:mb-0">
+          <img src="/logo.svg" alt="NameVerse API" class="w-10 h-10 rounded-lg">
+          <div>
+            <span class="font-bold text-lg">NameVerse API</span>
+            <p class="text-gray-400 text-sm">70,000+ Names Database</p>
+          </div>
+        </div>
+        <div class="flex space-x-6 text-gray-400">
+          <a href="/" class="hover:text-white transition">Home</a>
+          <a href="/docs" class="hover:text-white transition">Docs</a>
+          <a href="/health" class="hover:text-white transition">Status</a>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+        &copy; 2024 NameVerse API. All rights reserved.
       </div>
     </div>
   </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Highlight active nav link on scroll
+    const sections = document.querySelectorAll('.endpoint-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (scrollY >= sectionTop - 150) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
