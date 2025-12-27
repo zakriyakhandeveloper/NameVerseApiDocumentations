@@ -1,6 +1,6 @@
 {
   "buildCommand": "echo 'Static site - no build needed'",
-  "outputDirectory": "public",
+  "outputDirectory": ".",
   "public": true,
   "rewrites": [
     {
@@ -38,6 +38,38 @@
     {
       "source": "/getarticles",
       "destination": "/src/getarticles.html"
+    },
+    {
+      "source": "/getarticlessearch",
+      "destination": "/src/getarticlessearch.html"
+    },
+    {
+      "source": "/getarticlescategories",
+      "destination": "/src/getarticlescategories.html"
+    },
+    {
+      "source": "/relatednames",
+      "destination": "/src/relatednames.html"
+    },
+    {
+      "source": "/similarnames",
+      "destination": "/src/similarnames.html"
+    },
+    {
+      "source": "/articleslatest",
+      "destination": "/src/articleslatest.html"
+    },
+    {
+      "source": "/articlebyslug",
+      "destination": "/src/articlebyslug.html"
+    },
+    {
+      "source": "/healthcheck",
+      "destination": "/src/health.html"
+    },
+    {
+      "source": "/namebyslug",
+      "destination": "/src/getnamesbyslug.html"
     },
     {
       "source": "/names/:religion/:slug",
